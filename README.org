@@ -1,0 +1,5 @@
+* Emacs Configuration
+ - Configuration is "On top of" the [[https://github.com/technomancy/emacs-starter-kit][emacs-starter-kit]] configs
+ - Emacs Starter Kit loads my [[./init.el][init.el]] file which in turn loads
+   [[./init.org][init.org]]
+
