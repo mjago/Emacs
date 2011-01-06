@@ -1,0 +1,1120 @@
+#+SETUPFILE: ~/Dropbox/OrgData/setupfile.org
+#+LaTeX_CLASS_OPTIONS:[colorlinks=true,urlcolor=blue,listings-sv] 
+#+STARTUP:content
+
+#+TITLE:Emacs Initialisation File Setup
+
+* Personal Emacs Configurations (outside of Emacs Starter Kit)
+
+** Add org-mode contrib/lisp files to load path
+   :PROPERTIES:
+   :ID:       45537f41-3389-45b8-9454-bc0e2e51ebe5
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path "~/org/org-mode/contrib/lisp")
+
+#+end_src
+
+** org-drill related initialisation
+   :PROPERTIES:
+   :ID:       eb6dd9b1-86bd-4fb4-acb3-992ef90e29da
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'org-drill)
+(setq org-learn-always-reschedule t)
+(setq org-drill-use-visible-cloze-face-p t)
+(setq org-drill-add-random-noise-to-intervals-p t)
+(put 'scroll-left 'disabled nil)
+
+#+END_SRC
+
+** Configure Babel languages 
+*** Configure Babel
+Configured for...
+ - Ruby 
+ - C 
+ - emacs-lisp
+ - shell
+ - graphviz
+ - clojure
+
+   :PROPERTIES:
+   :ID:       9983a066-2f94-4446-82e5-bea078211562
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((ruby . t)
+   (C . t)
+   (emacs-lisp . t)
+   (sh t)
+   (dot t)
+   (clojure t)
+   ))
+
+#+END_SRC
+
+#+results:
+| (ruby . t) | (C . t) | (emacs-lisp . t) | (sh t) | (dot t) | (clojure t) |
+
+** Make windmove work in org-mode
+   :PROPERTIES:
+   :ID:       77b9e2f6-674d-406c-a1f2-3f8e1307a541
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-hook 'org-shiftup-final-hook 'windmove-up)
+(add-hook 'org-shiftleft-final-hook 'windmove-left)
+(add-hook 'org-shiftdown-final-hook 'windmove-down)
+(add-hook 'org-shiftright-final-hook 'windmove-right)
+
+#+END_SRC
+
+** Setup org-capture
+   :PROPERTIES:
+   :ID:       3f712c43-2db3-4001-93df-ffed1319e19a
+   :END:
+
+*** Setup capture location and key
+
+#+BEGIN_SRC emacs-lisp
+
+(setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
+(define-key global-map "\C-cc" 'org-capture)
+
+#+END_SRC
+
+*** TODO Setup capture templates
+
+*** TODO Setup refile targets
+
+#+BEGIN_SRC emacs-lisp
+
+; Use IDO for target completion
+(setq org-completion-use-ido t)
+
+; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))))
+
+; Targets start with the file name - allows creating level 1 tasks
+;; TESTING (setq org-refile-use-outline-path (quote file))
+
+; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
+(setq org-outline-path-complete-in-steps t)
+
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+; Use IDO only for buffers
+; set ido-mode to buffer and ido-everywhere to t via the customize interface
+; '(ido-mode (quote both) nil (ido))
+; '(ido-everywhere t)
+
+
+#+END_SRC
+
+#+results:
+: confirm
+
+** Setup gnus newsreader
+   :PROPERTIES:
+   :ID:       c804e1c8-5961-43cb-a95f-b1ff6956bc1c
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq gnus-select-method
+    '(nntp "news.zen.co.uk"    ; fill in your server!  (see below)
+           (nntp-port-number 119)))
+
+#+END_SRC
+
+** Smooth Scrolling
+   :PROPERTIES:
+   :ID:       42144f41-08ac-4f3d-825e-94d4a87a20c1
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'smooth-scrolling)
+
+#+END_SRC
+
+** C-k to kill whole line
+   :PROPERTIES:
+   :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq kill-whole-line t)
+
+#+END_SRC
+
+** TODO Remap C-j to my custom goto-next-line function
+   :PROPERTIES:
+   :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+;; function here
+
+#+END_SRC
+
+** Make C-z undo, and M-z redo
+   :PROPERTIES:
+   :ID:       e785a6bc-b540-41e1-b95d-5be71a54daf4
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'redo)
+(define-key global-map (kbd "M-z") 'redo)
+(define-key global-map (kbd "C-z") 'undo)
+
+#+END_SRC
+
+** Mark (select) all on S-C-SPC
+   :PROPERTIES:
+   :ID:       bac7b873-a758-4991-afe7-abba7aada174
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
+
+#+END_SRC
+
+** Setup IRC user info and channels
+   :PROPERTIES:
+   :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq rcirc-default-nick "rninja")
+(setq rcirc-default-user-name "rninja")
+(setq rcirc-startup-channels-alist
+      '(("\\.freenode\\.net$" "#git" "#rspec")))
+
+#+END_SRC
+
+** Map M-l to goto-line
+   :PROPERTIES:
+   :ID:       d90de769-45ce-4e5a-a878-88d0e76e162a
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(global-unset-key "\M-l")
+(global-set-key "\M-l" 'goto-line)
+
+#+END_SRC
+
+** Configure org-mobile
+   :PROPERTIES:
+   :ID:       d00980d4-443c-4cad-8bb2-3d4520e6c92d
+   :END:
+
+*** Org Agenda Files
+
+#+BEGIN_SRC emacs-lisp
+
+ (setq org-agenda-files (quote (
+    "~/Dropbox/OrgData/home.org"
+    "~/Dropbox/OrgData/app_notes.org"
+    "~/Dropbox/OrgData/links.org"
+    "~/Dropbox/OrgData/personal_audit.org"
+    "~/Dropbox/OrgData/unity-minor-mode.org"
+    "~/Dropbox/OrgData/drills/bbdb-drill.org"
+    "~/Dropbox/OrgData/drills/elisp-drill.org"
+    "~/Dropbox/OrgData/capture.org"
+    "~/Dropbox/OrgData/inbox.org"
+ )))
+
+ (setq org-directory "~/Dropbox/OrgData")
+ (setq org-mobile-directory "~/Dropbox/MobileOrg")
+ (setq org-mobile-inbox-for-pull "~/Dropbox/OrgData/inbox.org")
+
+#+END_SRC
+
+#+results:
+: ~/Dropbox/OrgData/inbox.org
+
+*** TODO Org Agenda Custom Commands
+
+#+BEGIN_SRC emacs-lisp
+
+(defun run-todo-unscheduled ()
+"agenda of unscheduled todos"
+(interactive)
+(setq org-agenda-todo-ignore-scheduled t)
+(org-todo-list '("t"))
+(setq org-agenda-todo-ignore-scheduled nil))
+
+(provide 'run-todo-unscheduled)
+
+ (setq org-agenda-custom-commands
+           '(("e" todo "-SCHEDULED")
+             ("W" todo-tree "WAITING")
+             ("u" tags "+boss-urgent")
+             ("v" tags-todo "+boss-urgent")
+             ("U" tags-tree "+boss-urgent")
+             ("f" occur-tree "\\<FIXME\\>")
+             ("hl" tags "+home+Lisa")
+             ("hp" tags "+home+Peter")
+             ("hk" tags "+home+Kim")))
+
+#+END_SRC
+
+#+results:
+| e  | todo       | -SCHEDULED   |
+| W  | todo-tree  | WAITING      |
+| u  | tags       | +boss-urgent |
+| v  | tags-todo  | +boss-urgent |
+| U  | tags-tree  | +boss-urgent |
+| f  | occur-tree | \<FIXME\>    |
+| hl | tags       | +home+Lisa   |
+| hp | tags       | +home+Peter  |
+| hk | tags       | +home+Kim    |
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-custom-commands
+      (quote (("w" "Tasks waiting on something" tags "WAITING/!"
+               ((org-use-tag-inheritance nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-with-date nil)
+                (org-agenda-overriding-header "Waiting Tasks")))
+              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-overriding-header "Tasks to Refile")))
+              ("N" "Notes" tags "NOTE"
+               ((org-agenda-overriding-header "Notes")))
+              ("n" "Next" tags-todo "-WAITING-CANCELLED/!NEXT"
+               ((org-agenda-overriding-header "Next Tasks")))
+              ("p" "Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-non-projects)
+                (org-agenda-overriding-header "Projects")))
+              ("o" "Other (Non-Project) tasks" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-projects)
+                (org-agenda-overriding-header "Other Non-Project Tasks")))
+              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELLED"
+               ((org-agenda-overriding-header "Tasks to Archive")))
+              ("h" "Habits" tags "STYLE=\"habit\""
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-overriding-header "Habits")))
+              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                (org-agenda-overriding-header "Stuck Projects")))
+              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+               ((org-agenda-skip-function
+                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+                (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+
+#+END_SRC
+
+#+results:
+| w | Tasks waiting on something   | tags      | WAITING/!                | ((org-use-tag-inheritance nil) (org-agenda-todo-ignore-scheduled nil) (org-agenda-todo-ignore-deadlines nil) (org-agenda-todo-ignore-with-date nil) (org-agenda-overriding-header Waiting Tasks)) |                                                                                                               |
+| r | Refile New Notes and Tasks   | tags      | LEVEL=1+REFILE           | ((org-agenda-todo-ignore-with-date nil) (org-agenda-todo-ignore-deadlines nil) (org-agenda-todo-ignore-scheduled nil) (org-agenda-overriding-header Tasks to Refile))                             |                                                                                                               |
+| N | Notes                        | tags      | NOTE                     | ((org-agenda-overriding-header Notes))                                                                                                                                                            |                                                                                                               |
+| n | Next                         | tags-todo | -WAITING-CANCELLED/!NEXT | ((org-agenda-overriding-header Next Tasks))                                                                                                                                                       |                                                                                                               |
+| p | Projects                     | tags-todo | LEVEL=2-REFILE           | LEVEL=1+REFILE/!-DONE-CANCELLED                                                                                                                                                                   | ((org-agenda-skip-function (quote bh/skip-non-projects)) (org-agenda-overriding-header Projects))             |
+| o | Other (Non-Project) tasks    | tags-todo | LEVEL=2-REFILE           | LEVEL=1+REFILE/!-DONE-CANCELLED                                                                                                                                                                   | ((org-agenda-skip-function (quote bh/skip-projects)) (org-agenda-overriding-header Other Non-Project Tasks))  |
+| A | Tasks to be Archived         | tags      | LEVEL=2-REFILE/DONE      | CANCELLED                                                                                                                                                                                         | ((org-agenda-overriding-header Tasks to Archive))                                                             |
+| h | Habits                       | tags      | STYLE="habit"            | ((org-agenda-todo-ignore-with-date nil) (org-agenda-todo-ignore-scheduled nil) (org-agenda-todo-ignore-deadlines nil) (org-agenda-overriding-header Habits))                                      |                                                                                                               |
+| # | Stuck Projects               | tags-todo | LEVEL=2-REFILE           | LEVEL=1+REFILE/!-DONE-CANCELLED                                                                                                                                                                   | ((org-agenda-skip-function (quote bh/skip-non-stuck-projects)) (org-agenda-overriding-header Stuck Projects)) |
+| c | Select default clocking task | tags      | LEVEL=2-REFILE           | ((org-agenda-skip-function (quote (org-agenda-skip-subtree-if (quote notregexp) ^\*\* Organization))) (org-agenda-overriding-header Set default clocking task with C-u C-u I))                    |                                                                                                               |
+
+*** TODO my-run-drills function (doesn't work yet)
+
+#+BEGIN_SRC emacs-lisp
+
+ (defun my-run-drills ()
+ "Function to run all drills that exist in agenda files"
+  (interactive)
+  (org-drill 'agenda))
+
+ (provide 'my-run-drills)
+
+#+END_SRC
+
+#+results:
+: my-run-drills
+
+** Assign F5 to keymacro
+   :PROPERTIES:
+   :ID:       5d5dddff-e752-4099-82b1-1e80f8e6bd2d
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(global-set-key [f5] 'kmacro-end-and-call-macro)
+
+#+END_SRC
+
+** Color theme initialisation
+*** Add color-theme directory to load-path
+    :PROPERTIES:
+    :ID:       6c4fee97-7d5b-4ba1-b0bd-c93a5b0e56fe
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/color-theme-6.6.0"))
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/color-theme-6.6.0/themes"))
+(require 'color-theme)
+(color-theme-initialize)
+
+#+END_SRC
+
+*** All colour themes list
+    :PROPERTIES:
+    :ID:       66a51bd1-58eb-4810-bb4e-937c2723a864
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq all-color-themes (list
+                       'color-theme-tangotango
+                       'color-theme-renegade
+                       'color-theme-feng-shui
+                       'color-theme-matrix
+                       'color-theme-lawrence
+                       'color-theme-calm-forest
+                       'color-theme-vim-colors
+                       'color-theme-charcoal-black
+                       'color-theme-andreas
+                       'color-theme-clarity
+                       'color-theme-late-night
+                       'color-theme-emacs-nw
+                       'color-theme-shaman
+                       'color-theme-lethe
+                       'color-theme-bharadwaj-slate
+                       'color-theme-whateveryouwant
+                       'color-theme-dark-green
+                       'color-theme-gray30
+                       'color-theme-xp
+                       'color-theme-resolve
+                       'color-theme-euphoria
+                       'color-theme-blue-mood
+                       'color-theme-dark-blue2
+                       'color-theme-black-on-gray
+                       'color-theme-aliceblue
+                       'color-theme-tty-dark
+                       'color-theme-arjen
+                       'color-theme-katester
+                       'color-theme-comidia
+                       'color-theme-kingsajz
+                       'color-theme-deep-blue
+                       'color-theme-ld-dark
+                       'color-theme-jsc-light2
+                       'color-theme-emacs-21
+                       'color-theme-word-perfect
+                       'color-theme-gray1
+                       'color-theme-jonadabian-slate
+                       'color-theme-dark-blue
+                       'color-theme-subtle-blue
+                       'color-theme-dark-erc
+                       'color-theme-blue-erc
+                       'color-theme-marine
+                       'color-theme-mistyday
+                       'color-theme-digital-ofs1
+                       'color-theme-taming-mr-arneson
+                       'color-theme-dark-laptop
+                       'color-theme-snowish
+                       'color-theme-robin-hood
+                       'color-theme-salmon-diff
+                       'color-theme-oswald
+                       'color-theme-bharadwaj
+                       'color-theme-hober
+                       'color-theme-blippblopp
+                       'color-theme-aalto-dark
+                       'color-theme-aalto-light
+                       'color-theme-montz
+                       'color-theme-snow
+                       'color-theme-jedit-grey
+                       'color-theme-midnight
+                       'color-theme-gtk-ide
+                       'color-theme-scintilla
+                       'color-theme-classic
+                       'color-theme-infodoc
+                       'color-theme-high-contrast
+                       'color-theme-parus
+                       'color-theme-marquardt
+                       'color-theme-taylor
+                       'color-theme-raspopovic
+                       'color-theme-ramangalahy
+                       'color-theme-goldenrod
+                       'color-theme-beige-eshell
+                       'color-theme-standard-ediff
+                       'color-theme-beige-diff
+                       'color-theme-jb-simple
+                       'color-theme-greiner
+                       'color-theme-jsc-dark
+                       'color-theme-jsc-light
+                       'color-theme-xemacs
+                       'color-theme-pierson
+                       'color-theme-rotor
+                       'color-theme-blue-sea
+                       'color-theme-pok-wob
+                       'color-theme-pok-wog
+                       'color-theme-subtle-hacker
+                       'color-theme-retro-orange
+                       'color-theme-retro-green
+                       'color-theme-billw
+                       'color-theme-sitaramv-nt
+                       'color-theme-sitaramv-solaris
+                       'color-theme-fischmeister
+                       'color-theme-standard
+                       'color-theme-wheat
+                       'color-theme-ryerson
+                       'color-theme-jonadabian
+                       'color-theme-simple-1
+                       'color-theme-gnome2
+                       'color-theme-dark-info
+                       'color-theme-dark-font-lock
+                       'color-theme-salmon-font-lock
+                       'color-theme-blue-eshell
+                       'color-theme-dark-gnus
+                       'color-theme-blue-gnus
+                       'color-theme-gnome
+                       'color-theme-hober
+                       'color-theme-emacs-21
+                       'color-theme-arjen
+                       'color-theme-bharadwaj-slate
+                       'color-theme-billw
+                       'color-theme-blue-gnus
+                       'color-theme-dark-gnus
+                       'color-theme-blue-eshell
+                       'color-theme-retro-green
+                       'color-theme-retro-orange
+                       'color-theme-subtle-hacker
+                       'color-theme-salmon-font-lock
+                       'color-theme-dark-font-lock
+                       'color-theme-dark-info
+                       'color-theme-simple-1
+                       'color-theme-jonadabian
+                       'color-theme-ryerson
+                       'color-theme-standard
+                       'color-theme-blue-mood
+                       'color-theme-sitaramv-solaris
+                       'color-theme-sitaramv-nt
+                       'color-theme-blue-sea
+                       'color-theme-calm-forest
+                       'color-theme-charcoal-black
+                       'color-theme-clarity
+                       'color-theme-classic
+                       'color-theme-comidia
+                       'color-theme-dark-blue
+                       'color-theme-dark-blue2
+                       'color-theme-dark-erc
+                       'color-theme-dark-laptop
+                       'color-theme-deep-blue
+                       'color-theme-digital-ofs1
+                       'color-theme-emacs-nw
+                       'color-theme-euphoria
+                       'color-theme-feng-shui
+                       'color-theme-fischmeister
+                       'color-theme-gnome
+                       'color-theme-gnome2
+                       'color-theme-goldenrod
+                       'color-theme-gray1
+                       'color-theme-gray30
+                       'color-theme-greiner
+                       'color-theme-infodoc
+                       'color-theme-lawrence
+                       'color-theme-ld-dark
+                       'color-theme-montz
+                       'color-theme-oswald
+                       'color-theme-pok-wob
+                       'color-theme-pok-wog
+                       'color-theme-tty-dark
+                       'color-theme-xp))
+
+#+END_SRC
+
+*** My colour themes list
+    :PROPERTIES:
+    :ID:       a1aadcc3-f109-4610-88c4-718b12b6cd99
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq my-color-themes (list
+                       'color-theme-tangotango
+                       'color-theme-hober
+                       'color-theme-arjen
+                       'color-theme-blue-mood
+                       'color-theme-calm-forest
+                       'color-theme-xp))
+
+#+END_SRC
+
+*** Colour theme cycling with f7 and C-f7
+    :PROPERTIES:
+    :ID:       d8e20a1b-6727-4b41-894a-744c5a530072
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(defun my-theme-set-default ()        ; Set the first row
+(interactive)
+(setq theme-current my-color-themes)
+(funcall (car theme-current)))
+
+(defun my-describe-theme ()        ; Show the current theme
+(interactive)
+(message "%s" (car theme-current)))
+
+(defun my-theme-cycle ()
+(interactive)
+(setq theme-current (cdr theme-current))
+(if (null theme-current)
+(setq theme-current my-color-themes))
+(funcall (car theme-current))
+(message "%S" (car theme-current)))
+
+(defun all-theme-cycle ()
+(interactive)
+(setq theme-current (cdr theme-current))
+(if (null theme-current)
+(setq theme-current all-color-themes))
+(funcall (car theme-current))
+(message "%S" (car theme-current)))
+
+;;(setq theme-current all-color-themes)
+;;(setq color-theme-is-global nil)    ; Initialization
+(my-theme-set-default)
+(global-set-key [C-f7] 'all-theme-cycle)
+(global-set-key [f7] 'my-theme-cycle)
+
+#+END_SRC
+
+** Setup org-mode (development)
+   :PROPERTIES:
+   :ID:       475aca1e-5f54-42e6-bb58-4b8fb56dff0f
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(global-font-lock-mode 1)                     ; for all buffers
+(setq load-path (cons "~/org/org-mode" load-path))
+
+#+END_SRC
+
+** Display images in org mode
+
+#+BEGIN_SRC emacs-lisp
+
+  ;; display images
+  (local-set-key "\M-I" 'org-toggle-iimage-in-org)
+
+;; -- Display images in org mode
+;; enable image mode first
+(iimage-mode)
+;; add the org file link format to the iimage mode regex
+(add-to-list 'iimage-mode-image-regex-alist
+  (cons (concat "\\[\\[file:\\(~?" iimage-mode-image-filename-regex "\\)\\]")  1))
+;;  add a hook so we can display images on load
+(add-hook 'org-mode-hook '(lambda () (org-turn-on-iimage-in-org)))
+;; function to setup images for display on load
+(defun org-turn-on-iimage-in-org ()
+  "display images in your org file"
+  (interactive)
+  (turn-on-iimage-mode)
+  (set-face-underline-p 'org-link nil))
+;; function to toggle images in a org bugger
+(defun org-toggle-iimage-in-org ()
+  "display images in your org file"
+  (interactive)
+  (if (face-underline-p 'org-link)
+      (set-face-underline-p 'org-link nil)
+      (set-face-underline-p 'org-link t))
+  (call-interactively 'iimage-mode))
+
+#+END_SRC
+
+#+results:
+: org-toggle-iimage-in-org
+
+** TODO Fix tab in org mode
+
+#+BEGIN_SRC emacs-lisp
+
+   ;; fix tab
+   (local-set-key "\C-y" 'yank)
+   ;; yasnippet (allow yasnippet to do it's thing in org files)
+;;   (make-variable-buffer-local 'yas/trigger-key)
+;;   (setq yas/trigger-key [tab])
+;;   (define-key yas/keymap [tab] 'yas/next-field-group)))
+
+#+END_SRC
+
+#+results:
+: yank
+
+** TODO Setup for latex / pdf export of org-mode
+
+  1) NOTE: remember ubuntu requires texlive-latex-extra for this
+  2) NOTE: also required ttf-marvosym
+  3) For missing packages try searching [[http://packages.ubuntu.com/search?keywords%3Dmarvosym&searchon%3Dnames&suite%3Dmaverick&section%3Dall][here]] and apt-get install package
+  4) Useful latex [[http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf][prettifying link]]
+
+#+BEGIN_SRC emacs-lisp
+
+;; remember ubuntu requires texlive-latex-extra for this
+
+(require 'org-latex)
+(setq org-export-latex-listings t)
+(add-to-list 'org-export-latex-packages-alist '("" "listings"))
+(add-to-list 'org-export-latex-packages-alist '("" "color"))
+
+#+END_SRC
+
+#+results:
+: org-latex
+
+** TODO Setup for Auctex (ongoing)
+
+  ;;  Setup gleaned from [[http://salomie.ro/tudor/2010/09/02/console-based-system/][here]]
+  ;;  #+BEGIN_SRC emacs-lisp
+  ;;  
+  ;;  ;; AUCTeX
+  ;;  (setq TeX-auto-save t)
+  ;;  (setq TeX-parse-self t)
+  ;;  ;set up AUCTeX to deal with multiple file documents.
+  ;;  (setq-default TeX-master nil)
+  ;;  ;turn on pdf-mode.  AUCTeX will call pdflatex to compile instead of latex.
+  ;;  (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+  ;;  ;turn on flyspell mode - this will automatically spell check the document in LaTex-mode
+  ;;  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  ;;  
+  ;;      ; allow for export=>beamer by placing
+  ;;      ;; #+LaTeX_CLASS: beamer in org files
+  ;;      (unless (boundp 'org-export-latex-classes)
+  ;;      (setq org-export-latex-classes nil))
+  ;;      (add-to-list 'org-export-latex-classes
+  ;;      ;; beamer class, for presentations
+  ;;      '("beamer"
+  ;;        "\\documentclass[11pt]{beamer}\n
+  ;;        \\mode<{{{beamermode}}}>\n
+  ;;        \\usetheme{{{{beamertheme}}}}\n
+  ;;        \\usecolortheme{{{{beamercolortheme}}}}\n
+  ;;        \\beamertemplateballitem\n
+  ;;        \\setbeameroption{show notes}
+  ;;        \\usepackage[utf8]{inputenc}\n
+  ;;        \\usepackage[T1]{fontenc}\n
+  ;;        \\usepackage{hyperref}\n
+  ;;        \\usepackage{color}
+  ;;        \\usepackage{listings}
+  ;;        \\lstset{numbers=none,language=[ISO]C++,tabsize=4,
+  ;;        frame=single,
+  ;;        basicstyle=\\small,
+  ;;        showspaces=false,showstringspaces=false,
+  ;;        showtabs=false,
+  ;;        keywordstyle=\\color{blue}\\bfseries,
+  ;;        commentstyle=\\color{red},
+  ;;        }\n
+  ;;        \\usepackage{verbatim}\n
+  ;;        \\institute{{{{beamerinstitute}}}}\n
+  ;;        \\subject{{{{beamersubject}}}}\n"
+  ;;        org-beamer-sectioning
+  ;;        ("\\section{%s}" . "\\section*{%s}")
+  ;;        ("\\begin{frame}[fragile]\\frametitle{%s}"
+  ;;        "\\end{frame}"
+  ;;        "\\begin{frame}[fragile]\\frametitle{%s}"
+  ;;        "\\end{frame}")
+  ;;      ))
+  ;;  
+  ;;      ;; Set up skeletons (see below) in a menu in ORG MODE mode
+  ;;      (defvar org-org-menu)
+  ;;      (add-hook 'org-mode-hook
+  ;;      (lambda () (easy-menu-add-item org-org-menu nil ["Skeletons" nil t])
+  ;;      (easy-menu-add-item org-org-menu '("Skeletons") ["Beamer Theme" orgmode-beamer-my-skeleton t])))
+  ;;      (define-skeleton orgmode-beamer-my-skeleton
+  ;;        "inserts a simple orgmode-beamer template skeleton - use C-c C-e d to build the pdf"
+  ;;        nil
+  ;;        "#+LaTeX_CLASS: beamer\n"
+  ;;        "#+MACRO: BEAMERMODE presentation\n"
+  ;;        "#+MACRO: BEAMERCOLORTHEME dove\n"
+  ;;        "#+MACRO: BEAMERSUBJECT RMRF\n"
+  ;;        "#+BEAMER_FRAME_LEVEL: 2\n"
+  ;;        "#+COLUMNS: %35ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)\n"
+  ;;        "#+OPTIONS: tags:nil\n"
+  ;;        "#+MACRO: BEAMERINSTITUTE My Affiliation\n"
+  ;;        "#+AUTHOR: Tudor-Ioan Salomie\n"
+  ;;        "\n"
+  ;;        "#+TITLE: Presentation title\n"
+  ;;        "\n"
+  ;;        "\n"
+  ;;        "* My Section\n"
+  ;;        "\n"
+  ;;        "** Frame 1 \\\\ with a subtitle\n"
+  ;;        "\n"
+  ;;        "*** Idea\n"
+  ;;        "\n"
+  ;;        "#+begin_LaTeX\n"
+  ;;        "\n"
+  ;;        "#+end_LaTeX\n"
+  ;;        "\n\n\n"
+  ;;      )
+  ;;  
+  ;;  
+  ;;  #+END_SRC
+  ;;  
+  ;;  #+results:
+  ;;  : orgmode-beamer-my-skeleton
+  ;;  
+** Setup rspec-mode (development)
+   :PROPERTIES:
+   :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq load-path (cons "~/martyn/rspec-mode" load-path))
+
+#+END_SRC
+
+** TODO Setup Mode-compile (emacs-wiki)
+
+#+BEGIN_SRC emacs-lisp
+  
+  ;;mode-compile
+  (autoload 'mode-compile "mode-compile"
+    "Command to compile current buffer file based on the major mode" t)
+;;  (global-set-key "\C-cc" 'mode-compile)
+  (autoload 'mode-compile-kill "mode-compile"
+    "Command to kill a compilation launched by `mode-compile'" t)
+;;  (global-set-key "\C-ck" 'mode-compile-kill)
+  
+#+END_SRC
+
+** Setup bbdb Contact Database
+   :PROPERTIES:
+   :ID:       8947b21f-9a13-4850-b1e6-01ac553d4c67
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
+(require 'bbdb)
+(bbdb-initialize)
+(setq bbdb-north-american-phone-numbers-p nil
+)
+
+#+END_SRC
+
+** Setup yasnippet (full install as opposed to bundle in starter kit elpa)
+   :PROPERTIES:
+   :ID:       6d14775e-03bd-4138-b772-ada3de677830
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+ (add-to-list 'load-path
+                  (concat dotfiles-dir  "martyn/yasnippet-0.6.1c"))
+    (require 'yasnippet) ;; not yasnippet-bundle
+    (yas/initialize)
+    (yas/load-directory "~/.emacs.d/martyn/yasnippet-0.6.1c/snippets")
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-set-local 'yas/trigger-key [tab])
+            (define-key yas/keymap [tab] 'yas/next-field-group)))
+
+#+END_SRC
+
+** TODO Setup yasnippet for rails
+   :PROPERTIES:
+   :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+;; (add-to-list 'load-path
+;;    (concat dotfiles-dir "/martyn/yasnippets-rails"))
+
+;; (add-hook 'ruby-mode-hook ; or rails-minor-mode-hook ?
+;;           '(lambda ()
+;;              (make-variable-buffer-local 'yas/trigger-key)
+;;              (setq yas/trigger-key [tab])))
+
+;; (require 'yasnippet)
+;; ;;(add-to-list 'yas/extra-mode-hooks
+;; ;;             'ruby-mode-hook)
+
+;; (yas/initialize)
+;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
+
+;; ;;(yas/load-directory
+;; ;;   (concat
+;; ;;      dotfiles-dir "/martyn/snippets/yasnippets-rails/rails-snippets/"))
+;; ;;(make-variable-buffer-local 'yas/trigger-key)
+
+;; ;; yasnippet-org-mode
+;; (yas/load-directory
+;;    (concat
+;;       dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))
+
+#+END_SRC
+
+#+results:
+
+** Comment or uncomment region with M-k
+   :PROPERTIES:
+   :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(global-set-key "\M-k" 'comment-or-uncomment-region)
+
+#+END_SRC
+
+#+results:
+: comment-or-uncomment-region
+
+** TODO (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel :DISABLED:
+   :PROPERTIES:
+   :ID:       86bebb8b-e52d-43da-9f7b-a49ef5db14ba
+   :END:
+
+# #+BEGIN_SRC emacs-lisp
+
+# (rvm-activate-corresponding-ruby)
+# (rvm-autodetect-ruby)
+# (rvm-use "1.9.1" "default")
+
+# #+END_SRC
+
+** Remap M-j, M-l to navigation
+   :PROPERTIES:
+   :ID:       ffa0b60c-9281-44ff-b939-c6c00dc7b728
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+; (global-set-key "\M-i" 'previous-line)
+(global-set-key "\M-j" 'backward-char)
+; (global-set-key "\M-k" 'forward-line)
+(global-set-key "\M-l" 'forward-char)
+
+#+END_SRC
+
+** Maximise frame at startup
+   :PROPERTIES:
+   :ID:       5ec698bf-0dcd-4b19-b923-a5f90e5a1073
+   :END:
+
+#+begin_src emacs-lisp
+
+  (require 'maxframe)
+  (add-hook 'window-setup-hook 'maximize-frame t)
+  (maximize-frame)
+
+#+end_src
+
+#+results:
+  : t
+
+** Remove Paredit from elisp hook (turned on by emacs starter kit)
+
+#+BEGIN_SRC emacs-lisp
+
+(remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil)
+
+#+END_SRC
+
+#+results:
+| run-coding-hook | esk-remove-elc-on-save | turn-on-eldoc-mode |
+
+** TODO Develop group agenda to show unscheduled TODO items
+
+[[http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html][Suggestions]]
+
+** TODO Graphviz dot mode
+   SCHEDULED: <2010-11-29 Mon>
+
+#+BEGIN_SRC emacs-lisp
+
+ (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode.el"))
+
+#+END_SRC
+
+#+results:
+: t
+
+** Configure ERT (for unit-testing)
+
+#+BEGIN_SRC emacs-lisp
+
+ (add-to-list 'load-path
+    (concat dotfiles-dir "/martyn/ert/lisp/emacs-lisp"))
+
+(require 'ert)
+
+#+END_SRC
+
+*** To compile the manual
+
+Needed to change in ert.texi 
+
+@setfilename ../ert/ert.info
+@setfilename ../../info/ert.info
+
+...and needed to change makeinfo parameters to suit dir structure...
+
+Run following with C-c, C-c
+
+# #+BEGIN_SRC sh
+#
+#   cd ~/.emacs.d/martyn/ert/doc/misc/
+#   makeinfo ert.texi
+#
+# #+END_SRC
+#
+# #+results:
+
+*** TODO To read the manual
+
+C-u M-x info ert.info
+
+
+** Require my custom files and functions
+   CLOSED: [2010-11-26 Fri 06:57]
+*** Add custom files directory to load-path
+    :PROPERTIES:
+    :ID:       863eebdf-52b6-4e3d-ab28-b4f783d2a65d
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn"))
+
+#+END_SRC
+
+*** my-load-init-files function
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'my-load-init-files)
+
+#+END_SRC
+
+*** my-load-drill-files function
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'my-load-drill-files)
+
+#+END_SRC
+
+*** my-load-org-files function
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'my-load-org-files)
+
+#+END_SRC
+** "martyn-laptop" system specifics
+
+ - NOTE: Currently loads ALL org files - might consider just "tracked"
+   org files
+ - Switch to home.org
+ - Bring up schedule agenda in other window
+
+#+BEGIN_SRC emacs-lisp
+
+(if (string= system-name "martyn-laptop") 
+    (progn
+      (split-window-horizontally)
+      (my-load-org-files)
+      (switch-to-buffer "home.org")
+      (org-agenda-list)))
+
+#+END_SRC
+
+#+results:
+      
+** Configure unity-mode
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/martyn/unity-mode"))
+(require 'unity-mode)
+(add-hook 'c-mode-hook 'unity-mode)
+(global-set-key [f5] 'unity-toggle-test-and-target)
+(global-set-key [C-f5] 'unity-toggle-src-and-header)
+(global-set-key [M-f5] 'unity-toggle-triad)
+
+#+END_SRC
+
+
+* Delete temp file martyn/init.el (do this last!)
+   :PROPERTIES:
+   :ID:       6a8cf784-ad8c-4b52-b549-bc2d3c662e85
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(delete-file "~/.emacs.d/martyn/init.el")
+
+#+END_SRC
+
+#+results:
+
+
+
+:PROPERTIES:
+
+   ;;  s#+LATEX_HEADER: \lstset{
+   ;;  #+LATEX_HEADER:         keywordstyle=\color{blue},
+   ;;  #+LATEX_HEADER:         commentstyle=\color{red},
+   ;;  #+LATEX_HEADER:         stringstyle=\color{green},
+   ;;  #+LATEX_HEADER:         basicstyle=\ttfamily\small,
+   ;;  #+LATEX_HEADER:         columns=fullflexible,
+   ;;  #+LATEX_HEADER:         basewidth={0.5em,0.4em}
+   ;;  #+LATEX_HEADER:         }
+   ;;  #+LATEX_HEADER: \RequirePackage{fancyvrb}
+   ;;  #+LATEX_HEADER: \DefineVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\small,formatcom = {\color[rgb]{0.5,0,0}}}
+  ;; #+OPTIONS: H:3
+  ;; #+LaTeX_CLASS: org-article
+  #+LaTeX_CLASS_OPTIONS:[koma,letterpaper,captions=tableheading,utopia,11pt,listings-sv,microtype,paralist,colorlinks=true,urlcolor=blue,secnums]
+
+:END:
+
+
+
+
+#+BEGIN_SRC emacs-lisp
+
+(setq org-export-directory "~/Dropbox/OrgData/html")
+
+#+END_SRC
+
+#+results:
+: ~/Dropbox/OrgData/html
+
