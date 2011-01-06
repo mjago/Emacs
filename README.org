@@ -3,17 +3,17 @@
 ** How it works
 
   - Configuration is "On top of" the [[https://github.com/technomancy/emacs-starter-kit][*emacs-starter-kit*]] configs
-  - Emacs Starter Kit loads my martyn.el file which in turn loads
-    *init.org*
+  - Emacs Starter Kit loads my *martyn.el* file which in turn loads
+    *Emacs/init.org* using *Emacs org-babel*.
   - This setup allows for easy update of *emacs-starter-kit*, and
-    revision control of personal settings.
-  - *emacs-starter-kit* settings I don't wish to use are re-adjusted
-    by my settings (such as yassnippet and color-theme use). 
+    revision control of personal settings, and enables having a
+    'literate' configuration. A great example of this is
+    [[https://github.com/eschulte/emacs-starter-kit][eschulte's literate emacs-starter-kit]]
 
 ** The martyn.el file within ~/.emacs.d
 
  - NOTE! All config goes in *~/.emacs.d/martyn/init.org* - /no config goes in here!/
- - This file is loaded by  *[[https://github.com/technomancy/emacs-starter-kit/blob/master/init.el][init.el*]], which is the standard /emacs starter kit/ *[[https://github.com/technomancy/emacs-starter-kit/blob/master/init.el][init.el*]]
+ - This file is loaded by  [[https://github.com/technomancy/emacs-starter-kit/blob/master/init.el][init.el]], which is the standard /emacs starter kit/ [[https://github.com/technomancy/emacs-starter-kit/blob/master/init.el][init.el]].
  - This file ensures my auto-generated *init.el* file does not yet
    exist! This may have occurred if there was a load failure previously.
  - This file then loads and runs *init.org* using babel to make my personal configurations.
