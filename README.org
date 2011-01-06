@@ -1,5 +1,48 @@
 * Emacs Configuration
- - Configuration is "On top of" the [[https://github.com/technomancy/emacs-starter-kit][emacs-starter-kit]] configs
- - Emacs Starter Kit loads my [[./init.el][init.el]] file which in turn loads
-   [[./init.org][init.org]]
+
+** How it works
+
+  - Configuration is "On top of" the [[https://github.com/technomancy/emacs-starter-kit][emacs-starter-kit]] configs
+  - Emacs Starter Kit loads my martyn.el file which in turn loads
+    [[https://github.com/mjago/Emacs/blob/master/init.org][init.org]]
+
+** The martyn.el file within ~/.emacs.d
+
+ - NOTE! All config goes in [[https://github.com/mjago/Emacs/blob/master/init.org][init.org]] - no config goes in here!
+ - This file is loaded by  [[https://github.com/technomancy/emacs-starter-kit/blob/master/init.el][init.el]], which is the standard emacs starter kit [[https://github.com/technomancy/emacs-starter-kit/blob/master/init.el][init.el]]
+ - This file ensures my auto-generated init.el file does not yet
+   exist! This may have occurred if there was a load failure previously.
+ - This file then loads and runs  [[https://github.com/mjago/Emacs/blob/master/init.org][init.org]] using babel to make my personal configurations.
+ - My personal init.el file is then created via babel tangle - Emacs
+   initialised - and is finally deleted. 
+
+#+BEGIN_SRC emacs-lisp
+
+;; start of martyn.el
+
+;; This file is loaded 'naturally' by init.el, which is the standard
+;; emacs starter kit init.el.
+;;
+;; This file then loads and runs init.org using babel to make
+;; my personal configurations.
+;;
+;; NOTE:- no configuration should go in this file or in init.el
+;; 
+
+;; Ensure my auto-generated init.el file does not yet exist!
+;; This may have occurred if there was a load failure previously.
+
+  (if (file-exists-p "~/.emacs.d/martyn/init.el")
+      (delete-file "~/.emacs.d/martyn/init.el"))
+
+;; Load init.org using org-babel...
+
+(require 'org-install)
+(org-babel-load-file "~/.emacs.d/martyn/init.org")
+
+;; end of martyn.el
+
+#+END_SRC
+
+
 

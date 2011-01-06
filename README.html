@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>README</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2011-01-06 15:58:11 GMT"/>
+<meta name="author" content="Martyn Jago"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">README</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Emacs Configuration </a>
+<ul>
+<li><a href="#sec-1_1">1.1 How it works </a></li>
+<li><a href="#sec-1_2">1.2 The martyn.el file within ~/.emacs.d </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Emacs Configuration </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1_1" class="outline-3">
+<h3 id="sec-1_1"><span class="section-number-3">1.1</span> How it works </h3>
+<div class="outline-text-3" id="text-1_1">
+
+
+<ul>
+<li>
+Configuration is "On top of" the <a href="https://github.com/technomancy/emacs-starter-kit">emacs-starter-kit</a> configs
+</li>
+<li>
+Emacs Starter Kit loads my martyn.el file which in turn loads
+<a href="https://github.com/mjago/Emacs/blob/master/init.org">init.org</a>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1_2" class="outline-3">
+<h3 id="sec-1_2"><span class="section-number-3">1.2</span> The martyn.el file within ~/.emacs.d </h3>
+<div class="outline-text-3" id="text-1_2">
+
+
+<ul>
+<li>
+NOTE! All config goes in <a href="https://github.com/mjago/Emacs/blob/master/init.org">init.org</a> - no config goes in here!
+</li>
+<li>
+This file is loaded by  <a href="https://github.com/technomancy/emacs-starter-kit/blob/master/init.el">init.el</a>, which is the standard emacs starter kit <a href="https://github.com/technomancy/emacs-starter-kit/blob/master/init.el">init.el</a>
+</li>
+<li>
+This file ensures my auto-generated init.el file does not yet
+exist! This may have occurred if there was a load failure previously.
+</li>
+<li>
+This file then loads and runs  <a href="https://github.com/mjago/Emacs/blob/master/init.org">init.org</a> using babel to make my personal configurations.
+</li>
+<li>
+The init.el file created via babel tangle then initialises Emacs
+and is finally deleted.
+
+</li>
+</ul>
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #888a85;">;; </span><span style="color: #888a85;">start of martyn.el
+</span>
+<span style="color: #888a85;">;; </span><span style="color: #888a85;">This file is loaded 'naturally' by init.el, which is the standard
+</span><span style="color: #888a85;">;; </span><span style="color: #888a85;">emacs starter kit init.el.
+</span><span style="color: #888a85;">;;</span><span style="color: #888a85;">
+</span><span style="color: #888a85;">;; </span><span style="color: #888a85;">This file then loads and runs init.org using babel to make
+</span><span style="color: #888a85;">;; </span><span style="color: #888a85;">my personal configurations.
+</span><span style="color: #888a85;">;;</span><span style="color: #888a85;">
+</span><span style="color: #888a85;">;; </span><span style="color: #888a85;">NOTE:- no configuration should go in this file or in init.el
+</span><span style="color: #888a85;">;; </span><span style="color: #888a85;">
+</span>
+<span style="color: #888a85;">;; </span><span style="color: #888a85;">Ensure my auto-generated init.el file does not yet exist!
+</span><span style="color: #888a85;">;; </span><span style="color: #888a85;">This may have occurred if there was a load failure previously.
+</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #729fcf; font-weight: bold;">if</span> <span style="color: #7f7f7f;">(</span>file-exists-p <span style="color: #ad7fa8; font-style: italic;">"~/.emacs.d/martyn/init.el"</span><span style="color: #7f7f7f;">)</span>
+      <span style="color: #7f7f7f;">(</span>delete-file <span style="color: #ad7fa8; font-style: italic;">"~/.emacs.d/martyn/init.el"</span><span style="color: #7f7f7f;">))</span>
+
+<span style="color: #888a85;">;; </span><span style="color: #888a85;">Load init.org using org-babel...
+</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #729fcf; font-weight: bold;">require</span> '<span style="color: #8ae234;">org-install</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>org-babel-load-file <span style="color: #ad7fa8; font-style: italic;">"~/.emacs.d/martyn/init.org"</span><span style="color: #7f7f7f;">)</span>
+
+<span style="color: #888a85;">;; </span><span style="color: #888a85;">end of martyn.el
+</span>
+</pre>
+
+
+
+
+
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: Martyn Jago
+</p>
+<p class="date"> Date: 2011-01-06 15:58:11 GMT</p>
+<p class="creator">HTML generated by org-mode 7.3 in emacs 23</p>
+</div>
+</div>
+</body>
+</html>
