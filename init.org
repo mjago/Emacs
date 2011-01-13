@@ -5,8 +5,8 @@
 #+TITLE:Emacs Initialisation File Setup
 
 * Personal Emacs Configurations (outside of Emacs Starter Kit)
-
-** Add org-mode contrib/lisp files to load path
+** Org Mode
+*** Add org-mode contrib/lisp files to load path
    :PROPERTIES:
    :ID:       45537f41-3389-45b8-9454-bc0e2e51ebe5
    :END:
@@ -17,7 +17,7 @@
 
 #+end_src
 
-** org-drill related initialisation
+*** org-drill related initialisation
    :PROPERTIES:
    :ID:       eb6dd9b1-86bd-4fb4-acb3-992ef90e29da
    :END:
@@ -32,199 +32,12 @@
 
 #+END_SRC
 
-** Configure Babel languages 
-*** Configure Babel
-Configured for...
- - Ruby 
- - C 
- - emacs-lisp
- - shell
- - graphviz
- - clojure
+*** Configure org-mobile
+    :PROPERTIES:
+    :ID:       d00980d4-443c-4cad-8bb2-3d4520e6c92d
+    :END:
 
-   :PROPERTIES:
-   :ID:       9983a066-2f94-4446-82e5-bea078211562
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((ruby . t)
-   (C . t)
-   (emacs-lisp . t)
-   (sh t)
-   (dot t)
-   (clojure t)
-   ))
-
-#+END_SRC
-
-#+results:
-| (ruby . t) | (C . t) | (emacs-lisp . t) | (sh t) | (dot t) | (clojure t) |
-
-** Make windmove work in org-mode
-   :PROPERTIES:
-   :ID:       77b9e2f6-674d-406c-a1f2-3f8e1307a541
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(add-hook 'org-shiftup-final-hook 'windmove-up)
-(add-hook 'org-shiftleft-final-hook 'windmove-left)
-(add-hook 'org-shiftdown-final-hook 'windmove-down)
-(add-hook 'org-shiftright-final-hook 'windmove-right)
-
-#+END_SRC
-
-** Setup org-capture
-   :PROPERTIES:
-   :ID:       3f712c43-2db3-4001-93df-ffed1319e19a
-   :END:
-
-*** Setup capture location and key
-
-#+BEGIN_SRC emacs-lisp
-
-(setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
-(define-key global-map "\C-cc" 'org-capture)
-
-#+END_SRC
-
-*** TODO Setup capture templates
-
-*** TODO Setup refile targets
-
-#+BEGIN_SRC emacs-lisp
-
-; Use IDO for target completion
-(setq org-completion-use-ido t)
-
-; Targets include this file and any file contributing to the agenda - up to 5 levels deep
-(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))))
-
-; Targets start with the file name - allows creating level 1 tasks
-;; TESTING (setq org-refile-use-outline-path (quote file))
-
-; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
-(setq org-outline-path-complete-in-steps t)
-
-; Allow refile to create parent tasks with confirmation
-(setq org-refile-allow-creating-parent-nodes (quote confirm))
-
-; Use IDO only for buffers
-; set ido-mode to buffer and ido-everywhere to t via the customize interface
-; '(ido-mode (quote both) nil (ido))
-; '(ido-everywhere t)
-
-
-#+END_SRC
-
-#+results:
-: confirm
-
-** Setup gnus newsreader
-   :PROPERTIES:
-   :ID:       c804e1c8-5961-43cb-a95f-b1ff6956bc1c
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq gnus-select-method
-    '(nntp "news.zen.co.uk"    ; fill in your server!  (see below)
-           (nntp-port-number 119)))
-
-#+END_SRC
-
-** Smooth Scrolling
-   :PROPERTIES:
-   :ID:       42144f41-08ac-4f3d-825e-94d4a87a20c1
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(require 'smooth-scrolling)
-
-#+END_SRC
-
-** C-k to kill whole line
-   :PROPERTIES:
-   :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq kill-whole-line t)
-
-#+END_SRC
-
-** TODO Remap C-j to my custom goto-next-line function
-   :PROPERTIES:
-   :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-;; function here
-
-#+END_SRC
-
-** Make C-z undo, and M-z redo
-   :PROPERTIES:
-   :ID:       e785a6bc-b540-41e1-b95d-5be71a54daf4
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(require 'redo)
-(define-key global-map (kbd "M-z") 'redo)
-(define-key global-map (kbd "C-z") 'undo)
-
-#+END_SRC
-
-** Mark (select) all on S-C-SPC
-   :PROPERTIES:
-   :ID:       bac7b873-a758-4991-afe7-abba7aada174
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
-
-#+END_SRC
-
-** Setup IRC user info and channels
-   :PROPERTIES:
-   :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq rcirc-default-nick "rninja")
-(setq rcirc-default-user-name "rninja")
-(setq rcirc-startup-channels-alist
-      '(("\\.freenode\\.net$" "#git" "#rspec")))
-
-#+END_SRC
-
-** Map M-l to goto-line
-   :PROPERTIES:
-   :ID:       d90de769-45ce-4e5a-a878-88d0e76e162a
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(global-unset-key "\M-l")
-(global-set-key "\M-l" 'goto-line)
-
-#+END_SRC
-
-** Configure org-mobile
-   :PROPERTIES:
-   :ID:       d00980d4-443c-4cad-8bb2-3d4520e6c92d
-   :END:
-
-*** Org Agenda Files
+**** Org Agenda Files
 
 #+BEGIN_SRC emacs-lisp
 
@@ -249,7 +62,7 @@ Configured for...
 #+results:
 : ~/Dropbox/OrgData/inbox.org
 
-*** TODO Org Agenda Custom Commands
+**** TODO Org Agenda Custom Commands
 
 #+BEGIN_SRC emacs-lisp
 
@@ -338,7 +151,7 @@ Configured for...
 | # | Stuck Projects               | tags-todo | LEVEL=2-REFILE           | LEVEL=1+REFILE/!-DONE-CANCELLED                                                                                                                                                                   | ((org-agenda-skip-function (quote bh/skip-non-stuck-projects)) (org-agenda-overriding-header Stuck Projects)) |
 | c | Select default clocking task | tags      | LEVEL=2-REFILE           | ((org-agenda-skip-function (quote (org-agenda-skip-subtree-if (quote notregexp) ^\*\* Organization))) (org-agenda-overriding-header Set default clocking task with C-u C-u I))                    |                                                                                                               |
 
-*** TODO my-run-drills function (doesn't work yet)
+**** TODO my-run-drills function (doesn't work yet)
 
 #+BEGIN_SRC emacs-lisp
 
@@ -354,7 +167,336 @@ Configured for...
 #+results:
 : my-run-drills
 
-** Assign F5 to keymacro
+*** Setup org-mode (development)
+   :PROPERTIES:
+   :ID:       475aca1e-5f54-42e6-bb58-4b8fb56dff0f
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(global-font-lock-mode 1)                     ; for all buffers
+(setq load-path (cons "~/org/org-mode" load-path))
+
+#+END_SRC
+
+*** Configure Babel languages 
+**** Configure Babel
+Configured for...
+ - Ruby 
+ - C 
+ - emacs-lisp
+ - shell
+ - graphviz
+ - clojure
+
+   :PROPERTIES:
+   :ID:       9983a066-2f94-4446-82e5-bea078211562
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((ruby . t)
+   (C . t)
+   (emacs-lisp . t)
+   (sh t)
+   (dot t)
+   (clojure t)
+   ))
+
+#+END_SRC
+
+#+results:
+| (ruby . t) | (C . t) | (emacs-lisp . t) | (sh t) | (dot t) | (clojure t) |
+
+*** Make windmove work in org-mode
+   :PROPERTIES:
+   :ID:       77b9e2f6-674d-406c-a1f2-3f8e1307a541
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-hook 'org-shiftup-final-hook 'windmove-up)
+(add-hook 'org-shiftleft-final-hook 'windmove-left)
+(add-hook 'org-shiftdown-final-hook 'windmove-down)
+(add-hook 'org-shiftright-final-hook 'windmove-right)
+
+#+END_SRC
+
+*** Setup org-capture
+    :PROPERTIES:
+    :ID:       3f712c43-2db3-4001-93df-ffed1319e19a
+    :END:
+
+**** Setup capture location and key
+
+#+BEGIN_SRC emacs-lisp
+
+(setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
+(define-key global-map "\C-cc" 'org-capture)
+
+#+END_SRC
+
+**** TODO Setup capture templates
+
+**** TODO Setup refile targets
+
+#+BEGIN_SRC emacs-lisp
+
+; Use IDO for target completion
+(setq org-completion-use-ido t)
+
+; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))))
+
+; Targets start with the file name - allows creating level 1 tasks
+;; TESTING (setq org-refile-use-outline-path (quote file))
+
+; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
+(setq org-outline-path-complete-in-steps t)
+
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+; Use IDO only for buffers
+; set ido-mode to buffer and ido-everywhere to t via the customize interface
+; '(ido-mode (quote both) nil (ido))
+; '(ido-everywhere t)
+
+
+#+END_SRC
+
+#+results:
+: confirm
+*** Display images in org mode
+
+#+BEGIN_SRC emacs-lisp
+
+  ;; display images
+  (local-set-key "\M-I" 'org-toggle-iimage-in-org)
+
+;; -- Display images in org mode
+;; enable image mode first
+(iimage-mode)
+;; add the org file link format to the iimage mode regex
+(add-to-list 'iimage-mode-image-regex-alist
+  (cons (concat "\\[\\[file:\\(~?" iimage-mode-image-filename-regex "\\)\\]")  1))
+;;  add a hook so we can display images on load
+(add-hook 'org-mode-hook '(lambda () (org-turn-on-iimage-in-org)))
+;; function to setup images for display on load
+(defun org-turn-on-iimage-in-org ()
+  "display images in your org file"
+  (interactive)
+  (turn-on-iimage-mode)
+  (set-face-underline-p 'org-link nil))
+;; function to toggle images in a org bugger
+(defun org-toggle-iimage-in-org ()
+  "display images in your org file"
+  (interactive)
+  (if (face-underline-p 'org-link)
+      (set-face-underline-p 'org-link nil)
+      (set-face-underline-p 'org-link t))
+  (call-interactively 'iimage-mode))
+
+#+END_SRC
+
+#+results:
+: org-toggle-iimage-in-org
+
+*** TODO Fix tab in org mode
+
+#+BEGIN_SRC emacs-lisp
+
+   ;; fix tab
+   (local-set-key "\C-y" 'yank)
+   ;; yasnippet (allow yasnippet to do it's thing in org files)
+;;   (make-variable-buffer-local 'yas/trigger-key)
+;;   (setq yas/trigger-key [tab])
+;;   (define-key yas/keymap [tab] 'yas/next-field-group)))
+
+#+END_SRC
+
+#+results:
+: yank
+*** TODO Develop group agenda to show unscheduled TODO items
+
+[[http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html][Suggestions]]
+*** TODO Setup for latex / pdf export of org-mode
+
+  1) NOTE: remember ubuntu requires texlive-latex-extra for this
+  2) NOTE: also required ttf-marvosym
+  3) For missing packages try searching [[http://packages.ubuntu.com/search?keywords%3Dmarvosym&searchon%3Dnames&suite%3Dmaverick&section%3Dall][here]] and apt-get install package
+  4) Useful latex [[http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf][prettifying link]]
+
+#+BEGIN_SRC emacs-lisp
+
+;; remember ubuntu requires texlive-latex-extra for this
+
+(require 'org-latex)
+(setq org-export-latex-listings t)
+(add-to-list 'org-export-latex-packages-alist '("" "listings"))
+(add-to-list 'org-export-latex-packages-alist '("" "color"))
+
+#+END_SRC
+
+#+results:
+: org-latex
+*** TODO Setup for Auctex (ongoing)
+
+   ;;  Setup gleaned from [[http://salomie.ro/tudor/2010/09/02/console-based-system/][here]]
+   ;;  #+BEGIN_SRC emacs-lisp
+   ;;  
+   ;;  ;; AUCTeX
+   ;;  (setq TeX-auto-save t)
+   ;;  (setq TeX-parse-self t)
+   ;;  ;set up AUCTeX to deal with multiple file documents.
+   ;;  (setq-default TeX-master nil)
+   ;;  ;turn on pdf-mode.  AUCTeX will call pdflatex to compile instead of latex.
+   ;;  (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+   ;;  ;turn on flyspell mode - this will automatically spell check the document in LaTex-mode
+   ;;  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+   ;;  
+   ;;      ; allow for export=>beamer by placing
+   ;;      ;; #+LaTeX_CLASS: beamer in org files
+   ;;      (unless (boundp 'org-export-latex-classes)
+   ;;      (setq org-export-latex-classes nil))
+   ;;      (add-to-list 'org-export-latex-classes
+   ;;      ;; beamer class, for presentations
+   ;;      '("beamer"
+   ;;        "\\documentclass[11pt]{beamer}\n
+   ;;        \\mode<{{{beamermode}}}>\n
+   ;;        \\usetheme{{{{beamertheme}}}}\n
+   ;;        \\usecolortheme{{{{beamercolortheme}}}}\n
+   ;;        \\beamertemplateballitem\n
+   ;;        \\setbeameroption{show notes}
+   ;;        \\usepackage[utf8]{inputenc}\n
+   ;;        \\usepackage[T1]{fontenc}\n
+   ;;        \\usepackage{hyperref}\n
+   ;;        \\usepackage{color}
+   ;;        \\usepackage{listings}
+   ;;        \\lstset{numbers=none,language=[ISO]C++,tabsize=4,
+   ;;        frame=single,
+   ;;        basicstyle=\\small,
+   ;;        showspaces=false,showstringspaces=false,
+   ;;        showtabs=false,
+   ;;        keywordstyle=\\color{blue}\\bfseries,
+   ;;        commentstyle=\\color{red},
+   ;;        }\n
+   ;;        \\usepackage{verbatim}\n
+   ;;        \\institute{{{{beamerinstitute}}}}\n
+   ;;        \\subject{{{{beamersubject}}}}\n"
+   ;;        org-beamer-sectioning
+   ;;        ("\\section{%s}" . "\\section*{%s}")
+   ;;        ("\\begin{frame}[fragile]\\frametitle{%s}"
+   ;;        "\\end{frame}"
+   ;;        "\\begin{frame}[fragile]\\frametitle{%s}"
+   ;;        "\\end{frame}")
+   ;;      ))
+   ;;  
+   ;;      ;; Set up skeletons (see below) in a menu in ORG MODE mode
+   ;;      (defvar org-org-menu)
+   ;;      (add-hook 'org-mode-hook
+   ;;      (lambda () (easy-menu-add-item org-org-menu nil ["Skeletons" nil t])
+   ;;      (easy-menu-add-item org-org-menu '("Skeletons") ["Beamer Theme" orgmode-beamer-my-skeleton t])))
+   ;;      (define-skeleton orgmode-beamer-my-skeleton
+   ;;        "inserts a simple orgmode-beamer template skeleton - use C-c C-e d to build the pdf"
+   ;;        nil
+   ;;        "#+LaTeX_CLASS: beamer\n"
+   ;;        "#+MACRO: BEAMERMODE presentation\n"
+   ;;        "#+MACRO: BEAMERCOLORTHEME dove\n"
+   ;;        "#+MACRO: BEAMERSUBJECT RMRF\n"
+   ;;        "#+BEAMER_FRAME_LEVEL: 2\n"
+   ;;        "#+COLUMNS: %35ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)\n"
+   ;;        "#+OPTIONS: tags:nil\n"
+   ;;        "#+MACRO: BEAMERINSTITUTE My Affiliation\n"
+   ;;        "#+AUTHOR: Tudor-Ioan Salomie\n"
+   ;;        "\n"
+   ;;        "#+TITLE: Presentation title\n"
+   ;;        "\n"
+   ;;        "\n"
+   ;;        "* My Section\n"
+   ;;        "\n"
+   ;;        "** Frame 1 \\\\ with a subtitle\n"
+   ;;        "\n"
+   ;;        "*** Idea\n"
+   ;;        "\n"
+   ;;        "#+begin_LaTeX\n"
+   ;;        "\n"
+   ;;        "#+end_LaTeX\n"
+   ;;        "\n\n\n"
+   ;;      )
+   ;;  
+   ;;  
+   ;;  #+END_SRC
+   ;;  
+   ;;  #+results:
+   ;;  : orgmode-beamer-my-skeleton
+   ;;  
+** My Key-mappings
+*** C-k to kill whole line
+   :PROPERTIES:
+   :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq kill-whole-line t)
+
+#+END_SRC
+
+*** TODO Remap C-j to my custom goto-next-line function
+   :PROPERTIES:
+   :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+;; function here
+
+#+END_SRC
+
+*** Make C-z undo, and M-z redo
+   :PROPERTIES:
+   :ID:       e785a6bc-b540-41e1-b95d-5be71a54daf4
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'redo)
+(define-key global-map (kbd "M-z") 'redo)
+(define-key global-map (kbd "C-z") 'undo)
+
+#+END_SRC
+
+*** Mark (select) all on S-C-SPC
+   :PROPERTIES:
+   :ID:       bac7b873-a758-4991-afe7-abba7aada174
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
+
+#+END_SRC
+
+*** Map M-l to goto-line
+   :PROPERTIES:
+   :ID:       d90de769-45ce-4e5a-a878-88d0e76e162a
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(global-unset-key "\M-l")
+(global-set-key "\M-l" 'goto-line)
+
+#+END_SRC
+
+*** Assign F5 to keymacro
    :PROPERTIES:
    :ID:       5d5dddff-e752-4099-82b1-1e80f8e6bd2d
    :END:
@@ -365,8 +507,90 @@ Configured for...
 
 #+END_SRC
 
-** Color theme initialisation
-*** Add color-theme directory to load-path
+*** TODO Comment or uncomment region with M-k
+   :PROPERTIES:
+   :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(global-set-key "\M-k" 'comment-or-uncomment-region)
+
+#+END_SRC
+
+#+results:
+: comment-or-uncomment-region
+
+*** Remap M-j, M-l to navigation
+   :PROPERTIES:
+   :ID:       ffa0b60c-9281-44ff-b939-c6c00dc7b728
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+; (global-set-key "\M-i" 'previous-line)
+(global-set-key "\M-j" 'backward-char)
+; (global-set-key "\M-k" 'forward-line)
+(global-set-key "\M-l" 'forward-char)
+
+#+END_SRC
+** TODO Gnus
+   :PROPERTIES:
+   :ID:       c804e1c8-5961-43cb-a95f-b1ff6956bc1c
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq gnus-select-method
+    '(nntp "news.zen.co.uk"    ; fill in your server!  (see below)
+           (nntp-port-number 119)))
+
+#+END_SRC
+
+** Setup IRC user info and channels
+   :PROPERTIES:
+   :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq rcirc-default-nick "rninja")
+(setq rcirc-default-user-name "rninja")
+(setq rcirc-startup-channels-alist
+      '(("\\.freenode\\.net$" "#git" "#rspec")))
+
+#+END_SRC
+
+** Setup bbdb Contact Database
+   :PROPERTIES:
+   :ID:       8947b21f-9a13-4850-b1e6-01ac553d4c67
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
+(require 'bbdb)
+(bbdb-initialize)
+(setq bbdb-north-american-phone-numbers-p nil
+)
+
+#+END_SRC
+
+** Visual config
+*** Smooth Scrolling
+   :PROPERTIES:
+   :ID:       42144f41-08ac-4f3d-825e-94d4a87a20c1
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'smooth-scrolling)
+
+#+END_SRC
+
+*** Color theme initialisation
+**** Add color-theme directory to load-path
     :PROPERTIES:
     :ID:       6c4fee97-7d5b-4ba1-b0bd-c93a5b0e56fe
     :END:
@@ -382,7 +606,7 @@ Configured for...
 
 #+END_SRC
 
-*** All colour themes list
+**** All colour themes list
     :PROPERTIES:
     :ID:       66a51bd1-58eb-4810-bb4e-937c2723a864
     :END:
@@ -548,7 +772,7 @@ Configured for...
 
 #+END_SRC
 
-*** My colour themes list
+**** My colour themes list
     :PROPERTIES:
     :ID:       a1aadcc3-f109-4610-88c4-718b12b6cd99
     :END:
@@ -565,7 +789,7 @@ Configured for...
 
 #+END_SRC
 
-*** Colour theme cycling with f7 and C-f7
+**** Colour theme cycling with f7 and C-f7
     :PROPERTIES:
     :ID:       d8e20a1b-6727-4b41-894a-744c5a530072
     :END:
@@ -605,197 +829,24 @@ Configured for...
 
 #+END_SRC
 
-** Setup org-mode (development)
+*** Maximise frame at startup
    :PROPERTIES:
-   :ID:       475aca1e-5f54-42e6-bb58-4b8fb56dff0f
+   :ID:       5ec698bf-0dcd-4b19-b923-a5f90e5a1073
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-(global-font-lock-mode 1)                     ; for all buffers
-(setq load-path (cons "~/org/org-mode" load-path))
+  (require 'maxframe)
+  (add-hook 'window-setup-hook 'maximize-frame t)
+  (maximize-frame)
 
-#+END_SRC
-
-** Display images in org mode
-
-#+BEGIN_SRC emacs-lisp
-
-  ;; display images
-  (local-set-key "\M-I" 'org-toggle-iimage-in-org)
-
-;; -- Display images in org mode
-;; enable image mode first
-(iimage-mode)
-;; add the org file link format to the iimage mode regex
-(add-to-list 'iimage-mode-image-regex-alist
-  (cons (concat "\\[\\[file:\\(~?" iimage-mode-image-filename-regex "\\)\\]")  1))
-;;  add a hook so we can display images on load
-(add-hook 'org-mode-hook '(lambda () (org-turn-on-iimage-in-org)))
-;; function to setup images for display on load
-(defun org-turn-on-iimage-in-org ()
-  "display images in your org file"
-  (interactive)
-  (turn-on-iimage-mode)
-  (set-face-underline-p 'org-link nil))
-;; function to toggle images in a org bugger
-(defun org-toggle-iimage-in-org ()
-  "display images in your org file"
-  (interactive)
-  (if (face-underline-p 'org-link)
-      (set-face-underline-p 'org-link nil)
-      (set-face-underline-p 'org-link t))
-  (call-interactively 'iimage-mode))
-
-#+END_SRC
+#+end_src
 
 #+results:
-: org-toggle-iimage-in-org
-
-** TODO Fix tab in org mode
-
-#+BEGIN_SRC emacs-lisp
-
-   ;; fix tab
-   (local-set-key "\C-y" 'yank)
-   ;; yasnippet (allow yasnippet to do it's thing in org files)
-;;   (make-variable-buffer-local 'yas/trigger-key)
-;;   (setq yas/trigger-key [tab])
-;;   (define-key yas/keymap [tab] 'yas/next-field-group)))
-
-#+END_SRC
-
-#+results:
-: yank
-
-** TODO Setup for latex / pdf export of org-mode
-
-  1) NOTE: remember ubuntu requires texlive-latex-extra for this
-  2) NOTE: also required ttf-marvosym
-  3) For missing packages try searching [[http://packages.ubuntu.com/search?keywords%3Dmarvosym&searchon%3Dnames&suite%3Dmaverick&section%3Dall][here]] and apt-get install package
-  4) Useful latex [[http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf][prettifying link]]
-
-#+BEGIN_SRC emacs-lisp
-
-;; remember ubuntu requires texlive-latex-extra for this
-
-(require 'org-latex)
-(setq org-export-latex-listings t)
-(add-to-list 'org-export-latex-packages-alist '("" "listings"))
-(add-to-list 'org-export-latex-packages-alist '("" "color"))
-
-#+END_SRC
-
-#+results:
-: org-latex
-
-** TODO Setup for Auctex (ongoing)
-
-  ;;  Setup gleaned from [[http://salomie.ro/tudor/2010/09/02/console-based-system/][here]]
-  ;;  #+BEGIN_SRC emacs-lisp
-  ;;  
-  ;;  ;; AUCTeX
-  ;;  (setq TeX-auto-save t)
-  ;;  (setq TeX-parse-self t)
-  ;;  ;set up AUCTeX to deal with multiple file documents.
-  ;;  (setq-default TeX-master nil)
-  ;;  ;turn on pdf-mode.  AUCTeX will call pdflatex to compile instead of latex.
-  ;;  (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
-  ;;  ;turn on flyspell mode - this will automatically spell check the document in LaTex-mode
-  ;;  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  ;;  
-  ;;      ; allow for export=>beamer by placing
-  ;;      ;; #+LaTeX_CLASS: beamer in org files
-  ;;      (unless (boundp 'org-export-latex-classes)
-  ;;      (setq org-export-latex-classes nil))
-  ;;      (add-to-list 'org-export-latex-classes
-  ;;      ;; beamer class, for presentations
-  ;;      '("beamer"
-  ;;        "\\documentclass[11pt]{beamer}\n
-  ;;        \\mode<{{{beamermode}}}>\n
-  ;;        \\usetheme{{{{beamertheme}}}}\n
-  ;;        \\usecolortheme{{{{beamercolortheme}}}}\n
-  ;;        \\beamertemplateballitem\n
-  ;;        \\setbeameroption{show notes}
-  ;;        \\usepackage[utf8]{inputenc}\n
-  ;;        \\usepackage[T1]{fontenc}\n
-  ;;        \\usepackage{hyperref}\n
-  ;;        \\usepackage{color}
-  ;;        \\usepackage{listings}
-  ;;        \\lstset{numbers=none,language=[ISO]C++,tabsize=4,
-  ;;        frame=single,
-  ;;        basicstyle=\\small,
-  ;;        showspaces=false,showstringspaces=false,
-  ;;        showtabs=false,
-  ;;        keywordstyle=\\color{blue}\\bfseries,
-  ;;        commentstyle=\\color{red},
-  ;;        }\n
-  ;;        \\usepackage{verbatim}\n
-  ;;        \\institute{{{{beamerinstitute}}}}\n
-  ;;        \\subject{{{{beamersubject}}}}\n"
-  ;;        org-beamer-sectioning
-  ;;        ("\\section{%s}" . "\\section*{%s}")
-  ;;        ("\\begin{frame}[fragile]\\frametitle{%s}"
-  ;;        "\\end{frame}"
-  ;;        "\\begin{frame}[fragile]\\frametitle{%s}"
-  ;;        "\\end{frame}")
-  ;;      ))
-  ;;  
-  ;;      ;; Set up skeletons (see below) in a menu in ORG MODE mode
-  ;;      (defvar org-org-menu)
-  ;;      (add-hook 'org-mode-hook
-  ;;      (lambda () (easy-menu-add-item org-org-menu nil ["Skeletons" nil t])
-  ;;      (easy-menu-add-item org-org-menu '("Skeletons") ["Beamer Theme" orgmode-beamer-my-skeleton t])))
-  ;;      (define-skeleton orgmode-beamer-my-skeleton
-  ;;        "inserts a simple orgmode-beamer template skeleton - use C-c C-e d to build the pdf"
-  ;;        nil
-  ;;        "#+LaTeX_CLASS: beamer\n"
-  ;;        "#+MACRO: BEAMERMODE presentation\n"
-  ;;        "#+MACRO: BEAMERCOLORTHEME dove\n"
-  ;;        "#+MACRO: BEAMERSUBJECT RMRF\n"
-  ;;        "#+BEAMER_FRAME_LEVEL: 2\n"
-  ;;        "#+COLUMNS: %35ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)\n"
-  ;;        "#+OPTIONS: tags:nil\n"
-  ;;        "#+MACRO: BEAMERINSTITUTE My Affiliation\n"
-  ;;        "#+AUTHOR: Tudor-Ioan Salomie\n"
-  ;;        "\n"
-  ;;        "#+TITLE: Presentation title\n"
-  ;;        "\n"
-  ;;        "\n"
-  ;;        "* My Section\n"
-  ;;        "\n"
-  ;;        "** Frame 1 \\\\ with a subtitle\n"
-  ;;        "\n"
-  ;;        "*** Idea\n"
-  ;;        "\n"
-  ;;        "#+begin_LaTeX\n"
-  ;;        "\n"
-  ;;        "#+end_LaTeX\n"
-  ;;        "\n\n\n"
-  ;;      )
-  ;;  
-  ;;  
-  ;;  #+END_SRC
-  ;;  
-  ;;  #+results:
-  ;;  : orgmode-beamer-my-skeleton
-  ;;  
-** Setup rspec-mode (development)
-   :PROPERTIES:
-   :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq load-path (cons "~/martyn/rspec-mode" load-path))
-
-#+END_SRC
-
-** TODO Setup Mode-compile (emacs-wiki)
+  : t
+** Programming
+*** General
+**** TODO Setup Mode-compile (emacs-wiki)
 
 #+BEGIN_SRC emacs-lisp
   
@@ -809,23 +860,9 @@ Configured for...
   
 #+END_SRC
 
-** Setup bbdb Contact Database
-   :PROPERTIES:
-   :ID:       8947b21f-9a13-4850-b1e6-01ac553d4c67
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(add-to-list 'load-path
-             (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
-(require 'bbdb)
-(bbdb-initialize)
-(setq bbdb-north-american-phone-numbers-p nil
-)
-
-#+END_SRC
-
-** Setup yasnippet (full install as opposed to bundle in starter kit elpa)
+**** TODO Snippets
+***** DONE Setup yasnippet (full install as opposed to bundle in starter kit elpa)
+     CLOSED: [2011-01-13 Thu 04:49]
    :PROPERTIES:
    :ID:       6d14775e-03bd-4138-b772-ada3de677830
    :END:
@@ -845,7 +882,7 @@ Configured for...
 
 #+END_SRC
 
-** TODO Setup yasnippet for rails
+***** TODO Setup yasnippet for rails
    :PROPERTIES:
    :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
    :END:
@@ -880,22 +917,8 @@ Configured for...
 #+END_SRC
 
 #+results:
-
-** Comment or uncomment region with M-k
-   :PROPERTIES:
-   :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(global-set-key "\M-k" 'comment-or-uncomment-region)
-
-#+END_SRC
-
-#+results:
-: comment-or-uncomment-region
-
-** TODO (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel :DISABLED:
+*** TODO Ruby
+**** TODO (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel :DISABLED:
    :PROPERTIES:
    :ID:       86bebb8b-e52d-43da-9f7b-a49ef5db14ba
    :END:
@@ -907,38 +930,18 @@ Configured for...
 # (rvm-use "1.9.1" "default")
 
 # #+END_SRC
-
-** Remap M-j, M-l to navigation
+**** Setup rspec-mode (development)
    :PROPERTIES:
-   :ID:       ffa0b60c-9281-44ff-b939-c6c00dc7b728
+   :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
    :END:
 
 #+BEGIN_SRC emacs-lisp
 
-; (global-set-key "\M-i" 'previous-line)
-(global-set-key "\M-j" 'backward-char)
-; (global-set-key "\M-k" 'forward-line)
-(global-set-key "\M-l" 'forward-char)
+(setq load-path (cons "~/martyn/rspec-mode" load-path))
 
 #+END_SRC
-
-** Maximise frame at startup
-   :PROPERTIES:
-   :ID:       5ec698bf-0dcd-4b19-b923-a5f90e5a1073
-   :END:
-
-#+begin_src emacs-lisp
-
-  (require 'maxframe)
-  (add-hook 'window-setup-hook 'maximize-frame t)
-  (maximize-frame)
-
-#+end_src
-
-#+results:
-  : t
-
-** Remove Paredit from elisp hook (turned on by emacs starter kit)
+*** Emacs-lisp
+**** Remove Paredit from elisp hook (turned on by emacs starter kit)
 
 #+BEGIN_SRC emacs-lisp
 
@@ -948,24 +951,7 @@ Configured for...
 
 #+results:
 | run-coding-hook | esk-remove-elc-on-save | turn-on-eldoc-mode |
-
-** TODO Develop group agenda to show unscheduled TODO items
-
-[[http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html][Suggestions]]
-
-** TODO Graphviz dot mode
-   SCHEDULED: <2010-11-29 Mon>
-
-#+BEGIN_SRC emacs-lisp
-
- (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode.el"))
-
-#+END_SRC
-
-#+results:
-: t
-
-** Configure ERT (for unit-testing)
+**** Configure ERT (for unit-testing)
 
 #+BEGIN_SRC emacs-lisp
 
@@ -976,7 +962,7 @@ Configured for...
 
 #+END_SRC
 
-*** To compile the manual
+***** To compile the manual
 
 Needed to change in ert.texi 
 
@@ -996,14 +982,41 @@ Run following with C-c, C-c
 #
 # #+results:
 
-*** TODO To read the manual
+***** TODO To read the manual
 
 C-u M-x info ert.info
+*** C
+**** Configure unity-mode
 
+#+BEGIN_SRC emacs-lisp
 
-** Require my custom files and functions
-   CLOSED: [2010-11-26 Fri 06:57]
-*** Add custom files directory to load-path
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/martyn/unity-mode"))
+(require 'unity-mode)
+(add-hook 'c-mode-hook 'unity-mode)
+(global-set-key [f5] 'unity-toggle-test-and-target)
+(global-set-key [C-f5] 'unity-toggle-src-and-header)
+(global-set-key [M-f5] 'unity-toggle-triad)
+
+#+END_SRC
+
+*** TODO Graphviz 
+**** dot mode
+   SCHEDULED: <2010-11-29 Mon>
+
+#+BEGIN_SRC emacs-lisp
+
+ (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode.el"))
+
+#+END_SRC
+
+#+results:
+: t
+
+** My stuff
+*** Require my custom files and functions
+    CLOSED: [2010-11-26 Fri 06:57]
+**** Add custom files directory to load-path
     :PROPERTIES:
     :ID:       863eebdf-52b6-4e3d-ab28-b4f783d2a65d
     :END:
@@ -1015,7 +1028,7 @@ C-u M-x info ert.info
 
 #+END_SRC
 
-*** my-load-init-files function
+**** my-load-init-files function
 
 #+BEGIN_SRC emacs-lisp
 
@@ -1023,7 +1036,7 @@ C-u M-x info ert.info
 
 #+END_SRC
 
-*** my-load-drill-files function
+**** my-load-drill-files function
 
 #+BEGIN_SRC emacs-lisp
 
@@ -1031,14 +1044,16 @@ C-u M-x info ert.info
 
 #+END_SRC
 
-*** my-load-org-files function
+**** my-load-org-files function
 
 #+BEGIN_SRC emacs-lisp
 
 (require 'my-load-org-files)
 
 #+END_SRC
-** "martyn-laptop" system specifics
+* Initial display
+** Display home org and agenda
+*** "martyn-laptop" system specific...
 
  - NOTE: Currently loads ALL org files - might consider just "tracked"
    org files
@@ -1057,21 +1072,6 @@ C-u M-x info ert.info
 #+END_SRC
 
 #+results:
-      
-** Configure unity-mode
-
-#+BEGIN_SRC emacs-lisp
-
-(add-to-list 'load-path
-             (concat dotfiles-dir "martyn/martyn/unity-mode"))
-(require 'unity-mode)
-(add-hook 'c-mode-hook 'unity-mode)
-(global-set-key [f5] 'unity-toggle-test-and-target)
-(global-set-key [C-f5] 'unity-toggle-src-and-header)
-(global-set-key [M-f5] 'unity-toggle-triad)
-
-#+END_SRC
-
 
 * Delete temp file martyn/init.el (do this last!)
    :PROPERTIES:
