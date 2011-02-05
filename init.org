@@ -1,10 +1,604 @@
 #+SETUPFILE: ~/Dropbox/OrgData/setupfile.org
 #+LaTeX_CLASS_OPTIONS:[colorlinks=true,urlcolor=blue,listings-sv] 
-#+STARTUP:content
 
 #+TITLE:Emacs Initialisation File Setup
 
+* My Key-mappings
+*** C-k to kill whole line
+   :PROPERTIES:
+   :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq kill-whole-line t)
+
+#+END_SRC
+
+*** TODO Remap C-j to my custom goto-next-line function
+   :PROPERTIES:
+   :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+;; function here
+
+#+END_SRC
+
+*** Mark (select) all on S-C-SPC
+   :PROPERTIES:
+   :ID:       bac7b873-a758-4991-afe7-abba7aada174
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
+
+#+END_SRC
+
+*** Map M-l to goto-line
+   :PROPERTIES:
+   :ID:       d90de769-45ce-4e5a-a878-88d0e76e162a
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(global-unset-key "\M-l")
+(global-set-key "\M-l" 'goto-line)
+
+#+END_SRC
+
+*** TODO Comment or uncomment region with M-k
+   :PROPERTIES:
+   :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(global-set-key "\M-k" 'comment-or-uncomment-region)
+
+#+END_SRC
+
+#+results:
+: comment-or-uncomment-region
+
+*** Remap M-j, M-l to navigation
+   :PROPERTIES:
+   :ID:       ffa0b60c-9281-44ff-b939-c6c00dc7b728
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+; (global-set-key "\M-i" 'previous-line)
+(global-set-key "\M-j" 'backward-char)
+; (global-set-key "\M-k" 'forward-line)
+(global-set-key "\M-l" 'forward-char)
+
+#+END_SRC
+*** Map C-F1 to home.org
+
+**** Function me-home-org opens home.org
+
+#+BEGIN_SRC emacs-lisp
+  
+  (defun me-home-org()
+    "Fast route to home.org"
+    (interactive)
+    (find-file "~/Dropbox/OrgData/home.org"))
+  
+#+END_SRC emacs-lisp
+
+#+results:
+: me-home-org
+
+**** Function me-agenda-org opens agenda
+
+#+BEGIN_SRC emacs-lisp
+  
+  (defun me-agenda-org()
+    "Fast route to Agenda"
+    (interactive)
+    (me-home-org)
+    (org-agenda-list))
+  
+#+END_SRC emacs-lisp
+
+#+results:
+: me-agenda-org
+
+**** Key mapping for me-home-org and me-agenda-org[C-f1]
+
+#+BEGIN_SRC emacs-lisp
+  
+  (global-set-key [C-f1] 'me-home-org)
+  (global-set-key [S-C-f1] 'me-agenda-org)
+  
+#+END_SRC emacs-lisp
+
+#+results:
+: me-agenda-org
+
+** Emacs default command modifications
+
+#+BEGIN_SRC emacs-lisp
+
+(put 'upcase-region 'disabled nil)
+
+#+END_SRC
+
+
+#+END_SRC emacs-lisp
+** TODO Gnus
+   :PROPERTIES:
+   :ID:       c804e1c8-5961-43cb-a95f-b1ff6956bc1c
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq gnus-select-method
+    '(nntp "news.zen.co.uk"    ; fill in your server!  (see below)
+           (nntp-port-number 119)))
+
+#+END_SRC
+
+** Setup IRC user info and channels
+   :PROPERTIES:
+   :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(setq rcirc-default-nick "rninja")
+(setq rcirc-default-user-name "rninja")
+(setq rcirc-startup-channels-alist
+      '(("\\.freenode\\.net$" "#git" "#rspec")))
+
+#+END_SRC
+
+** Setup bbdb Contact Database
+   :PROPERTIES:
+   :ID:       8947b21f-9a13-4850-b1e6-01ac553d4c67
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
+(require 'bbdb)
+(bbdb-initialize)
+(setq bbdb-north-american-phone-numbers-p nil
+)
+
+#+END_SRC
+
+#+results:
+
+***** TODO Setup yasnippet for rails
+   :PROPERTIES:
+   :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
+   :END:
+
+# #+BEGIN_SRC emacs-lisp
+
+# ;; (add-to-list 'load-path
+# ;;    (concat dotfiles-dir "/martyn/yasnippets-rails"))
+
+# ;; (add-hook 'ruby-mode-hook ; or rails-minor-mode-hook ?
+# ;;           '(lambda ()
+# ;;              (make-variable-buffer-local 'yas/trigger-key)
+# ;;              (setq yas/trigger-key [tab])))
+
+# ;; (require 'yasnippet)
+# ;; ;;(add-to-list 'yas/extra-mode-hooks
+# ;; ;;             'ruby-mode-hook)
+
+# ;; (yas/initialize)
+# ;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
+
+# ;; ;;(yas/load-directory
+# ;; ;;   (concat
+# ;; ;;      dotfiles-dir "/martyn/snippets/yasnippets-rails/rails-snippets/"))
+# ;; ;;(make-variable-buffer-local 'yas/trigger-key)
+
+# ;; ;; yasnippet-org-mode
+# ;; (yas/load-directory
+# ;;    (concat
+# ;;       dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))
+
+# #+END_SRC
+
+#+results:
+
+** Visual config
+*** TODO Smooth Scrolling
+**** web
+
+[[http://adamspiers.org/computing/elisp/smooth-scrolling.el][link]]
+
+**** configuration 
+
+   :PROPERTIES:
+   :ID:       42144f41-08ac-4f3d-825e-94d4a87a20c1
+   :END:
+
+
+# #+BEGIN_SRC emacs-lisp
+
+# (add-to-list 'load-path
+#              (concat dotfiles-dir "martyn/smooth-scrolling"))
+# (require 'smooth-scrolling)
+# (delete-from-list
+# #+END_SRC
+
+#+results:
+: smooth-scrolling
+*** Color theme initialisation
+**** Add color-theme directory to load-path
+    :PROPERTIES:
+    :ID:       6c4fee97-7d5b-4ba1-b0bd-c93a5b0e56fe
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/color-theme-6.6.0"))
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/color-theme-6.6.0/themes"))
+;(add-to-list 'load-path
+;             (concat dotfiles-dir "martyn/color-theme"))
+;(add-to-list 'load-path
+;             (concat dotfiles-dir "martyn/color-theme"))
+(require 'color-theme)
+(color-theme-initialize)
+
+#+END_SRC
+
+#+results:
+
+***** color-theme-tangotango
+
+****** web
+
+[[https://github.com/juba/color-theme-tangotango][github]]
+
+****** configuration
+*** Theme Faves  
+**** configuration
+    :PROPERTIES:
+    :ID:       d8e20a1b-6727-4b41-894a-744c5a530072
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/color-theme-tangotango"))
+;(setq color-theme-load-all-themes nil)
+
+;; select theme - first list element is for windowing system, second is for console/terminal
+;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
+; (setq color-theme-choices 
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  
+  (add-to-list 'load-path
+               (concat dotfiles-dir "martyn/martyn/theme-faves"))
+  (require 'theme-faves)
+  (add-hook 'window-setup-hook 'theme-faves-init)
+  
+  (global-set-key [C-f7] 'theme-faves-audition-cycle-up)
+  (global-set-key [S-C-f7] 'theme-faves-audition-cycle-down)
+  (global-set-key [f7] 'theme-faves-cycle-up)
+  (global-set-key [S-f7] 'theme-faves-cycle-down)
+  
+#+END_SRC
+
+#+results:
+| theme-faves-select |
+
+*** Maximise frame at startup
+   :PROPERTIES:
+   :ID:       5ec698bf-0dcd-4b19-b923-a5f90e5a1073
+   :END:
+
+#+begin_src emacs-lisp
+
+;;(add-to-list 'load-path
+;;             (concat dotfiles-dir "martyn/maxframe"))
+;;  (require 'maxframe)
+;;  (add-hook 'window-setup-hook 'maximize-frame t)
+;;  (maximize-frame)
+
+(defun toggle-fullscreen ()
+  (interactive)
+  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+)
+  (add-hook 'window-setup-hook 'toggle-fullscreen)
+
+
+
+#+end_src
+
+#+results:
+** Programming
+*** General
+**** TODO Setup Mode-compile (emacs-wiki)
+
+#+BEGIN_SRC emacs-lisp
+  
+  ;;mode-compile
+  (autoload 'mode-compile "mode-compile"
+    "Command to compile current buffer file based on the major mode" t)
+;;  (global-set-key "\C-cc" 'mode-compile)
+  (autoload 'mode-compile-kill "mode-compile"
+    "Command to kill a compilation launched by `mode-compile'" t)
+;;  (global-set-key "\C-ck" 'mode-compile-kill)
+  
+#+END_SRC
+
+
+*** Inhibit scratch message
+
+#+BEGIN_SRC emacs-lisp
+
+(setq initial-scratch-message nil)
+
+#+END_SRC
+
+*** TODO Ruby
+**** TODO (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel :DISABLED:
+   :PROPERTIES:
+   :ID:       86bebb8b-e52d-43da-9f7b-a49ef5db14ba
+   :END:
+
+# #+BEGIN_SRC emacs-lisp
+
+# (rvm-activate-corresponding-ruby)
+# (rvm-autodetect-ruby)
+# (rvm-use "1.9.1" "default")
+
+# #+END_SRC
+**** Setup rspec-mode (development)
+   :PROPERTIES:
+   :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
+   :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path (concat dotfiles-dir "martyn/rspec-mode"))
+
+#+END_SRC
+
+#+results:
+| /home/martyn/.emacs.d/martyn/rspec-mode | /home/martyn/.emacs.d/martyn/highlight-parentheses | /home/martyn/.emacs.d/martyn/lusty-emacs | /home/martyn/.emacs.d/martyn/hideshow-org | /home/martyn/.emacs.d/martyn/yasnippet-0.6.1c | ~/.emacs.d/martyn/auto-complete/installation | ~/org/org-mode | ~/org/org-mode/contrib/lisp | /home/martyn/.emacs.d/martyn/martyn | /home/martyn/.emacs.d/martyn/martyn/unity-mode | /home/martyn/.emacs.d//martyn/ert/lisp/emacs-lisp | ~/martyn/rspec-mode | /home/martyn/.emacs.d/martyn/color-theme-6.6.0/themes | /home/martyn/.emacs.d/martyn/color-theme-6.6.0 | /home/martyn/.emacs.d/martyn/bbdb-2.35/lisp | /home/martyn/.emacs.d/martyn | /home/martyn/.emacs.d/elpa/find-file-in-project-2.0 | /home/martyn/.emacs.d/elpa/gist-0.5 | /home/martyn/.emacs.d/elpa/idle-highlight-1.0 | /home/martyn/.emacs.d/elpa/inf-ruby-2.1 | /home/martyn/.emacs.d/elpa/magit-0.8.1 | /home/martyn/.emacs.d/elpa/project-local-variables-0.2 | /home/martyn/.emacs.d/elpa/ruby-mode-1.1 | /home/martyn/.emacs.d/elpa/yaml-mode-0.0.5 | /home/martyn/.emacs.d//elpa-to-submit | /home/martyn/.emacs.d/ | /usr/share/emacs23/site-lisp/ruby1.9.1-elisp | /usr/share/emacs23/site-lisp/ess/ | /usr/share/emacs23/site-lisp/ess | /usr/local/share/emacs/site-lisp/auctex | /usr/share/emacs23/site-lisp/dictionaries-common | /usr/share/emacs23/site-lisp/auctex | /usr/share/emacs/site-lisp/auctex | /etc/emacs23 | /etc/emacs | /usr/local/share/emacs/23.2/site-lisp | /usr/local/share/emacs/site-lisp | /usr/share/emacs/23.2/site-lisp | /usr/share/emacs/23.2/site-lisp/dictionaries-common | /usr/share/emacs/23.2/site-lisp/ess | /usr/share/emacs/23.2/site-lisp/ruby1.9.1-elisp | /usr/share/emacs/site-lisp | /usr/share/emacs/23.2/leim | /usr/share/emacs/23.2/lisp | /usr/share/emacs/23.2/lisp/url | /usr/share/emacs/23.2/lisp/textmodes | /usr/share/emacs/23.2/lisp/progmodes | /usr/share/emacs/23.2/lisp/play | /usr/share/emacs/23.2/lisp/org | /usr/share/emacs/23.2/lisp/nxml | /usr/share/emacs/23.2/lisp/net | /usr/share/emacs/23.2/lisp/mh-e | /usr/share/emacs/23.2/lisp/mail | /usr/share/emacs/23.2/lisp/language | /usr/share/emacs/23.2/lisp/international | /usr/share/emacs/23.2/lisp/gnus | /usr/share/emacs/23.2/lisp/eshell | /usr/share/emacs/23.2/lisp/erc | /usr/share/emacs/23.2/lisp/emulation | /usr/share/emacs/23.2/lisp/emacs-lisp | /usr/share/emacs/23.2/lisp/cedet | /usr/share/emacs/23.2/lisp/calendar | /usr/share/emacs/23.2/lisp/calc | /usr/share/emacs/23.2/lisp/obsolete | /usr/share/emacs/23.2/leim |
+
+*** Emacs-lisp
+**** TODO Remove Paredit from elisp hook (turned on by emacs starter kit) (turned back on at mo!)
+
+#+BEGIN_SRC emacs-lisp
+
+;;(remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil)
+
+#+END_SRC
+
+#+results:
+| run-coding-hook | esk-remove-elc-on-save | turn-on-eldoc-mode |
+**** Configure ERT (for unit-testing)
+
+#+BEGIN_SRC emacs-lisp
+
+ (add-to-list 'load-path
+    (concat dotfiles-dir "/martyn/ert/lisp/emacs-lisp"))
+
+(require 'ert)
+
+#+END_SRC
+
+***** To compile the manual
+
+Needed to change in ert.texi 
+
+@setfilename ../ert/ert.info
+@setfilename ../../info/ert.info
+
+...and needed to change makeinfo parameters to suit dir structure...
+
+Run following with C-c, C-c
+
+# #+BEGIN_SRC sh
+#
+#   cd ~/.emacs.d/martyn/ert/doc/misc/
+#   makeinfo ert.texi
+#
+# #+END_SRC
+#
+# #+results:
+
+***** TODO To read the manual
+
+C-u M-x info ert.info
+*** C
+
+*** Configure unity-mode
+**** load path and keys
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 
+ 'load-path
+  (concat dotfiles-dir "martyn/martyn/unity-mode"))
+(require 'unity-mode)
+;(add-hook 'c-mode-hook 'unity-mode)
+(global-set-key [f5] 'unity-cycle-test-src-header-buffer)
+(global-set-key [C-f5] 'unity-cycle-MCH-buffer)
+(global-set-key [f6] 'unity-cycle-alpha-ascending)
+(global-set-key [S-f6] 'unity-cycle-alpha-descending)
+
+#+END_SRC
+
+**** unity-project ()
+
+#+BEGIN_SRC emacs-lisp
+  
+  (defun unity-project ()
+    (interactive)
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-parse-project-file.el")
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-auto-config.el")
+    (delete-other-windows)
+    (split-window-horizontally)
+    (windmove-right)
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode.el")
+    (windmove-left)
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-tests.el")
+    (split-window-vertically)
+    (switch-to-buffer "*ert*")
+    (windmove-down)
+    (switch-to-buffer "unity-tests.el"))
+ 
+#+END_SRC
+
+#+results:
+: unity-project
+
+**** unity-eval-src-and-tests ()
+
+#+BEGIN_SRC emacs-lisp
+  
+  (defun unity-eval-src-and-tests ()
+    (interactive)
+    (let ((original-buffer buffer-file-name)
+          (original-window (selected-window)))
+  
+      (if(string-match "^unity-" (file-name-nondirectory original-buffer)) 
+          (progn
+            (eval-buffer "unity-tests.el")
+            (eval-buffer "unity-mode.el")
+            (ert t)))
+      (select-window original-window))) 
+  ;; (error "%s" (windmove-find-other-window 'right))
+  ;;     (if(equal original-buffer (windmove-find-other-window 'right))
+  ;;         (windmove-right)
+  ;;       (windmove-down))))
+  
+#+END_SRC
+
+**** TODO Continuous testing hook
+Moved to unity-mode.el
+#+BEGIN_SRC emacs-lisp
+
+  ; Add hook for continuous testing
+  ; (add-hook 'after-save-hook 'unity-eval-src-and-tests) 
+  ; to remove do...
+  ;(remove-hook 'after-save-hook 'unity-eval-src-and-tests)
+
+#+END_SRC
+
+**** TODO unity-project-org()
+Moved to unity-mode.el
+
+#+BEGIN_SRC emacs-lisp
+  
+  (global-set-key [f4] 'unity-eval-src-and-tests)
+  (global-set-key [C-f4] 'unity-switch-src-control-file)
+  (global-set-key [C-c C-v] 'eval-region)
+  
+#+END_SRC
+
+#+results:
+: eval-region
+
+*** TODO graphviz-dot-mode
+
+**** web
+[[http://users.skynet.be/ppareit/projects/graphviz-dot-mode/graphviz-dot-mode.html][link]]
+**** dot mode
+   SCHEDULED: <2010-11-29 Mon>
+
+#+BEGIN_SRC emacs-lisp
+
+ (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode/graphviz-dot-mode.el"))
+
+#+END_SRC
+
+#+results:
+: t
+
+** My stuff
+   CLOSED: [2011-01-18 Tue 19:16]
+*** Require my custom files and functions
+    CLOSED: [2010-11-26 Fri 06:57]
+**** Add custom files directory to load-path
+    :PROPERTIES:
+    :ID:       863eebdf-52b6-4e3d-ab28-b4f783d2a65d
+    :END:
+
+#+BEGIN_SRC emacs-lisp
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn"))
+
+#+END_SRC
+
+**** my-load-init-files function
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'my-load-init-files)
+
+#+END_SRC
+
+**** my-load-drill-files function
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'my-load-drill-files)
+
+#+END_SRC
+
+**** my-load-org-files function
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'my-load-org-files)
+
+#+END_SRC
+
 * Personal Emacs Configurations (outside of Emacs Starter Kit)
+  CLOSED: [2011-01-25 Tue 14:49]
+** Emacs Customisation destination files
+
+These are already defined in Starter Kit but are re-adjusted here to keep
+under my revision control...
+
+*** loaddefs
+
+#+BEGIN_SRC emacs-lisp
+
+(setq autoload-file (concat dotfiles-dir "martyn/loaddefs.el"))
+
+#+end_src
+
+*** TODO elpa ?
+
+;;#+BEGIN_SRC emacs-lisp
+;;(setq package-user-dir (concat dotfiles-dir "martyn/elpa"))
+;;#+end_src
+
+*** custom
+
+Customisations made using emacs Customizations go here...
+
+#+BEGIN_SRC emacs-lisp
+
+(setq custom-file (concat dotfiles-dir "martyn/custom.el"))
+
+#+end_src
+
 ** Org Mode
 *** Add org-mode contrib/lisp files to load path
    :PROPERTIES:
@@ -43,12 +637,8 @@
 
  (setq org-agenda-files (quote (
     "~/Dropbox/OrgData/home.org"
-    "~/Dropbox/OrgData/app_notes.org"
-    "~/Dropbox/OrgData/links.org"
+    "~/Dropbox/OrgData/unity-mode.org"
     "~/Dropbox/OrgData/personal_audit.org"
-    "~/Dropbox/OrgData/unity-minor-mode.org"
-    "~/Dropbox/OrgData/drills/bbdb-drill.org"
-    "~/Dropbox/OrgData/drills/elisp-drill.org"
     "~/Dropbox/OrgData/capture.org"
     "~/Dropbox/OrgData/inbox.org"
  )))
@@ -61,6 +651,7 @@
 
 #+results:
 : ~/Dropbox/OrgData/inbox.org
+
 
 **** TODO Org Agenda Custom Commands
 
@@ -309,7 +900,7 @@ Configured for...
 : org-toggle-iimage-in-org
 
 *** TODO Fix tab in org mode
-
+    
 #+BEGIN_SRC emacs-lisp
 
    ;; fix tab
@@ -437,620 +1028,421 @@ Configured for...
    ;;  #+results:
    ;;  : orgmode-beamer-my-skeleton
    ;;  
-** My Key-mappings
-*** C-k to kill whole line
-   :PROPERTIES:
-   :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
-   :END:
+** TODO Flyspell mode error avoidance
+*** web discussion
+
+[[http://stackoverflow.com/questions/1781762/enabling-flyspell-mode-gives-an-error][stackoverflow]]
+[[https://bugs.launchpad.net/ubuntu/%2Bsource/dictionaries-common/%2Bbug/619015][launchpad]]
+
+*** configuration
+
+# #+BEGIN_SRC emacs-lisp
+
+;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
+;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/flyspell.el
+;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/ispell.el
+;;# cd /usr/share/emacs23/site-lisp/dictionaries-common
+;;# sudo rm *.el *.elc
+;; the above didn't work for me so...
+
+;;(unload-feature 'flyspell-mode)
+;;neither did this! (not loaded)
+
+# #+END_SRC
+
+#+results:
+
+# #+results:
+
+** Auto-Complete
+*** To update (git)
+
+# #+BEGIN_SRC sh
+
+# cd /home/martyn/auto-complete/
+# git pull origin master
+
+# #+END_SRC
+
+*** To load
+
+M-x load-file RET 
+file to load: ~/.emacs.d/martyn/auto-complete/etc/install.el
+destination: ~/.emacs.d/martyn/auto-complete/installation
+
+*** Add to init
 
 #+BEGIN_SRC emacs-lisp
 
-(setq kill-whole-line t)
+(add-to-list 'load-path "~/.emacs.d/martyn/auto-complete/installation")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/martyn/auto-complete/installation/ac-dict")
+(ac-config-default)
 
 #+END_SRC
 
-*** TODO Remap C-j to my custom goto-next-line function
-   :PROPERTIES:
-   :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
-   :END:
+*** Screencast 
+
+[[http://www.youtube.com/watch?v%3DrGVVnDxwJYE][YouTube]]
+
+** TODO Yasnippets
+Need to check...
+ -  org-mode hook 
+ - auto-complete compatibility 
+
+*** TODO Setup yasnippets (full install as opposed to bundle in starter kit elpa)
+ :PROPERTIES:
+ :ID:       6d14775e-03bd-4138-b772-ada3de677830
+ :END:
+**** Snippet locations (config below)
+***** My custom snippets
+ - ~/.emacs.d/martyn/martyn/snippets
+
+***** My org-mode-snippets clone repo
+TODO: Needs to be kept up-to date
+ - ~/.emacs.d/martyn/martyn/snippets
+
+***** My Unity-mode snippets
+ - ~/.emacs.d/martyn/martyn/unity-mode/snippets
+***** Standard non bundled yasnippet snippets
+ - ~/.emacs.d/martyn/yasnippets-rails/rails-snippets
+***** Standard non bundled yasnippet snippets
+ - ~/.emacs.d/martyn/yasnippet-read-only
+**** Yasnippet load and snippet locations config
+
+#+BEGIN_SRC emacs-lisp
+  
+  (add-to-list 'load-path
+               (concat dotfiles-dir  "martyn/yasnippet-read-only"))
+  (require 'yasnippet) ;; not yasnippet-bundle
+  (yas/initialize)
+  
+  (setq yas/root-directory 
+        '("~/.emacs.d/martyn/martyn/unity-mode/snippets"
+          "~/.emacs.d/martyn/martyn/snippets"
+          "~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork/snippets"
+          "~/.emacs.d/martyn/yasnippets-rails/rails-snippets"
+          "~/.emacs.d/martyn/yasnippet-read-only/snippets"))
+  
+  ;; Load the snippets (NOTE: the mapc required for multiple directories)
+  ;; (Map `yas/load-directory' to every element)
+  
+  (mapc 'yas/load-directory yas/root-directory)
+  
+#+END_SRC
+
+#+results:
+| ~/.emacs.d/martyn/martyn/unity-mode/snippets | ~/.emacs.d/martyn/martyn/snippets | ~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork | ~/.emacs.d/martyn/yasnippets-rails/rails-snippets | ~/.emacs.d/martyn/yasnippet-read-only/snippets |
+
+*** To byte-compile-files
+
+# #+BEGIN_SRC emacs-lisp
+
+# (byte-compile-file
+# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/yasnippet.el" t)
+# (byte-compile-file
+# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/dropdown-list.el" t)
+
+# #+END_SRC
+
+# #+results:
+# : t
+
+**** TODO Yasnippets config for org-mode compatability
+     SCHEDULED: <2011-01-19 Wed>
+
+# #+BEGIN_SRC emacs-lisp
+
+#  (add-hook 'org-mode-hook
+#            (lambda ()
+#              (org-set-local 'yas/trigger-key [tab])
+#              (define-key yas/keymap [tab] 'yas/next-field-group)))
+
+# #+END_SRC
+
+#+results:
+     
+** Redo+
+This appears to be an upgrade of redo (although I never had any
+problems with redo). I shall monitor this!
+
+*** web
+[[http://www.emacswiki.org/emacs/RedoPlus][
+emacswiki]]
+[[http://www.emacswiki.org/emacs/RedoMode][older-redo]]
+
+*** configuration 
 
 #+BEGIN_SRC emacs-lisp
 
-;; function here
+(add-to-list 'load-path (concat dotfiles-dir "martyn/redoplus"))
+(require 'redo+)
 
 #+END_SRC
 
-*** Make C-z undo, and M-z redo
-   :PROPERTIES:
-   :ID:       e785a6bc-b540-41e1-b95d-5be71a54daf4
-   :END:
+#+results:
+: redo+
+
+**** Make C-z undo, and M-z redo
 
 #+BEGIN_SRC emacs-lisp
 
-(require 'redo)
 (define-key global-map (kbd "M-z") 'redo)
 (define-key global-map (kbd "C-z") 'undo)
 
 #+END_SRC
 
-*** Mark (select) all on S-C-SPC
-   :PROPERTIES:
-   :ID:       bac7b873-a758-4991-afe7-abba7aada174
-   :END:
+#+results:
+: undo
+
+** DONE HideShow
+   CLOSED: [2011-01-25 Tue 14:49]
+*** Website 
+
+[[http://www.emacswiki.org/emacs/HideShow][emacsWiki/hideshow]]
+
+*** HideShow Configuration
 
 #+BEGIN_SRC emacs-lisp
 
-(define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
+(add-hook 'c-mode-common-hook   'hs-minor-mode)
+    (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
+    (add-hook 'java-mode-hook       'hs-minor-mode)
+    (add-hook 'lisp-mode-hook       'hs-minor-mode)
+    (add-hook 'perl-mode-hook       'hs-minor-mode)
+    (add-hook 'sh-mode-hook         'hs-minor-mode)
 
-#+END_SRC
+  (defun me-toggle-hiding-all()
+  "Fast cycling of all folded all unfolded utilising 
+   hideshow minor mode hs-minor-mode"
+  (interactive)
+  (defvar me-hideshow-active nil)
+  (setq me-hideshow-active
+    (if me-hideshow-active 
+        (progn (hs-show-all) nil)
+      (progn (hs-hide-all) t))))
 
-*** Map M-l to goto-line
-   :PROPERTIES:
-   :ID:       d90de769-45ce-4e5a-a878-88d0e76e162a
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(global-unset-key "\M-l")
-(global-set-key "\M-l" 'goto-line)
-
-#+END_SRC
-
-*** Assign F5 to keymacro
-   :PROPERTIES:
-   :ID:       5d5dddff-e752-4099-82b1-1e80f8e6bd2d
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(global-set-key [f5] 'kmacro-end-and-call-macro)
-
-#+END_SRC
-
-*** TODO Comment or uncomment region with M-k
-   :PROPERTIES:
-   :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(global-set-key "\M-k" 'comment-or-uncomment-region)
+  ; add hook for hideshow minor mode
+  (add-hook 'lisp-mode-hook 'hs-minor-mode)
+  (global-set-key [f3] 'hs-toggle-hiding)
+  (global-set-key [C-f3] 'me-toggle-hiding-all)
 
 #+END_SRC
 
 #+results:
-: comment-or-uncomment-region
+: me-toggle-hiding-all
 
-*** Remap M-j, M-l to navigation
-   :PROPERTIES:
-   :ID:       ffa0b60c-9281-44ff-b939-c6c00dc7b728
-   :END:
+*** TODO hideshow.org
+**** Website
 
-#+BEGIN_SRC emacs-lisp
+     [[https://github.com/secelis/hideshow-org][github/hideshow-org]]
 
-; (global-set-key "\M-i" 'previous-line)
-(global-set-key "\M-j" 'backward-char)
-; (global-set-key "\M-k" 'forward-line)
-(global-set-key "\M-l" 'forward-char)
-
-#+END_SRC
-** TODO Gnus
-   :PROPERTIES:
-   :ID:       c804e1c8-5961-43cb-a95f-b1ff6956bc1c
-   :END:
+**** Configuration
 
 #+BEGIN_SRC emacs-lisp
 
-(setq gnus-select-method
-    '(nntp "news.zen.co.uk"    ; fill in your server!  (see below)
-           (nntp-port-number 119)))
+(add-to-list 'load-path (concat dotfiles-dir "martyn/hideshow-org"))
+(require 'hideshow-org)
 
 #+END_SRC
 
-** Setup IRC user info and channels
-   :PROPERTIES:
-   :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
-   :END:
+*** To byte-compile-file
 
-#+BEGIN_SRC emacs-lisp
+# BEGIN_SRC emacs-lisp
 
-(setq rcirc-default-nick "rninja")
-(setq rcirc-default-user-name "rninja")
-(setq rcirc-startup-channels-alist
-      '(("\\.freenode\\.net$" "#git" "#rspec")))
+# (byte-compile-file
+# (concat dotfiles-dir "martyn/hideshow-org/hideshow-org.el") t)
 
-#+END_SRC
-
-** Setup bbdb Contact Database
-   :PROPERTIES:
-   :ID:       8947b21f-9a13-4850-b1e6-01ac553d4c67
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(add-to-list 'load-path
-             (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
-(require 'bbdb)
-(bbdb-initialize)
-(setq bbdb-north-american-phone-numbers-p nil
-)
-
-#+END_SRC
-
-** Visual config
-*** Smooth Scrolling
-   :PROPERTIES:
-   :ID:       42144f41-08ac-4f3d-825e-94d4a87a20c1
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(require 'smooth-scrolling)
-
-#+END_SRC
-
-*** Color theme initialisation
-**** Add color-theme directory to load-path
-    :PROPERTIES:
-    :ID:       6c4fee97-7d5b-4ba1-b0bd-c93a5b0e56fe
-    :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(add-to-list 'load-path
-             (concat dotfiles-dir "martyn/color-theme-6.6.0"))
-(add-to-list 'load-path
-             (concat dotfiles-dir "martyn/color-theme-6.6.0/themes"))
-(require 'color-theme)
-(color-theme-initialize)
-
-#+END_SRC
-
-**** All colour themes list
-    :PROPERTIES:
-    :ID:       66a51bd1-58eb-4810-bb4e-937c2723a864
-    :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq all-color-themes (list
-                       'color-theme-tangotango
-                       'color-theme-renegade
-                       'color-theme-feng-shui
-                       'color-theme-matrix
-                       'color-theme-lawrence
-                       'color-theme-calm-forest
-                       'color-theme-vim-colors
-                       'color-theme-charcoal-black
-                       'color-theme-andreas
-                       'color-theme-clarity
-                       'color-theme-late-night
-                       'color-theme-emacs-nw
-                       'color-theme-shaman
-                       'color-theme-lethe
-                       'color-theme-bharadwaj-slate
-                       'color-theme-whateveryouwant
-                       'color-theme-dark-green
-                       'color-theme-gray30
-                       'color-theme-xp
-                       'color-theme-resolve
-                       'color-theme-euphoria
-                       'color-theme-blue-mood
-                       'color-theme-dark-blue2
-                       'color-theme-black-on-gray
-                       'color-theme-aliceblue
-                       'color-theme-tty-dark
-                       'color-theme-arjen
-                       'color-theme-katester
-                       'color-theme-comidia
-                       'color-theme-kingsajz
-                       'color-theme-deep-blue
-                       'color-theme-ld-dark
-                       'color-theme-jsc-light2
-                       'color-theme-emacs-21
-                       'color-theme-word-perfect
-                       'color-theme-gray1
-                       'color-theme-jonadabian-slate
-                       'color-theme-dark-blue
-                       'color-theme-subtle-blue
-                       'color-theme-dark-erc
-                       'color-theme-blue-erc
-                       'color-theme-marine
-                       'color-theme-mistyday
-                       'color-theme-digital-ofs1
-                       'color-theme-taming-mr-arneson
-                       'color-theme-dark-laptop
-                       'color-theme-snowish
-                       'color-theme-robin-hood
-                       'color-theme-salmon-diff
-                       'color-theme-oswald
-                       'color-theme-bharadwaj
-                       'color-theme-hober
-                       'color-theme-blippblopp
-                       'color-theme-aalto-dark
-                       'color-theme-aalto-light
-                       'color-theme-montz
-                       'color-theme-snow
-                       'color-theme-jedit-grey
-                       'color-theme-midnight
-                       'color-theme-gtk-ide
-                       'color-theme-scintilla
-                       'color-theme-classic
-                       'color-theme-infodoc
-                       'color-theme-high-contrast
-                       'color-theme-parus
-                       'color-theme-marquardt
-                       'color-theme-taylor
-                       'color-theme-raspopovic
-                       'color-theme-ramangalahy
-                       'color-theme-goldenrod
-                       'color-theme-beige-eshell
-                       'color-theme-standard-ediff
-                       'color-theme-beige-diff
-                       'color-theme-jb-simple
-                       'color-theme-greiner
-                       'color-theme-jsc-dark
-                       'color-theme-jsc-light
-                       'color-theme-xemacs
-                       'color-theme-pierson
-                       'color-theme-rotor
-                       'color-theme-blue-sea
-                       'color-theme-pok-wob
-                       'color-theme-pok-wog
-                       'color-theme-subtle-hacker
-                       'color-theme-retro-orange
-                       'color-theme-retro-green
-                       'color-theme-billw
-                       'color-theme-sitaramv-nt
-                       'color-theme-sitaramv-solaris
-                       'color-theme-fischmeister
-                       'color-theme-standard
-                       'color-theme-wheat
-                       'color-theme-ryerson
-                       'color-theme-jonadabian
-                       'color-theme-simple-1
-                       'color-theme-gnome2
-                       'color-theme-dark-info
-                       'color-theme-dark-font-lock
-                       'color-theme-salmon-font-lock
-                       'color-theme-blue-eshell
-                       'color-theme-dark-gnus
-                       'color-theme-blue-gnus
-                       'color-theme-gnome
-                       'color-theme-hober
-                       'color-theme-emacs-21
-                       'color-theme-arjen
-                       'color-theme-bharadwaj-slate
-                       'color-theme-billw
-                       'color-theme-blue-gnus
-                       'color-theme-dark-gnus
-                       'color-theme-blue-eshell
-                       'color-theme-retro-green
-                       'color-theme-retro-orange
-                       'color-theme-subtle-hacker
-                       'color-theme-salmon-font-lock
-                       'color-theme-dark-font-lock
-                       'color-theme-dark-info
-                       'color-theme-simple-1
-                       'color-theme-jonadabian
-                       'color-theme-ryerson
-                       'color-theme-standard
-                       'color-theme-blue-mood
-                       'color-theme-sitaramv-solaris
-                       'color-theme-sitaramv-nt
-                       'color-theme-blue-sea
-                       'color-theme-calm-forest
-                       'color-theme-charcoal-black
-                       'color-theme-clarity
-                       'color-theme-classic
-                       'color-theme-comidia
-                       'color-theme-dark-blue
-                       'color-theme-dark-blue2
-                       'color-theme-dark-erc
-                       'color-theme-dark-laptop
-                       'color-theme-deep-blue
-                       'color-theme-digital-ofs1
-                       'color-theme-emacs-nw
-                       'color-theme-euphoria
-                       'color-theme-feng-shui
-                       'color-theme-fischmeister
-                       'color-theme-gnome
-                       'color-theme-gnome2
-                       'color-theme-goldenrod
-                       'color-theme-gray1
-                       'color-theme-gray30
-                       'color-theme-greiner
-                       'color-theme-infodoc
-                       'color-theme-lawrence
-                       'color-theme-ld-dark
-                       'color-theme-montz
-                       'color-theme-oswald
-                       'color-theme-pok-wob
-                       'color-theme-pok-wog
-                       'color-theme-tty-dark
-                       'color-theme-xp))
-
-#+END_SRC
-
-**** My colour themes list
-    :PROPERTIES:
-    :ID:       a1aadcc3-f109-4610-88c4-718b12b6cd99
-    :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq my-color-themes (list
-                       'color-theme-tangotango
-                       'color-theme-hober
-                       'color-theme-arjen
-                       'color-theme-blue-mood
-                       'color-theme-calm-forest
-                       'color-theme-xp))
-
-#+END_SRC
-
-**** Colour theme cycling with f7 and C-f7
-    :PROPERTIES:
-    :ID:       d8e20a1b-6727-4b41-894a-744c5a530072
-    :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(defun my-theme-set-default ()        ; Set the first row
-(interactive)
-(setq theme-current my-color-themes)
-(funcall (car theme-current)))
-
-(defun my-describe-theme ()        ; Show the current theme
-(interactive)
-(message "%s" (car theme-current)))
-
-(defun my-theme-cycle ()
-(interactive)
-(setq theme-current (cdr theme-current))
-(if (null theme-current)
-(setq theme-current my-color-themes))
-(funcall (car theme-current))
-(message "%S" (car theme-current)))
-
-(defun all-theme-cycle ()
-(interactive)
-(setq theme-current (cdr theme-current))
-(if (null theme-current)
-(setq theme-current all-color-themes))
-(funcall (car theme-current))
-(message "%S" (car theme-current)))
-
-;;(setq theme-current all-color-themes)
-;;(setq color-theme-is-global nil)    ; Initialization
-(my-theme-set-default)
-(global-set-key [C-f7] 'all-theme-cycle)
-(global-set-key [f7] 'my-theme-cycle)
-
-#+END_SRC
-
-*** Maximise frame at startup
-   :PROPERTIES:
-   :ID:       5ec698bf-0dcd-4b19-b923-a5f90e5a1073
-   :END:
-
-#+begin_src emacs-lisp
-
-  (require 'maxframe)
-  (add-hook 'window-setup-hook 'maximize-frame t)
-  (maximize-frame)
-
-#+end_src
-
-#+results:
-  : t
-** Programming
-*** General
-**** TODO Setup Mode-compile (emacs-wiki)
-
-#+BEGIN_SRC emacs-lisp
-  
-  ;;mode-compile
-  (autoload 'mode-compile "mode-compile"
-    "Command to compile current buffer file based on the major mode" t)
-;;  (global-set-key "\C-cc" 'mode-compile)
-  (autoload 'mode-compile-kill "mode-compile"
-    "Command to kill a compilation launched by `mode-compile'" t)
-;;  (global-set-key "\C-ck" 'mode-compile-kill)
-  
-#+END_SRC
-
-**** TODO Snippets
-***** DONE Setup yasnippet (full install as opposed to bundle in starter kit elpa)
-     CLOSED: [2011-01-13 Thu 04:49]
-   :PROPERTIES:
-   :ID:       6d14775e-03bd-4138-b772-ada3de677830
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
- (add-to-list 'load-path
-                  (concat dotfiles-dir  "martyn/yasnippet-0.6.1c"))
-    (require 'yasnippet) ;; not yasnippet-bundle
-    (yas/initialize)
-    (yas/load-directory "~/.emacs.d/martyn/yasnippet-0.6.1c/snippets")
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-set-local 'yas/trigger-key [tab])
-            (define-key yas/keymap [tab] 'yas/next-field-group)))
-
-#+END_SRC
-
-***** TODO Setup yasnippet for rails
-   :PROPERTIES:
-   :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-;; (add-to-list 'load-path
-;;    (concat dotfiles-dir "/martyn/yasnippets-rails"))
-
-;; (add-hook 'ruby-mode-hook ; or rails-minor-mode-hook ?
-;;           '(lambda ()
-;;              (make-variable-buffer-local 'yas/trigger-key)
-;;              (setq yas/trigger-key [tab])))
-
-;; (require 'yasnippet)
-;; ;;(add-to-list 'yas/extra-mode-hooks
-;; ;;             'ruby-mode-hook)
-
-;; (yas/initialize)
-;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
-
-;; ;;(yas/load-directory
-;; ;;   (concat
-;; ;;      dotfiles-dir "/martyn/snippets/yasnippets-rails/rails-snippets/"))
-;; ;;(make-variable-buffer-local 'yas/trigger-key)
-
-;; ;; yasnippet-org-mode
-;; (yas/load-directory
-;;    (concat
-;;       dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))
-
-#+END_SRC
-
-#+results:
-*** TODO Ruby
-**** TODO (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel :DISABLED:
-   :PROPERTIES:
-   :ID:       86bebb8b-e52d-43da-9f7b-a49ef5db14ba
-   :END:
-
-# #+BEGIN_SRC emacs-lisp
-
-# (rvm-activate-corresponding-ruby)
-# (rvm-autodetect-ruby)
-# (rvm-use "1.9.1" "default")
-
-# #+END_SRC
-**** Setup rspec-mode (development)
-   :PROPERTIES:
-   :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
-   :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq load-path (cons "~/martyn/rspec-mode" load-path))
-
-#+END_SRC
-*** Emacs-lisp
-**** Remove Paredit from elisp hook (turned on by emacs starter kit)
-
-#+BEGIN_SRC emacs-lisp
-
-(remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil)
-
-#+END_SRC
-
-#+results:
-| run-coding-hook | esk-remove-elc-on-save | turn-on-eldoc-mode |
-**** Configure ERT (for unit-testing)
-
-#+BEGIN_SRC emacs-lisp
-
- (add-to-list 'load-path
-    (concat dotfiles-dir "/martyn/ert/lisp/emacs-lisp"))
-
-(require 'ert)
-
-#+END_SRC
-
-***** To compile the manual
-
-Needed to change in ert.texi 
-
-@setfilename ../ert/ert.info
-@setfilename ../../info/ert.info
-
-...and needed to change makeinfo parameters to suit dir structure...
-
-Run following with C-c, C-c
-
-# #+BEGIN_SRC sh
-#
-#   cd ~/.emacs.d/martyn/ert/doc/misc/
-#   makeinfo ert.texi
-#
-# #+END_SRC
-#
-# #+results:
-
-***** TODO To read the manual
-
-C-u M-x info ert.info
-*** C
-**** Configure unity-mode
-
-#+BEGIN_SRC emacs-lisp
-
-(add-to-list 'load-path
-             (concat dotfiles-dir "martyn/martyn/unity-mode"))
-(require 'unity-mode)
-(add-hook 'c-mode-hook 'unity-mode)
-(global-set-key [f5] 'unity-toggle-test-and-target)
-(global-set-key [C-f5] 'unity-toggle-src-and-header)
-(global-set-key [M-f5] 'unity-toggle-triad)
-
-#+END_SRC
-
-*** TODO Graphviz 
-**** dot mode
-   SCHEDULED: <2010-11-29 Mon>
-
-#+BEGIN_SRC emacs-lisp
-
- (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode.el"))
-
-#+END_SRC
+# END_SRC
 
 #+results:
 : t
 
-** My stuff
-*** Require my custom files and functions
-    CLOSED: [2010-11-26 Fri 06:57]
-**** Add custom files directory to load-path
-    :PROPERTIES:
-    :ID:       863eebdf-52b6-4e3d-ab28-b4f783d2a65d
-    :END:
+**** Update
+
+#+BEGIN_SRC sh
+
+# cd ~/.emacs.d/martyn/hideshow-org
+# git pull origin master
+
+#+END_SRC
+
+#+results:
+: Already up-to-date.
+
+** DONE Lusty Explorer
+   CLOSED: [2011-01-25 Tue 14:49]
+*** emacswiki
+
+[[http://www.emacswiki.org/emacs/lusty-explorer.el][emacswiki]]
+
+*** Github
+
+[[https://github.com/sjbach/lusty-emacs][lusty-emacs]]
+
+*** Update
+
+#+BEGIN_SRC sh
+
+cd ~/.emacs.d/martyn/lusty-emacs
+git pull origin master
+
+#+END_SRC
+
+#+results:
+: Already up-to-date.
+
+*** Config
 
 #+BEGIN_SRC emacs-lisp
 
 (add-to-list 'load-path
-             (concat dotfiles-dir  "martyn/martyn"))
+             (concat dotfiles-dir  "martyn/lusty-emacs"))
+(require 'lusty-explorer)
+(define-key global-map (kbd "C-x C-d") 'lusty-file-explorer)
 
 #+END_SRC
 
-**** my-load-init-files function
+#+results:
+: lusty-file-explorer
+
+*** To byte-compile-file
+
+NOTE: lusty-explorer.el doesn't want to compile
+
+# #+BEGIN_SRC emacs-lisp
+
+# (byte-compile-file
+# "~/.emacs.d/martyn/lusty-emacs/lusty-explorer.el")
+# (byte-compile-file
+# "~/.emacs.d/martyn/lusty-emacs/lusty-ido.el")
+
+# #+END_SRC
+
+#+results:
+: t
+
+** TODO Highlight Parantheses
+*** Site
+[[(add-to-list%20'load-path%20"/path/to/highlight-parentheses")(require%20'highlight-parentheses)][site]]
+
+*** Update
+
+#+BEGIN_SRC sh
+
+cd ~/.emacs.d/martyn/highlight-parentheses
+git pull
+
+#+END_SRC
+
+#+results:
+
+*** Setup
 
 #+BEGIN_SRC emacs-lisp
 
-(require 'my-load-init-files)
+(add-to-list 'load-path (concat dotfiles-dir 
+  "martyn/highlight-parentheses"))
+(require 'highlight-parentheses)
 
 #+END_SRC
 
-**** my-load-drill-files function
+#+results:
+: highlight-parentheses
+
+*** To byte-compile-file
+
+# #+BEGIN_SRC emacs-lisp
+
+# (byte-compile-file
+# "~/.emacs.d/martyn/highlight-parentheses/highlight-parentheses.el"  t)
+
+# #+END_SRC
+
+#+results:
+: t
+
+** TODO S-C-d to backward-delete-char() - doesn't work!!
 
 #+BEGIN_SRC emacs-lisp
 
-(require 'my-load-drill-files)
+  (global-set-key [C-S-d] 'backward-delete-char)
 
 #+END_SRC
 
-**** my-load-org-files function
+#+results:
+: backward-delete-char
+
+** DONE Map C-x C-o to other window (as C-x o)
+   CLOSED: [2011-01-26 Wed 10:41]
 
 #+BEGIN_SRC emacs-lisp
 
-(require 'my-load-org-files)
+  (global-set-key [C-x-o] 'other-window)
 
 #+END_SRC
+
+#+results:
+: other-window
+
+** TODO Conqueror
+
+#+BEGIN_SRC emacs-lisp
+
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "conkeror")
+
+#+END_SRC
+
+#+results:
+: conkeror
+
+* My custom functions
+** help-page
+#+BEGIN_SRC emacs-lisp
+  
+  (defun help-page (page-name)
+    (interactive "s Enter help-page: ")
+    (let ((case-fold-search nil)
+          (case-replace nil)
+          (help-directory
+           "~/Dropbox/OrgData/"))
+      (if(equal page-name "")
+        (progn 
+        (find-file (concat help-directory "help.org"))
+        (error "Opening help.org")))
+      (if (not (string-match "-help$"
+                             (file-name-sans-extension page-name)))
+          (setq page-name (concat page-name "-help.org")))
+      (if (not (file-exists-p  (concat help-directory page-name)))
+          (progn
+            (set-buffer "help.org")
+            (end-of-buffer)
+            (newline)
+            (insert (concat "[[file:" page-name "::*"
+                            (replace-regexp-in-string
+                             "-" "%20"
+                             (file-name-sans-extension page-name) t t nil nil)
+                            "]["
+                            (replace-regexp-in-string
+                             "-" " "
+                             (file-name-sans-extension
+                              page-name) t t nil nil)
+                            "]]"))
+            (sort-lines nil (point-min) (point-max))
+            (set-buffer (get-buffer-create page-name))
+            (org-insert-heading)
+            (insert (replace-regexp-in-string
+                     "-" " "
+                     (file-name-sans-extension page-name) t t nil nil))
+            (newline)
+            (write-file (concat help-directory page-name))))) 
+    (switch-to-buffer page-name))
+#+END_SRC
+
+#+results:
+: help-page
+
 * Initial display
 ** Display home org and agenda
 *** "martyn-laptop" system specific...
@@ -1062,12 +1454,50 @@ C-u M-x info ert.info
 
 #+BEGIN_SRC emacs-lisp
 
-(if (string= system-name "martyn-laptop") 
-    (progn
-      (split-window-horizontally)
-      (my-load-org-files)
-      (switch-to-buffer "home.org")
-      (org-agenda-list)))
+(defun me-startup-in-agenda ()
+  (if (string= system-name "martyn-laptop") 
+      (progn
+        (split-window-horizontally)
+        (my-load-org-files)
+        (switch-to-buffer "home.org")
+        (org-agenda-list))))
+
+(add-hook 'window-setup-hook 'me-startup-in-agenda)
+
+#+END_SRC
+
+#+results:
+
+* Under Test
+
+	
+Re: emacs and gnome-terminal
+(Anonymous)
+2008-05-20 04:51 am UTC (link)
+Not a bug fix, but this seems to make the problem go away.
+
+Turn on column-number-mode.
+
+You can put the following into your ~/.emacs to have it on on loading
+ 
+ 
+ 
+ 
+#+BEGIN_SRC emacs-lisp
+
+(setq-default column-number-mode t)
+
+#+END_SRC
+
+#+results:
+: t
+
+
+
+#+BEGIN_SRC emacs-lisp
+
+(setq cursor-type 'hbar)
+(set-cursor-color  "white")
 
 #+END_SRC
 
@@ -1118,3 +1548,37 @@ C-u M-x info ert.info
 #+results:
 : ~/Dropbox/OrgData/html
 
+
+
+
+
+
+
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                  
+                  
+                  
+                  
+                  
+                   
+                 
+                 
+                 
+                 
+                 
+                 
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
