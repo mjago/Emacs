@@ -9,7 +9,7 @@
    :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp -n
 
 (setq kill-whole-line t)
 
@@ -79,8 +79,6 @@
 (global-set-key "\M-l" 'forward-char)
 
 #+END_SRC
-** Map C-F1 to home.org
-
 ** Function mj-home-org opens home.org
 
 #+BEGIN_SRC emacs-lisp
@@ -118,6 +116,17 @@
 #+results:
 : mj-org-agenda
 
+#+BEGIN_SRC emacs-lisp
+
+  (defun mj-org-manual ()
+    (interactive)
+    (info ~/org-mode/doc/org.info))
+
+#+END_SRC
+
+#+results:
+: mj-org-manual
+
 * don't kill my window setup
 
 #+BEGIN_SRC emacs-lisp
@@ -149,6 +158,9 @@
          (setq mj-current-help 'mj-init-org))
         ((equal (buffer-name) "init.org")
          (bury-buffer "init.org")
+         (setq mj-current-help 'mj-org-manual))
+        ((equal (buffer-name) "*help*")
+         (bury-buffer "*help*")
          (setq mj-current-help 'mj-home-org))
         (t (setq mj-current-help 'mj-home-org)))
   (funcall mj-current-help))
@@ -887,7 +899,6 @@ Customisations made using emacs Customizations go here...
 #+results:
 : my-run-drills
 
-
 *** TODO Lilypond mode
 
 #+BEGIN_SRC emacs-lisp
@@ -929,6 +940,7 @@ Configured for...
  - shell
  - graphviz
  - clojure
+ - ditaa 
 
    :PROPERTIES:
    :ID:       9983a066-2f94-4446-82e5-bea078211562
@@ -944,13 +956,14 @@ Configured for...
    (sh t)
    (dot t)
    (clojure t)
+   (ditaa t)
 ;;   (lilypond t)
    ))
 
 #+END_SRC
 
 #+results:
-| (ruby . t) | (C . t) | (emacs-lisp . t) | (sh t) | (dot t) | (clojure t) | (lilypond t) |
+| (ruby . t) | (C . t) | (emacs-lisp . t) | (sh t) | (dot t) | (clojure t) | (ditaa t) |
 
 *** Make windmove work in org-mode
    :PROPERTIES:
@@ -1045,6 +1058,15 @@ Configured for...
 
 #+results:
 : org-toggle-iimage-in-org
+
+*** Org Attach Directory
+
+#+BEGIN_SRC emacs-lisp
+(setq org-attach-directory "/home/martyn/org-mode/attach-directory/")
+#+END_SRC
+
+#+results:
+: /home/martyn/org-mode/attach-directory/
 
 *** WAITING Fix tab in org mode
 
@@ -1525,7 +1547,6 @@ NOTE: lusty-explorer.el doesn't want to compile
 
 ** TODO doremi-frm
 
-
 ** TODO Make Password
 
 #+BEGIN_SRC emacs-lisp
@@ -1552,7 +1573,7 @@ NOTE: lusty-explorer.el doesn't want to compile
      It is now
 **** Test
 
-#+BEGIN_SRC dot
+##+BEGIN_SRC dot
 
 digraph unix {
         size="6,6";
@@ -1610,32 +1631,7 @@ digraph unix {
 
 #+END_SRC
 
-...gives Wrong type argument: stringp, nil
-
-**** Install graphviz-dot-mode
-
-** mj-reload-emacs
-
-#+BEGIN_SRC emacs-lisp
-
-(defun mj-reload-emacs ()
-  (interactive)
-  (find-file "~/.emacs.d/init.el")
-  (eval-buffer)
-  (switch-to-buffer "init.el")
-  (kill-buffer)
-  (message "Reloaded Emacs")
- )
-
-(provide 'mj-reload-emacs)
-
-#+END_SRC
-
-#+results:
-: mj-reload-emacs
-
 * My custom functions
-
 ** mj-versions
 
 #+BEGIN_SRC emacs-lisp
@@ -1717,6 +1713,8 @@ digraph unix {
             (newline)
             (write-file (concat help-directory page-name))))) 
     (switch-to-buffer page-name))
+
+  (defalias 'hp 'help-page)
 #+END_SRC
 
 #+results:
@@ -1745,9 +1743,15 @@ digraph unix {
 
 #+END_SRC
 
-#+results:
-
 * Under Test
+
+#+BEGIN_SRC emacs-lisp
+(setq magit-hide-diffs t)
+#+END_SRC
+
+#+results:
+: t
+
 	
 Re: emacs and gnome-terminal
 (Anonymous)
@@ -1817,29 +1821,6 @@ You can put the following into your ~/.emacs to have it on on loading
 (setq org-export-directory "~/Dropbox/OrgData/html")
 
 #+END_SRC
-
-#+results:
-: ~/Dropbox/OrgData/html
-
- 
-
-••••••••••
-
-You Tube:
-
-martynjago
-
-Az1sdErt
-
-I'm so stupid ~ through my drunken haze and small ipad speaker
-I thought it was Keith singing (I know how good he is, I've seen him 3 
-times) - which confused the hell out of me. You've a prodigious talent
-and I can't wait to hear your compositions. I'll make it up to you xx 
-
-01507 480305
-
-
-
 
 * Emacs Loaded message
 
