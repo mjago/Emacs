@@ -1,29 +1,28 @@
 #+SETUPFILE: ~/Dropbox/OrgData/home-setupfile.org
-#+LaTeX_CLASS_OPTIONS:[colorlinks=true,urlcolor=blue,listings-sv] 
+# #+BABEL: :results silent !!!Doesn't work 
+#+STARTUP: overview
+#+LaTeX_CLASS_OPTIONS:[colorlinks=true,urlcolor=blue,listings-sv]
 
 #+TITLE: Emacs Initialisation File Setup
 
-* My Key-mappings
+* My Emacs Configurations
 ** C-k to kill whole line
    :PROPERTIES:
    :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
    :END:
 
-#+BEGIN_SRC emacs-lisp -n
+#+BEGIN_SRC emacs-lisp :results silent -n
 
 (setq kill-whole-line t)
 
 #+END_SRC
-
-#+results:
-: t
 
 ** TODO Remap C-j to my custom goto-next-line function
    :PROPERTIES:
    :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 ;; function here
 
@@ -34,7 +33,7 @@
    :ID:       bac7b873-a758-4991-afe7-abba7aada174
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
 
@@ -45,7 +44,7 @@
    :ID:       d90de769-45ce-4e5a-a878-88d0e76e162a
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (global-unset-key "\M-l")
 (global-set-key "\M-l" 'goto-line)
@@ -57,21 +56,18 @@
    :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (global-set-key "\M-k" 'comment-or-uncomment-region)
 
 #+END_SRC
-
-#+results:
-: comment-or-uncomment-region
 
 ** Remap M-j, M-l to navigation
    :PROPERTIES:
    :ID:       ffa0b60c-9281-44ff-b939-c6c00dc7b728
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 ; (global-set-key "\M-i" 'previous-line)
 (global-set-key "\M-j" 'backward-char)
@@ -79,21 +75,20 @@
 (global-set-key "\M-l" 'forward-char)
 
 #+END_SRC
-** Function mj-home-org opens home.org
+** Function mj-diary-org opens diary.org
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
-  (defun mj-home-org()
-    "Fast route to home.org"
+  (defun mj-diary-org()
+    "Fast route to diary.org"
     (interactive)
-    (find-file "~/Dropbox/OrgData/home.org"))
+    (find-file "~/Dropbox/OrgData/diary.org"))
   
 #+END_SRC emacs-lisp
 
-#+results:
-: mj-home-org
+: mj-diary-org
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
   (defun mj-init-org()
     "Fast route to init.org"
@@ -102,10 +97,7 @@
 
 #+END_SRC
 
-#+results:
-: mj-init-org
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
   (defun mj-org-agenda ()
     (interactive)
@@ -113,42 +105,25 @@
 
 #+END_SRC
 
-#+results:
-: mj-org-agenda
+** don't kill my window setup
 
-#+BEGIN_SRC emacs-lisp
-
-  (defun mj-org-manual ()
-    (interactive)
-    (info ~/org-mode/doc/org.info))
-
-#+END_SRC
-
-#+results:
-: mj-org-manual
-
-* don't kill my window setup
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-agenda-window-setup 'current-window)
 
 #+END_SRC
 
-#+results:
-: current-window
-
 ** TODO Function mj-cycle-helps opens mj-helps
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
     
   (defun mj-cycle-helps()
     (interactive)
     (unless (boundp 'mj-current-help)
       (setq mj-current-help nil))
   (cond 
-        ((equal (buffer-name) "home.org")
-         (bury-buffer "home.org")
+        ((equal (buffer-name) "diary.org")
+         (bury-buffer "diary.org")
          (setq mj-current-help 'mj-org-agenda))
         ((equal (buffer-name) "*Org Agenda*")
          (org-agenda-quit)
@@ -156,46 +131,42 @@
         ((equal (buffer-name) "help.org")
          (bury-buffer "help.org")
          (setq mj-current-help 'mj-init-org))
-        ((equal (buffer-name) "init.org")
-         (bury-buffer "init.org")
-         (setq mj-current-help 'mj-org-manual))
-        ((equal (buffer-name) "*help*")
-         (bury-buffer "*help*")
-         (setq mj-current-help 'mj-home-org))
-        (t (setq mj-current-help 'mj-home-org)))
+        (t (setq mj-current-help 'mj-diary-org)))
   (funcall mj-current-help))
     
 #+END_SRC emacs-lisp
 
-#+results:
-: mj-cycle-helps
-
 ** Changes all yes/no questions to y/n type
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
 #+END_SRC
 
-#+results:
-: y-or-n-p
+** CScope
+
+#+BEGIN_SRC emacs-lisp :results silent
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/cscope"))
+(require 'cscope)
+ (setq cscope-do-not-update-database t)
+
+#+END_SRC
 
 ** Confirm on exit
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq confirm-kill-emacs 'y-or-n-p)
 
 #+END_SRC
 
-#+results:
-: y-or-n-p
-
-** TODO Key mapping for me-home-org and mj-cycle-helps[C-f1]
+** TODO Key mappings for F1 key
    - State "TODO"       from ""           [2011-03-15 Tue 15:03]
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
   (global-set-key [C-f1] 'help-for-help-internal)
   (global-set-key [S-C-f1] 'mj-cycle-helps)
@@ -203,12 +174,9 @@
   
 #+END_SRC
 
-#+results:
-: mj-cycle-helps
-
 ** Emacs default command modifications
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (put 'upcase-region 'disabled nil)
 
@@ -219,35 +187,12 @@
    :ID:       c804e1c8-5961-43cb-a95f-b1ff6956bc1c
    :END:
 
-** Setup IRC user info and channels
-   :PROPERTIES:
-   :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
-   :END:
-
-** erc (irc)
-   
-** Setup IRC user info and channels
-    :PROPERTIES:
-    :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
-    :END:
-
-#+BEGIN_SRC emacs-lisp
-
-(setq erc-header-line-format nil)
-(setq erc-hide-list '("JOIN" "PART" "QUIT"))
-
-(setq erc-log-channels-directory t)
-(setq erc-log-file-name-function "~/erc")
-(setq erc-truncate-buffer-on-save t)
-
-#+END_SRC
-
 ** Setup bbdb Contact Database
    :PROPERTIES:
    :ID:       8947b21f-9a13-4850-b1e6-01ac553d4c67
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
@@ -258,14 +203,12 @@
 
 #+END_SRC
 
-#+results:
-
 ** TODO Setup yasnippet for rails
    :PROPERTIES:
    :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
    :END:
 
-# #+BEGIN_SRC emacs-lisp
+# #+BEGIN_SRC emacs-lisp :results silent
 
 # ;; (add-to-list 'load-path
 # ;;    (concat dotfiles-dir "/martyn/yasnippets-rails"))
@@ -294,9 +237,28 @@
 
 # #+END_SRC
 
-#+results:
-
 ** Visual config
+** Disable visible bell (for removing white square on OSX
+
+Since I don't like either the beep or the flashing white square
+(visible bell) the following is required to silence both (from [[http://stackoverflow.com/questions/324457/disable-carbon-emacs-scroll-beep][here]])
+
+#+BEGIN_SRC emacs-lisp :results silent
+
+;; (setq visible-bell nil)
+;; (setq ring-bell-function nil)
+
+(defun my-bell-function ()
+;; (unless (memq this-command
+;;   	'(isearch-abort abort-recursive-edit exit-minibuffer
+;;             keyboard-quit mwheel-scroll down up next-line previous-line
+;;             backward-char forward-char next prior))
+;;   (ding))
+)
+(setq ring-bell-function 'my-bell-function)
+
+#+END_SRC
+
 *** TODO Smooth Scrolling
 **** web
 
@@ -308,7 +270,7 @@
    :ID:       42144f41-08ac-4f3d-825e-94d4a87a20c1
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir "martyn/smooth-scrolling"))
@@ -317,21 +279,16 @@
 #+END_SRC
 
 **** adjust margin to 3 lines
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq smooth-scroll-margin 3)
 
 #+END_SRC
 
-#+results:
-: 3
 ** Color theme initialisation
-*** Add color-theme directory to load-path
-    :PROPERTIES:
-    :ID:       6c4fee97-7d5b-4ba1-b0bd-c93a5b0e56fe
-    :END:
+*** Configure color-theme 
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir "martyn/color-theme-6.6.0"))
@@ -342,13 +299,16 @@
 ;(add-to-list 'load-path
 ;             (concat dotfiles-dir "martyn/color-theme"))
 (require 'color-theme)
-(color-theme-initialize)
+;;(color-theme-initialize)
+
+(eval-after-load "color-theme"
+  '(progn
+;; doesn't work     (setq color-theme-directory "~/.emacs.d/martyn/color-themes-added")
+      (color-theme-initialize)))
+;;     (color-theme-hober)))
+;;     (color-theme-tangotango)))
 
 #+END_SRC
-
-#+results:
-
-*** color-theme-tangotango
 
 *** web
 
@@ -361,19 +321,19 @@
     :ID:       d8e20a1b-6727-4b41-894a-744c5a530072
     :END:
 
-#+BEGIN_SRC emacs-lisp
+# #+BEGIN_SRC emacs-lisp :results silent
+# ;
+# ; (add-to-list 'load-path
+# ;              (concat dotfiles-dir "martyn/color-theme-tangotango"))
+# ;(setq color-theme-load-all-themes nil)
 
-(add-to-list 'load-path
-             (concat dotfiles-dir "martyn/color-theme-tangotango"))
-;(setq color-theme-load-all-themes nil)
+# ;; select theme - first list element is for windowing system, second is for console/terminal
+# ;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
+# ; (setq color-theme-choices 
 
-;; select theme - first list element is for windowing system, second is for console/terminal
-;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
-; (setq color-theme-choices 
+# #+END_SRC
 
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
   (add-to-list 'load-path
                (concat dotfiles-dir "martyn/martyn/theme-faves"))
@@ -386,9 +346,6 @@
   (global-set-key [S-f7] 'theme-faves-cycle-down)
   
 #+END_SRC
-
-#+results:
-| theme-faves-select |
 
 *** Maximise frame at startup (hook)
    :PROPERTIES:
@@ -405,24 +362,21 @@
 
 (defun toggle-fullscreen ()
   (interactive)
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
-)
-  (add-hook 'window-setup-hook 'toggle-fullscreen)
+  (if (string= system-name "martyn-laptop")
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+  	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+  	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+    (add-hook 'window-setup-hook 'toggle-fullscreen)))
 
 
 #+end_src
-
-#+results:
-| toggle-fullscreen | theme-faves-init |
 
 ** Programming
 *** Mode-compile 
 **** TODO Setup Mode-compile (emacs-wiki)
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
   ;;mode-compile
   (autoload 'mode-compile "mode-compile"
@@ -436,7 +390,7 @@
 
 *** Inhibit scratch message
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq initial-scratch-message nil)
 
@@ -448,19 +402,22 @@
    :ID:       86bebb8b-e52d-43da-9f7b-a49ef5db14ba
    :END:
 
-# #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
-# (rvm-activate-corresponding-ruby)
-# (rvm-autodetect-ruby)
-# (rvm-use "1.9.1" "default")
+ (add-to-list 'load-path (concat dotfiles-dir "martyn/rvm/rvm.el/"))
+ (require 'rvm)
+ (rvm-activate-corresponding-ruby)
+ (rvm-autodetect-ruby)
+ (rvm-use "1.9.2" "default")
 
-# #+END_SRC
+#+END_SRC
+
 **** Setup rspec-mode (development)
    :PROPERTIES:
    :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path (concat dotfiles-dir "martyn/rspec-mode"))
 
@@ -469,25 +426,24 @@
 *** Emacs-lisp
 **** TODO Remove Paredit from elisp hook (turned on by emacs starter kit) (turned back on at mo!)
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
-;;(remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil)
+(remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil)
 
 #+END_SRC
 
-#+results:
-| run-coding-hook | esk-remove-elc-on-save | turn-on-eldoc-mode |
+| hs-minor-mode | ert--activate-font-lock-keywords | ac-emacs-lisp-mode-setup | run-coding-hook | esk-remove-elc-on-save | turn-on-eldoc-mode |
 *** C
 **** Configure unity-mode
 ***** load path and keys
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
-; (add-to-list 
-;  'load-path
-;   (concat dotfiles-dir "martyn/martyn/unity-mode"))
-; (require 'unity-mode)
-; ;(add-hook 'c-mode-hook 'unity-mode)
+ (add-to-list 
+  'load-path
+   (concat dotfiles-dir "martyn/martyn/unity-mode"))
+ (require 'unity-mode)
+ ;(add-hook 'c-mode-hook 'unity-mode)
 
 (global-set-key [f5] 'unity-find-and-open-a-primative-match-forward)
 (global-set-key [S-f5] 'unity-find-and-open-a-primative-match-reverse)
@@ -497,12 +453,9 @@
 
 #+END_SRC
 
-#+results:
-: unity-cycle-alpha-descending
-
 ***** unity-project ()
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
   (defun unity-project ()
     (interactive)
@@ -522,12 +475,9 @@
  
 #+END_SRC
 
-#+results:
-: unity-project
-
 ***** unity-eval-src-and-tests ()
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
   (defun unity-eval-src-and-tests ()
     (interactive)
@@ -547,30 +497,16 @@
   
 #+END_SRC
 
-***** TODO Continuous testing hook
-Moved to unity-mode.el
-#+BEGIN_SRC emacs-lisp
-
-  ; Add hook for continuous testing
-  ; (add-hook 'after-save-hook 'unity-eval-src-and-tests) 
-  ; to remove do...
-  ;(remove-hook 'after-save-hook 'unity-eval-src-and-tests)
-
-#+END_SRC
-
 ***** TODO unity-project-org()
 Moved to unity-mode.el
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
   (global-set-key [f4] 'unity-eval-src-and-tests)
   (global-set-key [C-f4] 'unity-switch-src-control-file)
   (global-set-key [C-c C-v] 'eval-region)
   
 #+END_SRC
-
-#+results:
-: eval-region
 
 *** TODO graphviz-dot-mode
 
@@ -579,14 +515,11 @@ Moved to unity-mode.el
 **** dot mode
    SCHEDULED: <2010-11-29 Mon>
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
  (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode/graphviz-dot-mode.el"))
 
 #+END_SRC
-
-#+results:
-: t
 
 ** My stuff
    CLOSED: [2011-01-18 Tue 19:16]
@@ -597,7 +530,7 @@ Moved to unity-mode.el
     :ID:       863eebdf-52b6-4e3d-ab28-b4f783d2a65d
     :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/martyn"))
@@ -606,7 +539,7 @@ Moved to unity-mode.el
 
 **** my-load-init-files function
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (require 'my-load-init-files)
 
@@ -614,7 +547,7 @@ Moved to unity-mode.el
 
 **** my-load-drill-files function
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (require 'my-load-drill-files)
 
@@ -622,14 +555,12 @@ Moved to unity-mode.el
 
 **** my-load-org-files function
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (require 'my-load-org-files)
 
 #+END_SRC
 
-* Personal Emacs Configurations (outside of Emacs Starter Kit)
-  CLOSED: [2011-01-25 Tue 14:49]
 ** Emacs Customisation destination files
 
 These are already defined in Starter Kit but are re-adjusted here to keep
@@ -637,7 +568,7 @@ under my revision control...
 
 *** loaddefs
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq autoload-file (concat dotfiles-dir "martyn/loaddefs.el"))
 
@@ -645,7 +576,7 @@ under my revision control...
 
 *** TODO elpa ?
 
-;;#+BEGIN_SRC emacs-lisp
+;;#+BEGIN_SRC emacs-lisp :results silent
 ;;(setq package-user-dir (concat dotfiles-dir "martyn/elpa"))
 ;;#+end_src
 
@@ -653,11 +584,35 @@ under my revision control...
 
 Customisations made using emacs Customizations go here...
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq custom-file (concat dotfiles-dir "martyn/custom.el"))
 
 #+end_src
+
+** Notification (todochiku / growl)
+#+BEGIN_SRC emacs-lisp :results silent
+
+(when (string= "darwin" system-type)
+ (add-to-list 'load-path
+  (concat dotfiles-dir  "martyn/todochiku"))
+ (require 'todochiku)
+ (setq todochiku-icons-directory 
+  (concat dotfiles-dir  "martyn/todochiku/todochiku-icons"))
+ (defun mj-notify-pomodoro-done ()
+  (todochiku-message "Pomodoro"
+                   
+"
+  This Pomodoro Session is Complete
+
+        Release Concentration
+
+           Take a Break
+
+" (todochiku-icon 'bell)))
+  (add-hook 'org-timer-done-hook  'mj-notify-pomodoro-done))
+
+#+END_SRC
 
 ** Org Mode  
 *** Add org-mode contrib/lisp files to load path
@@ -665,7 +620,7 @@ Customisations made using emacs Customizations go here...
    :ID:       45537f41-3389-45b8-9454-bc0e2e51ebe5
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path "~/org-mode/contrib/lisp")
 
@@ -676,7 +631,7 @@ Customisations made using emacs Customizations go here...
    :ID:       eb6dd9b1-86bd-4fb4-acb3-992ef90e29da
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (require 'org-drill)
 (setq org-learn-always-reschedule t)
@@ -686,8 +641,6 @@ Customisations made using emacs Customizations go here...
 
 #+END_SRC
 
-#+results:
-
 *** TODO todo words global setup
     :PROPERTIES:
     :ID:       c22f6325-70c9-42c3-8c30-221f115c864d
@@ -695,7 +648,7 @@ Customisations made using emacs Customizations go here...
 
 [[file:~/Dropbox/OrgData/Images/TODO.png]]
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-todo-keywords (quote ((sequence "TODO(t!)" "NEXT(n!)" "|" "DONE(d!/!)")
                                 (sequence "WAITING(w@/!)"
@@ -723,39 +676,22 @@ Customisations made using emacs Customizations go here...
 
 #+END_SRC
 
-#+results:
-| TODO       | :foreground | red          | :weight | bold |
-| NEXT       | :foreground | white        | :weight | bold |
-| DONE       | :foreground | forest green | :weight | bold |
-| WAITING    | :foreground | yellow       | :weight | bold |
-| SOMEDAY    | :foreground | goldenrod    | :weight | bold |
-| CANCELLED  | :foreground | orangered    | :weight | bold |
-| EXPIRED    | :foreground | olivedrab1   | :weight | bold |
-| IGNORED    | :foreground | yellow       | :weight | bold |
-| FAIL       | :foreground | red          | :weight | bold |
-| MISSING    | :foreground | olivedrab1   | :weight | bold |
-| PASS       | :foreground | forest green | :weight | bold |
-| DEPRECATED | :foreground | orangered    | :weight | bold |
-
 *** TODO Org Agenda
 
 **** TODO default to only showing current day
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-agenda-ndays 1)
 
 #+END_SRC
 
-#+results:
-: 1
-
 **** Org Agenda Files
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
  (setq org-agenda-files (quote (
-    "~/Dropbox/OrgData/home.org"
+    "~/Dropbox/OrgData/diary.org"
     "~/Dropbox/OrgData/unity-mode.org"
 ;;    "~/Dropbox/OrgData/personal_audit.org"
     "~/Dropbox/OrgData/capture.org"
@@ -765,16 +701,14 @@ Customisations made using emacs Customizations go here...
 
  (setq org-directory "~/Dropbox/OrgData")
  (setq org-mobile-directory "~/Dropbox/MobileOrg")
+ (setq org-mobile-files org-agenda-files)
  (setq org-mobile-inbox-for-pull "~/Dropbox/OrgData/inbox.org")
 
 #+END_SRC
 
-#+results:
-: ~/Dropbox/OrgData/inbox.org
-
 **** TODO Org Agenda Custom Commands
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (defun run-todo-unscheduled ()
 "agenda of unscheduled todos"
@@ -798,18 +732,7 @@ Customisations made using emacs Customizations go here...
 
 #+END_SRC
 
-#+results:
-| e  | todo       | -SCHEDULED   |
-| W  | todo-tree  | WAITING      |
-| u  | tags       | +boss-urgent |
-| v  | tags-todo  | +boss-urgent |
-| U  | tags-tree  | +boss-urgent |
-| f  | occur-tree | \<FIXME\>    |
-| hl | tags       | +home+Lisa   |
-| hp | tags       | +home+Peter  |
-| hk | tags       | +home+Kim    |
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-agenda-custom-commands
       (quote (("w" "Tasks waiting on something" tags "WAITING/!"
                ((org-use-tag-inheritance nil)
@@ -849,33 +772,13 @@ Customisations made using emacs Customizations go here...
 
 #+END_SRC
 
-#+results:
-| w | Tasks waiting on something   | tags      | WAITING/!                | ((org-use-tag-inheritance nil) (org-agenda-todo-ignore-scheduled nil) (org-agenda-todo-ignore-deadlines nil) (org-agenda-todo-ignore-with-date nil) (org-agenda-overriding-header Waiting Tasks)) |                                                                                                               |
-| r | Refile New Notes and Tasks   | tags      | LEVEL=1+REFILE           | ((org-agenda-todo-ignore-with-date nil) (org-agenda-todo-ignore-deadlines nil) (org-agenda-todo-ignore-scheduled nil) (org-agenda-overriding-header Tasks to Refile))                             |                                                                                                               |
-| N | Notes                        | tags      | NOTE                     | ((org-agenda-overriding-header Notes))                                                                                                                                                            |                                                                                                               |
-| n | Next                         | tags-todo | -WAITING-CANCELLED/!NEXT | ((org-agenda-overriding-header Next Tasks))                                                                                                                                                       |                                                                                                               |
-| p | Projects                     | tags-todo | LEVEL=2-REFILE           | LEVEL=1+REFILE/!-DONE-CANCELLED                                                                                                                                                                   | ((org-agenda-skip-function (quote bh/skip-non-projects)) (org-agenda-overriding-header Projects))             |
-| o | Other (Non-Project) tasks    | tags-todo | LEVEL=2-REFILE           | LEVEL=1+REFILE/!-DONE-CANCELLED                                                                                                                                                                   | ((org-agenda-skip-function (quote bh/skip-projects)) (org-agenda-overriding-header Other Non-Project Tasks))  |
-| A | Tasks to be Archived         | tags      | LEVEL=2-REFILE/DONE      | CANCELLED                                                                                                                                                                                         | ((org-agenda-overriding-header Tasks to Archive))                                                             |
-| h | Habits                       | tags      | STYLE="habit"            | ((org-agenda-todo-ignore-with-date nil) (org-agenda-todo-ignore-scheduled nil) (org-agenda-todo-ignore-deadlines nil) (org-agenda-overriding-header Habits))                                      |                                                                                                               |
-| # | Stuck Projects               | tags-todo | LEVEL=2-REFILE           | LEVEL=1+REFILE/!-DONE-CANCELLED                                                                                                                                                                   | ((org-agenda-skip-function (quote bh/skip-non-stuck-projects)) (org-agenda-overriding-header Stuck Projects)) |
-| c | Select default clocking task | tags      | LEVEL=2-REFILE           | ((org-agenda-skip-function (quote (org-agenda-skip-subtree-if (quote notregexp) ^\*\* Organization))) (org-agenda-overriding-header Set default clocking task with C-u C-u I))                    |                                                                                                               |
-*
 *** DONE Fast TODO key selection
-    CLOSED: [2011-02-08 Tue 14:12]
-    - State "DONE"       from "NEXT"       [2011-02-08 Tue 14:12]
-    - State "NEXT"       from "TODO"       [2011-02-08 Tue 14:12]
-    - State "TODO"       from "NEXT"       [2011-02-08 Tue 14:12]
-     - State "NEXT"       from "TODO"       [2011-02-08 Tue 14:10]
-     - State "TODO"       from "TODO"       [2011-02-08 Tue 14:10]
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-treat-S-cursor-todo-selection-as-state-change nil)
 
 #+END_SRC
-
-#+results:
 
      - State "TODO"       from ""           [2011-02-08 Tue 14:09]
 *** Configure org-mobile
@@ -885,7 +788,7 @@ Customisations made using emacs Customizations go here...
 
 **** TODO my-run-drills function (doesn't work yet)
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
  (defun my-run-drills ()
  "Function to run all drills that exist in agenda files"
@@ -896,31 +799,32 @@ Customisations made using emacs Customizations go here...
 
 #+END_SRC
 
-#+results:
-: my-run-drills
+*** DONE Lilypond mode
+ 
+#+BEGIN_SRC emacs-lisp :results silent
 
-*** TODO Lilypond mode
-
-#+BEGIN_SRC emacs-lisp
-
-  (add-to-list 'load-path
-               (concat dotfiles-dir  "martyn/lilypond"))
+ (add-to-list 'load-path
+              (concat dotfiles-dir  "martyn/lilypond"))
+;;   (add-to-list 'load-path
+;;  #               (concat dotfiles-dir  "martyn/lilypond/"))
+;;  #  (add-to-list 'load-path
+;;  #               (concat dotfiles-dir  "martyn/martyn/lilypond-hook"))
+;;  #  (require 'ob-lilypond)
+;;  #  (require 'lilypond-hook)
 (autoload 'LilyPond-mode "lilypond-mode" "LilyPond Editing Mode" t)
 (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
 (add-to-list 'auto-mode-alist '("\\.ily$" . LilyPond-mode))
-(add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
+
+;;  #  
 
 #+END_SRC
-
-#+results:
-: ob-lilypond
-
+ 
 *** Setup org-mode (development)
    :PROPERTIES:
    :ID:       475aca1e-5f54-42e6-bb58-4b8fb56dff0f
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
@@ -935,42 +839,44 @@ Customisations made using emacs Customizations go here...
 **** Configure Babel
 Configured for...
  - Ruby 
+ - Python
  - C 
  - emacs-lisp
  - shell
  - graphviz
  - clojure
  - ditaa 
+ - lilypond
 
    :PROPERTIES:
    :ID:       9983a066-2f94-4446-82e5-bea078211562
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((ruby . t)
+   (python . t)
    (C . t)
    (emacs-lisp . t)
    (sh t)
    (dot t)
    (clojure t)
    (ditaa t)
-;;   (lilypond t)
+   (lilypond t)
    ))
 
-#+END_SRC
+(setq org-src-fontify-natively t) ;; color blocks
 
-#+results:
-| (ruby . t) | (C . t) | (emacs-lisp . t) | (sh t) | (dot t) | (clojure t) | (ditaa t) |
+#+END_SRC
 
 *** Make windmove work in org-mode
    :PROPERTIES:
    :ID:       77b9e2f6-674d-406c-a1f2-3f8e1307a541
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-hook 'org-shiftup-final-hook 'windmove-up)
 (add-hook 'org-shiftleft-final-hook 'windmove-left)
@@ -986,7 +892,7 @@ Configured for...
 
 **** Setup capture location and key
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
 (define-key global-map "\C-cc" 'org-capture)
@@ -997,7 +903,7 @@ Configured for...
 
 **** TODO Setup refile targets
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 ; Use IDO for target completion
 (setq org-completion-use-ido t)
@@ -1022,11 +928,9 @@ Configured for...
 
 #+END_SRC
 
-#+results:
-: confirm
 *** Display images in org mode
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
   ;; display images
   (local-set-key "\M-I" 'org-toggle-iimage-in-org)
@@ -1056,23 +960,17 @@ Configured for...
 
 #+END_SRC
 
-#+results:
-: org-toggle-iimage-in-org
-
 *** Org Attach Directory
 
-#+BEGIN_SRC emacs-lisp
-(setq org-attach-directory "/home/martyn/org-mode/attach-directory/")
+#+BEGIN_SRC emacs-lisp :results silent
+(setq org-attach-directory "~/Dropbox/OrgData/attach-directory")
 #+END_SRC
-
-#+results:
-: /home/martyn/org-mode/attach-directory/
 
 *** WAITING Fix tab in org mode
 
 Not sure this is of any benefit anymore!    
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
    ;; fix tab
    (local-set-key "\C-y" 'yank)
@@ -1083,8 +981,6 @@ Not sure this is of any benefit anymore!
 
 #+END_SRC
 
-#+results:
-: yank
 *** TODO Develop group agenda to show unscheduled TODO items
 
 [[http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html][Suggestions]]
@@ -1095,7 +991,7 @@ Not sure this is of any benefit anymore!
   3) For missing packages try searching [[http://packages.ubuntu.com/search?keywords%3Dmarvosym&searchon%3Dnames&suite%3Dmaverick&section%3Dall][here]] and apt-get install package
   4) Useful latex [[http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf][prettifying link]]
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 ;; remember ubuntu requires texlive-latex-extra for this
 
@@ -1106,12 +1002,10 @@ Not sure this is of any benefit anymore!
 
 #+END_SRC
 
-#+results:
-: org-latex
 *** TODO Setup for Auctex (ongoing)
 
    ;;  Setup gleaned from [[http://salomie.ro/tudor/2010/09/02/console-based-system/][here]]
-   ;;  #+BEGIN_SRC emacs-lisp
+   ;;  #+BEGIN_SRC emacs-lisp :results silent
    ;;  
    ;;  ;; AUCTeX
    ;;  (setq TeX-auto-save t)
@@ -1202,7 +1096,7 @@ Not sure this is of any benefit anymore!
 *** DONE Don't insert blank lines on heading generation
     CLOSED: [2011-02-08 Tue 13:16]
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-blank-before-new-entry nil)
 
@@ -1210,15 +1104,12 @@ Not sure this is of any benefit anymore!
 
 *** TODO Setup Clocking work time
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-clock-persist 'history)
      (org-clock-persistence-insinuate)
 
 #+END_SRC
-
-#+results:
-| org-clock-save | bookmark-exit-hook-internal | ac-comphist-save | org-babel-remove-temporary-directory | ido-kill-emacs-hook | recentf-save-list | save-place-kill-emacs-hook |
 
 ** TODO Flyspell mode error avoidance
 *** web discussion
@@ -1228,23 +1119,22 @@ Not sure this is of any benefit anymore!
 
 *** configuration
 
-# #+BEGIN_SRC emacs-lisp
-
-;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
+# #+BEGIN_SRC emacs-lisp :results silent
+;; (require 'ispell)
+;; (setq-default ispell-program-name "/usr/local/lib/aspell-0.60.6/aspell")
+;; (setq ispell-really-aspell t)
+;; (setq ispell-dictionary "/usr/local/lib/aspell6-en-7.1-0/english")
+;; ;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
 ;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/flyspell.el
 ;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/ispell.el
 ;;# cd /usr/share/emacs23/site-lisp/dictionaries-common
 ;;# sudo rm *.el *.elc
 ;; the above didn't work for me so...
 
-;;(unload-feature 'flyspell-mode)
+(unload-feature 'flyspell-mode)
 ;;neither did this! (not loaded)
 
-# #+END_SRC
-
-#+results:
-
-# #+results:
+ ##+END_SRC
 
 ** Auto-Complete
 *** To load
@@ -1255,7 +1145,7 @@ destination: ~/.emacs.d/martyn/auto-complete/installation
 
 *** Add to init
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path "~/.emacs.d/martyn/auto-complete/installation")
 (require 'auto-complete-config)
@@ -1267,6 +1157,15 @@ destination: ~/.emacs.d/martyn/auto-complete/installation
 *** Screencast 
 
 [[http://www.youtube.com/watch?v%3DrGVVnDxwJYE][YouTube]]
+
+** ert
+
+#+BEGIN_SRC emacs-lisp :results silent
+
+(add-to-list 'load-path "~/.emacs.d/martyn/ert")
+(require 'ert)
+
+#+END_SRC
 
 ** TODO Yasnippets
 Need to check...
@@ -1293,7 +1192,7 @@ TODO: Needs to be kept up-to date
  - ~/.emacs.d/martyn/yasnippet-read-only
 **** Yasnippet load and snippet locations config
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
   (add-to-list 'load-path
                (concat dotfiles-dir  "martyn/yasnippet-read-only"))
@@ -1314,12 +1213,9 @@ TODO: Needs to be kept up-to date
   
 #+END_SRC
 
-#+results:
-| ~/.emacs.d/martyn/martyn/unity-mode/snippets | ~/.emacs.d/martyn/martyn/snippets | ~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork | ~/.emacs.d/martyn/yasnippets-rails/rails-snippets | ~/.emacs.d/martyn/yasnippet-read-only/snippets |
-
 *** To byte-compile-files
 
-# #+BEGIN_SRC emacs-lisp
+# #+BEGIN_SRC emacs-lisp :results silent
 
 # (byte-compile-file
 # "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/yasnippet.el" t)
@@ -1328,13 +1224,10 @@ TODO: Needs to be kept up-to date
 
 # #+END_SRC
 
-# #+results:
-# : t
-
 **** TODO Yasnippets config for org-mode compatability
      SCHEDULED: <2011-01-19 Wed>
 
-# #+BEGIN_SRC emacs-lisp
+# #+BEGIN_SRC emacs-lisp :results silent
 
 #  (add-hook 'org-mode-hook
 #            (lambda ()
@@ -1343,8 +1236,6 @@ TODO: Needs to be kept up-to date
 
 # #+END_SRC
 
-#+results:
-     
 ** Redo+
 This appears to be an upgrade of redo (although I never had any
 problems with redo). I shall monitor this!
@@ -1356,27 +1247,22 @@ emacswiki]]
 
 *** configuration 
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path (concat dotfiles-dir "martyn/redoplus"))
 (require 'redo+)
 
 #+END_SRC
-
-#+results:
-: redo+
-
+    
+    
 **** Make C-z undo, and M-z redo
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (define-key global-map (kbd "M-z") 'redo)
 (define-key global-map (kbd "C-z") 'undo)
 
 #+END_SRC
-
-#+results:
-: undo
 
 ** DONE HideShow
    CLOSED: [2011-01-25 Tue 14:49]
@@ -1386,7 +1272,7 @@ emacswiki]]
 
 *** HideShow Configuration
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-hook 'c-mode-common-hook   'hs-minor-mode)
     (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
@@ -1412,9 +1298,6 @@ emacswiki]]
 
 #+END_SRC
 
-#+results:
-: me-toggle-hiding-all
-
 *** TODO hideshow.org
 **** Website
 
@@ -1422,7 +1305,7 @@ emacswiki]]
 
 **** Configuration
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path (concat dotfiles-dir "martyn/hideshow-org"))
 (require 'hideshow-org)
@@ -1438,9 +1321,6 @@ emacswiki]]
 
 # END_SRC
 
-#+results:
-: t
-
 ** DONE Lusty Explorer
    CLOSED: [2011-01-25 Tue 14:49]
 *** emacswiki
@@ -1453,7 +1333,7 @@ emacswiki]]
 
 *** Config
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/lusty-emacs"))
@@ -1462,14 +1342,11 @@ emacswiki]]
 
 #+END_SRC
 
-#+results:
-: lusty-file-explorer
-
 *** To byte-compile-file
 
 NOTE: lusty-explorer.el doesn't want to compile
 
-# #+BEGIN_SRC emacs-lisp
+# #+BEGIN_SRC emacs-lisp :results silent
 
 # (byte-compile-file
 # "~/.emacs.d/martyn/lusty-emacs/lusty-explorer.el")
@@ -1478,16 +1355,13 @@ NOTE: lusty-explorer.el doesn't want to compile
 
 # #+END_SRC
 
-#+results:
-: t
-
 ** TODO Highlight Parantheses
 *** Site
 [[(add-to-list%20'load-path%20"/path/to/highlight-parentheses")(require%20'highlight-parentheses)][site]]
 
 *** Setup
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path (concat dotfiles-dir 
   "martyn/highlight-parentheses"))
@@ -1495,61 +1369,59 @@ NOTE: lusty-explorer.el doesn't want to compile
 
 #+END_SRC
 
-#+results:
-: highlight-parentheses
-
 *** To byte-compile-file
 
-# #+BEGIN_SRC emacs-lisp
+# #+BEGIN_SRC emacs-lisp :results silent
 
 # (byte-compile-file
 # "~/.emacs.d/martyn/highlight-parentheses/highlight-parentheses.el"  t)
 
 # #+END_SRC
 
-#+results:
-: t
-
 ** TODO S-C-d to backward-delete-char() - doesn't work!!
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
   (global-set-key [C-S-d] 'backward-delete-char)
 
 #+END_SRC
 
-#+results:
-: backward-delete-char
-
 ** DONE Map C-x C-o to other window (as C-x o)
    CLOSED: [2011-01-26 Wed 10:41]
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
   (global-set-key [C-x-o] 'other-window)
 
 #+END_SRC
 
-#+results:
-: other-window
+** TODO Setup generic browser
 
-** TODO Conqueror
+#+BEGIN_SRC emacs-lisp :results silent
 
-#+BEGIN_SRC emacs-lisp
-
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "conkeror")
+  (if (string= "darwin" system-type)
+      (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "open")
+    (setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "conkeror"))
 
 #+END_SRC
 
-#+results:
-: conkeror
-
 ** TODO doremi-frm
+
+** DONE Setup MacGPG2 (for gpg) on mac OSX
+
+#+BEGIN_SRC emacs-lisp :results silent
+
+  (when (string= "darwin" system-type)
+    (setq epg-gpg-program "/usr/local/MacGPG2/bin/gpg2")
+    (message "MacGPG2 set up"))
+
+#+END_SRC
 
 ** TODO Make Password
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   
   (add-to-list 'load-path
                (concat dotfiles-dir  "martyn/make-password"))
@@ -1559,9 +1431,6 @@ NOTE: lusty-explorer.el doesn't want to compile
   (defalias 'generate-password 'make-password)
   
 #+END_SRC
-
-#+results:
-: make-password
 
 *** CANCELLED Graphviz in babel doesn't appear to be implemented
     SCHEDULED: #<2010-11-28 Sun>
@@ -1631,10 +1500,10 @@ digraph unix {
 
 #+END_SRC
 
-* My custom functions
-** mj-versions
+** My custom functions
+*** mj-versions
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/martyn/mj-versions"))
@@ -1642,12 +1511,9 @@ digraph unix {
 
 #+END_SRC
 
-#+results:
-: mj-versions
+*** my-org-test-setup
 
-** my-org-test-setup
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/martyn/my-org-test-setup"))
@@ -1655,12 +1521,9 @@ digraph unix {
 
 #+END_SRC
 
-#+results:
-: my-org-test-setup
+*** my-header-arguments
 
-** my-header-arguments
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/martyn/my-header-arguments"))
@@ -1668,11 +1531,8 @@ digraph unix {
 
 #+END_SRC
 
-#+results:
-: my-header-arguments
-
-** help-page
-#+BEGIN_SRC emacs-lisp
+*** help-page
+#+BEGIN_SRC emacs-lisp :results silent
   
   (defun help-page (&optional page-name)
     (interactive "s Enter help-page: ")
@@ -1717,26 +1577,56 @@ digraph unix {
   (defalias 'hp 'help-page)
 #+END_SRC
 
-#+results:
-: help-page
+** Setup IRC user info and channels
+    :PROPERTIES:
+    :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
+    :END:
+
+#+BEGIN_SRC emacs-lisp :results silent
+
+(setq erc-header-line-format nil)
+(setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
+(setq erc-log-channels-directory t)
+(setq erc-log-file-name-function "~/erc")
+(setq erc-truncate-buffer-on-save t)
+
+#+END_SRC
+
+** TODO org capture
+
+#+begin_src emacs-lisp :results silent
+
+(require 'org-contacts)
+
+ (custom-set-variables
+ '(org-contacts-files '("~/Dropbox/OrgData/contacts.org")))
+
+;; ("c" "Contacts" entry (file "~/Org/contacts.org")
+;;  "* %(org-contacts-template-name)
+;; :PROPERTIES:
+;; :EMAIL: %(org-contacts-template-email)
+;; :END:")
+
+#+end_src
 
 * Initial display
-** Display home org and agenda
+** Display diary org and agenda
 *** "martyn-laptop" system specific...
 
  - NOTE: Currently loads ALL org files - might consider just "tracked" 
    org files
- - Switch to home.org
+ - Switch to diary.org
  - Bring up schedule agenda in other window
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (defun me-startup-in-agenda ()
   (if (string= system-name "martyn-laptop") 
       (progn
         (split-window-horizontally)
         (my-load-org-files)
-        (switch-to-buffer "home.org")
+        (switch-to-buffer "diary.org")
         (org-agenda-list))))
 
 (add-hook 'window-setup-hook 'me-startup-in-agenda)
@@ -1745,14 +1635,13 @@ digraph unix {
 
 * Under Test
 
-#+BEGIN_SRC emacs-lisp
+
+#+BEGIN_SRC emacs-lisp :results silent
+
 (setq magit-hide-diffs t)
+
 #+END_SRC
 
-#+results:
-: t
-
-	
 Re: emacs and gnome-terminal
 (Anonymous)
 2008-05-20 04:51 am UTC (link)
@@ -1762,61 +1651,31 @@ Turn on column-number-mode.
 
 You can put the following into your ~/.emacs to have it on on loading
  
- 
- 
- 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq-default column-number-mode t)
 
 #+END_SRC
 
-#+results:
-: t
-
-
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq cursor-type 'hbar)
 (set-cursor-color  "white")
 
 #+END_SRC
 
-#+results:
-
 * Delete temp file martyn/init.el (do this last!)
    :PROPERTIES:
    :ID:       6a8cf784-ad8c-4b52-b549-bc2d3c662e85
    :END:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (delete-file "~/.emacs.d/martyn/init.el")
 
 #+END_SRC
 
-#+results:
-
-:PROPERTIES:
-
-   ;;  s#+LATEX_HEADER: \lstset{
-   ;;  #+LATEX_HEADER:         keywordstyle=\color{blue},
-   ;;  #+LATEX_HEADER:         commentstyle=\color{red},
-   ;;  #+LATEX_HEADER:         stringstyle=\color{green},
-   ;;  #+LATEX_HEADER:         basicstyle=\ttfamily\small,
-   ;;  #+LATEX_HEADER:         columns=fullflexible,
-   ;;  #+LATEX_HEADER:         basewidth={0.5em,0.4em}
-   ;;  #+LATEX_HEADER:         }
-   ;;  #+LATEX_HEADER: \RequirePackage{fancyvrb}
-   ;;  #+LATEX_HEADER: \DefineVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\small,formatcom = {\color[rgb]{0.5,0,0}}}
-  ;; #+OPTIONS: H:3
-  ;; #+LaTeX_CLASS: org-article
-  #+LaTeX_CLASS_OPTIONS:[koma,letterpaper,captions=tableheading,utopia,11pt,listings-sv,microtype,paralist,colorlinks=true,urlcolor=blue,secnums]
-
-:END:
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (setq org-export-directory "~/Dropbox/OrgData/html")
 
@@ -1824,13 +1683,10 @@ You can put the following into your ~/.emacs to have it on on loading
 
 * Emacs Loaded message
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 
 (message (concat (version) " Loaded!"))
 
 #+END_SRC
 
-#+results:
-: GNU Emacs 24.0.50.1 (i686-pc-linux-gnu, GTK+ Version 2.24.0)
-:  of 2011-02-25 on martyn-laptop Loaded!
 

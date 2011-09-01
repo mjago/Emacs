@@ -5,3 +5,6 @@ martyn
 rspec-mode
 yasnippet**
 
+/.DS_Store
+/color-themes-added/.DS_Store
+/cscope/#cscope.el#
