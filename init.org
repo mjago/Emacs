@@ -1,198 +1,117 @@
 #+SETUPFILE: ~/Dropbox/OrgData/home-setupfile.org
-# #+BABEL: :results silent !!!Doesn't work 
 #+STARTUP: overview
 #+LaTeX_CLASS_OPTIONS:[colorlinks=true,urlcolor=blue,listings-sv]
-
-#+TITLE: Emacs Initialisation File Setup
+# #+TITLE: Emacs Initialisation File Setup
 
 * My Emacs Configurations
+
 ** C-k to kill whole line
    :PROPERTIES:
    :ID:       df2f072d-30d1-40e9-9905-deb39a963b1d
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent -n
+#+begin_src emacs-lisp :results silent -n
 
 (setq kill-whole-line t)
 
-#+END_SRC
-
-** TODO Remap C-j to my custom goto-next-line function
-   :PROPERTIES:
-   :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
-   :END:
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-;; function here
-
-#+END_SRC
+#+end_src
 
 ** Mark (select) all on S-C-SPC
    :PROPERTIES:
    :ID:       bac7b873-a758-4991-afe7-abba7aada174
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
 
-#+END_SRC
+#+end_src
 
 ** Map M-l to goto-line
    :PROPERTIES:
    :ID:       d90de769-45ce-4e5a-a878-88d0e76e162a
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (global-unset-key "\M-l")
 (global-set-key "\M-l" 'goto-line)
 
-#+END_SRC
-
-** TODO Comment or uncomment region with M-k
-   :PROPERTIES:
-   :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
-   :END:
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(global-set-key "\M-k" 'comment-or-uncomment-region)
-
-#+END_SRC
+#+end_src
 
 ** Remap M-j, M-l to navigation
    :PROPERTIES:
    :ID:       ffa0b60c-9281-44ff-b939-c6c00dc7b728
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 ; (global-set-key "\M-i" 'previous-line)
 (global-set-key "\M-j" 'backward-char)
 ; (global-set-key "\M-k" 'forward-line)
 (global-set-key "\M-l" 'forward-char)
 
-#+END_SRC
-** Function mj-diary-org opens diary.org
-
-#+BEGIN_SRC emacs-lisp :results silent
-  
-  (defun mj-diary-org()
-    "Fast route to diary.org"
-    (interactive)
-    (find-file "~/Dropbox/OrgData/diary.org"))
-  
-#+END_SRC emacs-lisp
-
-: mj-diary-org
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-  (defun mj-init-org()
-    "Fast route to init.org"
-    (interactive)
-    (find-file "~/.emacs.d/martyn/init.org"))
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-  (defun mj-org-agenda ()
-    (interactive)
-    (org-agenda nil "a"))
-
-#+END_SRC
-
+#+end_src
 ** don't kill my window setup
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq org-agenda-window-setup 'current-window)
 
-#+END_SRC
-
-** TODO Function mj-cycle-helps opens mj-helps
-
-#+BEGIN_SRC emacs-lisp :results silent
-    
-  (defun mj-cycle-helps()
-    (interactive)
-    (unless (boundp 'mj-current-help)
-      (setq mj-current-help nil))
-  (cond 
-        ((equal (buffer-name) "diary.org")
-         (bury-buffer "diary.org")
-         (setq mj-current-help 'mj-org-agenda))
-        ((equal (buffer-name) "*Org Agenda*")
-         (org-agenda-quit)
-         (setq mj-current-help 'help-page))
-        ((equal (buffer-name) "help.org")
-         (bury-buffer "help.org")
-         (setq mj-current-help 'mj-init-org))
-        (t (setq mj-current-help 'mj-diary-org)))
-  (funcall mj-current-help))
-    
-#+END_SRC emacs-lisp
+#+end_src
 
 ** Changes all yes/no questions to y/n type
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-#+END_SRC
+#+end_src
 
 ** CScope
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/cscope"))
 (require 'cscope)
  (setq cscope-do-not-update-database t)
 
-#+END_SRC
+#+end_src
 
 ** Confirm on exit
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq confirm-kill-emacs 'y-or-n-p)
 
-#+END_SRC
+#+end_src
 
-** TODO Key mappings for F1 key
+** Key mappings for F1 key
    - State "TODO"       from ""           [2011-03-15 Tue 15:03]
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
   (global-set-key [C-f1] 'help-for-help-internal)
   (global-set-key [S-C-f1] 'mj-cycle-helps)
   (global-set-key [f1] 'mj-cycle-helps)
   
-#+END_SRC
+#+end_src
 
 ** Emacs default command modifications
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (put 'upcase-region 'disabled nil)
 
-#+END_SRC
-
-** TODO Gnus NOTE moved to ~/.gnu
-   :PROPERTIES:
-   :ID:       c804e1c8-5961-43cb-a95f-b1ff6956bc1c
-   :END:
+#+end_src
 
 ** Setup bbdb Contact Database
    :PROPERTIES:
    :ID:       8947b21f-9a13-4850-b1e6-01ac553d4c67
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
@@ -201,41 +120,7 @@
 (setq bbdb-north-american-phone-numbers-p nil
 )
 
-#+END_SRC
-
-** TODO Setup yasnippet for rails
-   :PROPERTIES:
-   :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
-   :END:
-
-# #+BEGIN_SRC emacs-lisp :results silent
-
-# ;; (add-to-list 'load-path
-# ;;    (concat dotfiles-dir "/martyn/yasnippets-rails"))
-
-# ;; (add-hook 'ruby-mode-hook ; or rails-minor-mode-hook ?
-# ;;           '(lambda ()
-# ;;              (make-variable-buffer-local 'yas/trigger-key)
-# ;;              (setq yas/trigger-key [tab])))
-
-# ;; (require 'yasnippet)
-# ;; ;;(add-to-list 'yas/extra-mode-hooks
-# ;; ;;             'ruby-mode-hook)
-
-# ;; (yas/initialize)
-# ;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
-
-# ;; ;;(yas/load-directory
-# ;; ;;   (concat
-# ;; ;;      dotfiles-dir "/martyn/snippets/yasnippets-rails/rails-snippets/"))
-# ;; ;;(make-variable-buffer-local 'yas/trigger-key)
-
-# ;; ;; yasnippet-org-mode
-# ;; (yas/load-directory
-# ;;    (concat
-# ;;       dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))
-
-# #+END_SRC
+#+end_src
 
 ** Visual config
 ** Disable visible bell (for removing white square on OSX
@@ -243,7 +128,7 @@
 Since I don't like either the beep or the flashing white square
 (visible bell) the following is required to silence both (from [[http://stackoverflow.com/questions/324457/disable-carbon-emacs-scroll-beep][here]])
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 ;; (setq visible-bell nil)
 ;; (setq ring-bell-function nil)
@@ -257,62 +142,55 @@ Since I don't like either the beep or the flashing white square
 )
 (setq ring-bell-function 'my-bell-function)
 
-#+END_SRC
+#+end_src
 
-*** TODO Smooth Scrolling
-**** web
+** Smooth Scrolling
+*** web
 
 [[http://adamspiers.org/computing/elisp/smooth-scrolling.el][link]]
 
-**** initialisation
+*** initialisation
 
    :PROPERTIES:
    :ID:       42144f41-08ac-4f3d-825e-94d4a87a20c1
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir "martyn/smooth-scrolling"))
 (require 'smooth-scrolling)
 
-#+END_SRC
+#+end_src
 
-**** adjust margin to 3 lines
-#+BEGIN_SRC emacs-lisp :results silent
+*** adjust margin to 3 lines
+#+begin_src emacs-lisp :results silent
 
 (setq smooth-scroll-margin 3)
 
-#+END_SRC
+#+end_src
 
 ** Color theme initialisation
 *** Configure color-theme 
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir "martyn/color-theme-6.6.0"))
 (add-to-list 'load-path
              (concat dotfiles-dir "martyn/color-theme-6.6.0/themes"))
-;(add-to-list 'load-path
-;             (concat dotfiles-dir "martyn/color-theme"))
-;(add-to-list 'load-path
-;             (concat dotfiles-dir "martyn/color-theme"))
 (require 'color-theme)
-;;(color-theme-initialize)
-
 (eval-after-load "color-theme"
   '(progn
-;; doesn't work     (setq color-theme-directory "~/.emacs.d/martyn/color-themes-added")
       (color-theme-initialize)))
 ;;     (color-theme-hober)))
 ;;     (color-theme-tangotango)))
 
-#+END_SRC
+#+end_src
 
 *** web
 
-[[https://github.com/juba/color-theme-tangotango][github]]
+github]]
 
 *** configuration
 *** Theme Faves  
@@ -321,7 +199,7 @@ Since I don't like either the beep or the flashing white square
     :ID:       d8e20a1b-6727-4b41-894a-744c5a530072
     :END:
 
-# #+BEGIN_SRC emacs-lisp :results silent
+# #+begin_src emacs-lisp :results silent
 # ;
 # ; (add-to-list 'load-path
 # ;              (concat dotfiles-dir "martyn/color-theme-tangotango"))
@@ -331,9 +209,9 @@ Since I don't like either the beep or the flashing white square
 # ;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
 # ; (setq color-theme-choices 
 
-# #+END_SRC
+# #+end_src
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
   
   (add-to-list 'load-path
                (concat dotfiles-dir "martyn/martyn/theme-faves"))
@@ -345,7 +223,7 @@ Since I don't like either the beep or the flashing white square
   (global-set-key [f7] 'theme-faves-cycle-up)
   (global-set-key [S-f7] 'theme-faves-cycle-down)
   
-#+END_SRC
+#+end_src
 
 *** Maximise frame at startup (hook)
    :PROPERTIES:
@@ -372,194 +250,57 @@ Since I don't like either the beep or the flashing white square
 
 #+end_src
 
-** Programming
-*** Mode-compile 
-**** TODO Setup Mode-compile (emacs-wiki)
+** Inhibit scratch message
 
-#+BEGIN_SRC emacs-lisp :results silent
-  
-  ;;mode-compile
-  (autoload 'mode-compile "mode-compile"
-    "Command to compile current buffer file based on the major mode" t)
-;;  (global-set-key "\C-cc" 'mode-compile)
-  (autoload 'mode-compile-kill "mode-compile"
-    "Command to kill a compilation launched by `mode-compile'" t)
-;;  (global-set-key "\C-ck" 'mode-compile-kill)
-  
-#+END_SRC
-
-*** Inhibit scratch message
-
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq initial-scratch-message nil)
 
-#+END_SRC
+#+end_src
 
-*** TODO Ruby
-**** TODO (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel :DISABLED:
-   :PROPERTIES:
-   :ID:       86bebb8b-e52d-43da-9f7b-a49ef5db14ba
-   :END:
+** Remove Paredit default from emacs-lisp mode hook 
+(turned on by emacs starter kit)
 
-#+BEGIN_SRC emacs-lisp :results silent
-
- (add-to-list 'load-path (concat dotfiles-dir "martyn/rvm/rvm.el/"))
- (require 'rvm)
- (rvm-activate-corresponding-ruby)
- (rvm-autodetect-ruby)
- (rvm-use "1.9.2" "default")
-
-#+END_SRC
-
-**** Setup rspec-mode (development)
-   :PROPERTIES:
-   :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
-   :END:
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(add-to-list 'load-path (concat dotfiles-dir "martyn/rspec-mode"))
-
-#+END_SRC
-
-*** Emacs-lisp
-**** TODO Remove Paredit from elisp hook (turned on by emacs starter kit) (turned back on at mo!)
-
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil)
 
-#+END_SRC
+#+end_src
 
 | hs-minor-mode | ert--activate-font-lock-keywords | ac-emacs-lisp-mode-setup | run-coding-hook | esk-remove-elc-on-save | turn-on-eldoc-mode |
-*** C
-**** Configure unity-mode
-***** load path and keys
+     
+** Add .emacs.d/martyn/martyn to load-path
 
-#+BEGIN_SRC emacs-lisp :results silent
-
- (add-to-list 
-  'load-path
-   (concat dotfiles-dir "martyn/martyn/unity-mode"))
- (require 'unity-mode)
- ;(add-hook 'c-mode-hook 'unity-mode)
-
-(global-set-key [f5] 'unity-find-and-open-a-primative-match-forward)
-(global-set-key [S-f5] 'unity-find-and-open-a-primative-match-reverse)
-(global-set-key [C-f5] 'unity-cycle-MCH-buffer)
-(global-set-key [f6] 'unity-cycle-alpha-ascending)
-(global-set-key [S-f6] 'unity-cycle-alpha-descending)
-
-#+END_SRC
-
-***** unity-project ()
-
-#+BEGIN_SRC emacs-lisp :results silent
-  
-  (defun unity-project ()
-    (interactive)
-    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-parse-project-file.el")
-    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-auto-config.el")
-    (delete-other-windows)
-    (split-window-horizontally)
-    (windmove-right)
-    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode.el")
-    (windmove-left)
-;;    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode-tests.el")
-    (switch-to-buffer "#emacs")
-    (split-window-vertically)
-    (switch-to-buffer "*ert*")
-    (windmove-down)
-    (switch-to-buffer "#emacs"))
- 
-#+END_SRC
-
-***** unity-eval-src-and-tests ()
-
-#+BEGIN_SRC emacs-lisp :results silent
-  
-  (defun unity-eval-src-and-tests ()
-    (interactive)
-    (let ((original-buffer buffer-file-name)
-          (original-window (selected-window)))
-  
-      (if(string-match "^unity-" (file-name-nondirectory original-buffer)) 
-          (progn
-            (eval-buffer "unity-mode-tests.el")
-            (eval-buffer "unity-mode.el")
-            (ert t)))
-      (select-window original-window))) 
-  ;; (error "%s" (windmove-find-other-window 'right))
-  ;;     (if(equal original-buffer (windmove-find-other-window 'right))
-  ;;         (windmove-right)
-  ;;       (windmove-down))))
-  
-#+END_SRC
-
-***** TODO unity-project-org()
-Moved to unity-mode.el
-
-#+BEGIN_SRC emacs-lisp :results silent
-  
-  (global-set-key [f4] 'unity-eval-src-and-tests)
-  (global-set-key [C-f4] 'unity-switch-src-control-file)
-  (global-set-key [C-c C-v] 'eval-region)
-  
-#+END_SRC
-
-*** TODO graphviz-dot-mode
-
-**** web
-[[http://users.skynet.be/ppareit/projects/graphviz-dot-mode/graphviz-dot-mode.html][link]]
-**** dot mode
-   SCHEDULED: <2010-11-29 Mon>
-
-#+BEGIN_SRC emacs-lisp :results silent
-
- (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode/graphviz-dot-mode.el"))
-
-#+END_SRC
-
-** My stuff
-   CLOSED: [2011-01-18 Tue 19:16]
-*** Require my custom files and functions
-    CLOSED: [2010-11-26 Fri 06:57]
-**** Add custom files directory to load-path
-    :PROPERTIES:
-    :ID:       863eebdf-52b6-4e3d-ab28-b4f783d2a65d
-    :END:
-
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/martyn"))
 
-#+END_SRC
+#+end_src
 
-**** my-load-init-files function
+** my-load-init-files function
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (require 'my-load-init-files)
 
-#+END_SRC
+#+end_src
 
-**** my-load-drill-files function
+** my-load-drill-files function
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (require 'my-load-drill-files)
 
-#+END_SRC
+#+end_src
 
-**** my-load-org-files function
+** my-load-org-files function
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (require 'my-load-org-files)
 
-#+END_SRC
+#+end_src
 
 ** Emacs Customisation destination files
 
@@ -568,30 +309,24 @@ under my revision control...
 
 *** loaddefs
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq autoload-file (concat dotfiles-dir "martyn/loaddefs.el"))
 
 #+end_src
 
-*** TODO elpa ?
-
-;;#+BEGIN_SRC emacs-lisp :results silent
-;;(setq package-user-dir (concat dotfiles-dir "martyn/elpa"))
-;;#+end_src
-
 *** custom
 
 Customisations made using emacs Customizations go here...
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq custom-file (concat dotfiles-dir "martyn/custom.el"))
 
 #+end_src
 
 ** Notification (todochiku / growl)
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (when (string= "darwin" system-type)
  (add-to-list 'load-path
@@ -601,7 +336,6 @@ Customisations made using emacs Customizations go here...
   (concat dotfiles-dir  "martyn/todochiku/todochiku-icons"))
  (defun mj-notify-pomodoro-done ()
   (todochiku-message "Pomodoro"
-                   
 "
   This Pomodoro Session is Complete
 
@@ -612,26 +346,26 @@ Customisations made using emacs Customizations go here...
 " (todochiku-icon 'bell)))
   (add-hook 'org-timer-done-hook  'mj-notify-pomodoro-done))
 
-#+END_SRC
+#+end_src
 
 ** Org Mode  
-*** Add org-mode contrib/lisp files to load path
+** Add org-mode contrib/lisp files to load path
    :PROPERTIES:
    :ID:       45537f41-3389-45b8-9454-bc0e2e51ebe5
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path "~/org-mode/contrib/lisp")
 
 #+end_src
 
-*** org-drill related initialisation
+** org-drill
    :PROPERTIES:
    :ID:       eb6dd9b1-86bd-4fb4-acb3-992ef90e29da
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (require 'org-drill)
 (setq org-learn-always-reschedule t)
@@ -639,16 +373,16 @@ Customisations made using emacs Customizations go here...
 (setq org-drill-add-random-noise-to-intervals-p t)
 (put 'scroll-left 'disabled nil)
 
-#+END_SRC
+#+end_src
 
-*** TODO todo words global setup
+** \TODO keywords global setup
     :PROPERTIES:
     :ID:       c22f6325-70c9-42c3-8c30-221f115c864d
     :END:
 
 [[file:~/Dropbox/OrgData/Images/TODO.png]]
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq org-todo-keywords (quote ((sequence "TODO(t!)" "NEXT(n!)" "|" "DONE(d!/!)")
                                 (sequence "WAITING(w@/!)"
@@ -674,21 +408,21 @@ Customisations made using emacs Customizations go here...
               ("PASS"      :foreground "forest green" :weight bold)
               ("DEPRECATED":foreground "orangered"    :weight bold))))
 
-#+END_SRC
+#+end_src
 
 *** TODO Org Agenda
 
 **** TODO default to only showing current day
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq org-agenda-ndays 1)
 
-#+END_SRC
+#+end_src
 
 **** Org Agenda Files
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
  (setq org-agenda-files (quote (
     "~/Dropbox/OrgData/diary.org"
@@ -704,11 +438,11 @@ Customisations made using emacs Customizations go here...
  (setq org-mobile-files org-agenda-files)
  (setq org-mobile-inbox-for-pull "~/Dropbox/OrgData/inbox.org")
 
-#+END_SRC
+#+end_src
 
 **** TODO Org Agenda Custom Commands
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (defun run-todo-unscheduled ()
 "agenda of unscheduled todos"
@@ -730,9 +464,9 @@ Customisations made using emacs Customizations go here...
              ("hp" tags "+home+Peter")
              ("hk" tags "+home+Kim")))
 
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 (setq org-agenda-custom-commands
       (quote (("w" "Tasks waiting on something" tags "WAITING/!"
                ((org-use-tag-inheritance nil)
@@ -770,15 +504,15 @@ Customisations made using emacs Customizations go here...
                  '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
                 (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
 
-#+END_SRC
+#+end_src
 
 *** DONE Fast TODO key selection
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq org-treat-S-cursor-todo-selection-as-state-change nil)
 
-#+END_SRC
+#+end_src
 
      - State "TODO"       from ""           [2011-02-08 Tue 14:09]
 *** Configure org-mobile
@@ -788,7 +522,7 @@ Customisations made using emacs Customizations go here...
 
 **** TODO my-run-drills function (doesn't work yet)
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
  (defun my-run-drills ()
  "Function to run all drills that exist in agenda files"
@@ -797,11 +531,11 @@ Customisations made using emacs Customizations go here...
 
  (provide 'my-run-drills)
 
-#+END_SRC
+#+end_src
 
 *** DONE Lilypond mode
  
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
  (add-to-list 'load-path
               (concat dotfiles-dir  "martyn/lilypond"))
@@ -817,14 +551,14 @@ Customisations made using emacs Customizations go here...
 
 ;;  #  
 
-#+END_SRC
+#+end_src
  
 *** Setup org-mode (development)
    :PROPERTIES:
    :ID:       475aca1e-5f54-42e6-bb58-4b8fb56dff0f
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
@@ -833,7 +567,7 @@ Customisations made using emacs Customizations go here...
 (global-font-lock-mode 1)                     ; for all buffers
 (setq load-path (cons "~/org-mode" load-path))
 
-#+END_SRC
+#+end_src
 
 *** Configure Babel languages 
 **** Configure Babel
@@ -852,7 +586,7 @@ Configured for...
    :ID:       9983a066-2f94-4446-82e5-bea078211562
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -869,21 +603,21 @@ Configured for...
 
 (setq org-src-fontify-natively t) ;; color blocks
 
-#+END_SRC
+#+end_src
 
 *** Make windmove work in org-mode
    :PROPERTIES:
    :ID:       77b9e2f6-674d-406c-a1f2-3f8e1307a541
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-hook 'org-shiftup-final-hook 'windmove-up)
 (add-hook 'org-shiftleft-final-hook 'windmove-left)
 (add-hook 'org-shiftdown-final-hook 'windmove-down)
 (add-hook 'org-shiftright-final-hook 'windmove-right)
 
-#+END_SRC
+#+end_src
 
 *** Setup org-capture
     :PROPERTIES:
@@ -892,18 +626,18 @@ Configured for...
 
 **** Setup capture location and key
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
 (define-key global-map "\C-cc" 'org-capture)
 
-#+END_SRC
+#+end_src
 
 **** TODO Setup capture templates
 
 **** TODO Setup refile targets
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 ; Use IDO for target completion
 (setq org-completion-use-ido t)
@@ -926,11 +660,11 @@ Configured for...
 ; '(ido-everywhere t)
 
 
-#+END_SRC
+#+end_src
 
 *** Display images in org mode
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
   ;; display images
   (local-set-key "\M-I" 'org-toggle-iimage-in-org)
@@ -958,19 +692,19 @@ Configured for...
       (set-face-underline-p 'org-link t))
   (call-interactively 'iimage-mode))
 
-#+END_SRC
+#+end_src
 
 *** Org Attach Directory
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 (setq org-attach-directory "~/Dropbox/OrgData/attach-directory")
-#+END_SRC
+#+end_src
 
 *** WAITING Fix tab in org mode
 
 Not sure this is of any benefit anymore!    
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
    ;; fix tab
    (local-set-key "\C-y" 'yank)
@@ -979,162 +713,16 @@ Not sure this is of any benefit anymore!
 ;;   (setq yas/trigger-key [tab])
 ;;   (define-key yas/keymap [tab] 'yas/next-field-group)))
 
-#+END_SRC
+#+end_src
 
-*** TODO Develop group agenda to show unscheduled TODO items
-
-[[http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html][Suggestions]]
-*** TODO Setup for latex / pdf export of org-mode
-
-  1) NOTE: remember ubuntu requires texlive-latex-extra for this
-  2) NOTE: also required ttf-marvosym
-  3) For missing packages try searching [[http://packages.ubuntu.com/search?keywords%3Dmarvosym&searchon%3Dnames&suite%3Dmaverick&section%3Dall][here]] and apt-get install package
-  4) Useful latex [[http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf][prettifying link]]
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-;; remember ubuntu requires texlive-latex-extra for this
-
-(require 'org-latex)
-(setq org-export-latex-listings t)
-(add-to-list 'org-export-latex-packages-alist '("" "listings"))
-(add-to-list 'org-export-latex-packages-alist '("" "color"))
-
-#+END_SRC
-
-*** TODO Setup for Auctex (ongoing)
-
-   ;;  Setup gleaned from [[http://salomie.ro/tudor/2010/09/02/console-based-system/][here]]
-   ;;  #+BEGIN_SRC emacs-lisp :results silent
-   ;;  
-   ;;  ;; AUCTeX
-   ;;  (setq TeX-auto-save t)
-   ;;  (setq TeX-parse-self t)
-   ;;  ;set up AUCTeX to deal with multiple file documents.
-   ;;  (setq-default TeX-master nil)
-   ;;  ;turn on pdf-mode.  AUCTeX will call pdflatex to compile instead of latex.
-   ;;  (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
-   ;;  ;turn on flyspell mode - this will automatically spell check the document in LaTex-mode
-   ;;  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-   ;;  
-   ;;      ; allow for export=>beamer by placing
-   ;;      ;; #+LaTeX_CLASS: beamer in org files
-   ;;      (unless (boundp 'org-export-latex-classes)
-   ;;      (setq org-export-latex-classes nil))
-   ;;      (add-to-list 'org-export-latex-classes
-   ;;      ;; beamer class, for presentations
-   ;;      '("beamer"
-   ;;        "\\documentclass[11pt]{beamer}\n
-   ;;        \\mode<{{{beamermode}}}>\n
-   ;;        \\usetheme{{{{beamertheme}}}}\n
-   ;;        \\usecolortheme{{{{beamercolortheme}}}}\n
-   ;;        \\beamertemplateballitem\n
-   ;;        \\setbeameroption{show notes}
-   ;;        \\usepackage[utf8]{inputenc}\n
-   ;;        \\usepackage[T1]{fontenc}\n
-   ;;        \\usepackage{hyperref}\n
-   ;;        \\usepackage{color}
-   ;;        \\usepackage{listings}
-   ;;        \\lstset{numbers=none,language=[ISO]C++,tabsize=4,
-   ;;        frame=single,
-   ;;        basicstyle=\\small,
-   ;;        showspaces=false,showstringspaces=false,
-   ;;        showtabs=false,
-   ;;        keywordstyle=\\color{blue}\\bfseries,
-   ;;        commentstyle=\\color{red},
-   ;;        }\n
-   ;;        \\usepackage{verbatim}\n
-   ;;        \\institute{{{{beamerinstitute}}}}\n
-   ;;        \\subject{{{{beamersubject}}}}\n"
-   ;;        org-beamer-sectioning
-   ;;        ("\\section{%s}" . "\\section*{%s}")
-   ;;        ("\\begin{frame}[fragile]\\frametitle{%s}"
-   ;;        "\\end{frame}"
-   ;;        "\\begin{frame}[fragile]\\frametitle{%s}"
-   ;;        "\\end{frame}")
-   ;;      ))
-   ;;  
-   ;;      ;; Set up skeletons (see below) in a menu in ORG MODE mode
-   ;;      (defvar org-org-menu)
-   ;;      (add-hook 'org-mode-hook
-   ;;      (lambda () (easy-menu-add-item org-org-menu nil ["Skeletons" nil t])
-   ;;      (easy-menu-add-item org-org-menu '("Skeletons") ["Beamer Theme" orgmode-beamer-my-skeleton t])))
-   ;;      (define-skeleton orgmode-beamer-my-skeleton
-   ;;        "inserts a simple orgmode-beamer template skeleton - use C-c C-e d to build the pdf"
-   ;;        nil
-   ;;        "#+LaTeX_CLASS: beamer\n"
-   ;;        "#+MACRO: BEAMERMODE presentation\n"
-   ;;        "#+MACRO: BEAMERCOLORTHEME dove\n"
-   ;;        "#+MACRO: BEAMERSUBJECT RMRF\n"
-   ;;        "#+BEAMER_FRAME_LEVEL: 2\n"
-   ;;        "#+COLUMNS: %35ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)\n"
-   ;;        "#+OPTIONS: tags:nil\n"
-   ;;        "#+MACRO: BEAMERINSTITUTE My Affiliation\n"
-   ;;        "#+AUTHOR: Tudor-Ioan Salomie\n"
-   ;;        "\n"
-   ;;        "#+TITLE: Presentation title\n"
-   ;;        "\n"
-   ;;        "\n"
-   ;;        "* My Section\n"
-   ;;        "\n"
-   ;;        "** Frame 1 \\\\ with a subtitle\n"
-   ;;        "\n"
-   ;;        "*** Idea\n"
-   ;;        "\n"
-   ;;        "#+begin_LaTeX\n"
-   ;;        "\n"
-   ;;        "#+end_LaTeX\n"
-   ;;        "\n\n\n"
-   ;;      )
-   ;;  
-   ;;  
-   ;;  #+END_SRC
-   ;;  
-   ;;  #+results:
-   ;;  : orgmode-beamer-my-skeleton
-   ;;  
 *** DONE Don't insert blank lines on heading generation
     CLOSED: [2011-02-08 Tue 13:16]
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq org-blank-before-new-entry nil)
 
-#+END_SRC
-
-*** TODO Setup Clocking work time
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(setq org-clock-persist 'history)
-     (org-clock-persistence-insinuate)
-
-#+END_SRC
-
-** TODO Flyspell mode error avoidance
-*** web discussion
-
-[[http://stackoverflow.com/questions/1781762/enabling-flyspell-mode-gives-an-error][stackoverflow]]
-[[https://bugs.launchpad.net/ubuntu/%2Bsource/dictionaries-common/%2Bbug/619015][launchpad]]
-
-*** configuration
-
-# #+BEGIN_SRC emacs-lisp :results silent
-;; (require 'ispell)
-;; (setq-default ispell-program-name "/usr/local/lib/aspell-0.60.6/aspell")
-;; (setq ispell-really-aspell t)
-;; (setq ispell-dictionary "/usr/local/lib/aspell6-en-7.1-0/english")
-;; ;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
-;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/flyspell.el
-;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/ispell.el
-;;# cd /usr/share/emacs23/site-lisp/dictionaries-common
-;;# sudo rm *.el *.elc
-;; the above didn't work for me so...
-
-(unload-feature 'flyspell-mode)
-;;neither did this! (not loaded)
-
- ##+END_SRC
+#+end_src
 
 ** Auto-Complete
 *** To load
@@ -1145,96 +733,18 @@ destination: ~/.emacs.d/martyn/auto-complete/installation
 
 *** Add to init
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path "~/.emacs.d/martyn/auto-complete/installation")
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/martyn/auto-complete/installation/ac-dict")
 (ac-config-default)
 
-#+END_SRC
+#+end_src
 
 *** Screencast 
 
 [[http://www.youtube.com/watch?v%3DrGVVnDxwJYE][YouTube]]
-
-** ert
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(add-to-list 'load-path "~/.emacs.d/martyn/ert")
-(require 'ert)
-
-#+END_SRC
-
-** TODO Yasnippets
-Need to check...
- -  org-mode hook 
- - auto-complete compatibility 
-
-*** TODO Setup yasnippets (full install as opposed to bundle in starter kit elpa)
- :PROPERTIES:
- :ID:       6d14775e-03bd-4138-b772-ada3de677830
- :END:
-**** Snippet locations (config below)
-***** Mycustom snippets
- - ~/.emacs.d/martyn/martyn/snippets
-
-***** My org-mode-snippets clone repo
-TODO: Needs to be kept up-to date
- - ~/.emacs.d/martyn/martyn/snippets
-
-***** My Unity-mode snippets
- - ~/.emacs.d/martyn/martyn/unity-mode/snippets
-***** Standard non bundled yasnippet snippets
- - ~/.emacs.d/martyn/yasnippets-rails/rails-snippets
-***** Standard non bundled yasnippet snippets
- - ~/.emacs.d/martyn/yasnippet-read-only
-**** Yasnippet load and snippet locations config
-
-#+BEGIN_SRC emacs-lisp :results silent
-  
-  (add-to-list 'load-path
-               (concat dotfiles-dir  "martyn/yasnippet-read-only"))
-  (require 'yasnippet) ;; not yasnippet-bundle
-  (yas/initialize)
-  
-  (setq yas/root-directory 
-        '("~/.emacs.d/martyn/martyn/unity-mode/snippets"
-          "~/.emacs.d/martyn/martyn/snippets"
-          "~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork/snippets"
-          "~/.emacs.d/martyn/yasnippets-rails/rails-snippets"
-          "~/.emacs.d/martyn/yasnippet-read-only/snippets"))
-  
-  ;; Load the snippets (NOTE: the mapc required for multiple directories)
-  ;; (Map `yas/load-directory' to every element)
-  
-  (mapc 'yas/load-directory yas/root-directory)
-  
-#+END_SRC
-
-*** To byte-compile-files
-
-# #+BEGIN_SRC emacs-lisp :results silent
-
-# (byte-compile-file
-# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/yasnippet.el" t)
-# (byte-compile-file
-# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/dropdown-list.el" t)
-
-# #+END_SRC
-
-**** TODO Yasnippets config for org-mode compatability
-     SCHEDULED: <2011-01-19 Wed>
-
-# #+BEGIN_SRC emacs-lisp :results silent
-
-#  (add-hook 'org-mode-hook
-#            (lambda ()
-#              (org-set-local 'yas/trigger-key [tab])
-#              (define-key yas/keymap [tab] 'yas/next-field-group)))
-
-# #+END_SRC
 
 ** Redo+
 This appears to be an upgrade of redo (although I never had any
@@ -1247,24 +757,24 @@ emacswiki]]
 
 *** configuration 
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path (concat dotfiles-dir "martyn/redoplus"))
 (require 'redo+)
 
-#+END_SRC
+#+end_src
     
     
 **** Make C-z undo, and M-z redo
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (define-key global-map (kbd "M-z") 'redo)
 (define-key global-map (kbd "C-z") 'undo)
 
-#+END_SRC
+#+end_src
 
-** DONE HideShow
+** HideShow
    CLOSED: [2011-01-25 Tue 14:49]
 *** Website 
 
@@ -1272,7 +782,7 @@ emacswiki]]
 
 *** HideShow Configuration
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-hook 'c-mode-common-hook   'hs-minor-mode)
     (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
@@ -1296,21 +806,21 @@ emacswiki]]
   (global-set-key [f3] 'hs-toggle-hiding)
   (global-set-key [C-f3] 'me-toggle-hiding-all)
 
-#+END_SRC
+#+end_src
 
-*** TODO hideshow.org
+*** hideshow.org
 **** Website
 
      [[https://github.com/secelis/hideshow-org][github/hideshow-org]]
 
 **** Configuration
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path (concat dotfiles-dir "martyn/hideshow-org"))
 (require 'hideshow-org)
 
-#+END_SRC
+#+end_src
 
 *** To byte-compile-file
 
@@ -1321,7 +831,7 @@ emacswiki]]
 
 # END_SRC
 
-** DONE Lusty Explorer
+** Lusty Explorer
    CLOSED: [2011-01-25 Tue 14:49]
 *** emacswiki
 
@@ -1333,71 +843,40 @@ emacswiki]]
 
 *** Config
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (add-to-list 'load-path
              (concat dotfiles-dir  "martyn/lusty-emacs"))
 (require 'lusty-explorer)
 (define-key global-map (kbd "C-x C-d") 'lusty-file-explorer)
 
-#+END_SRC
+#+end_src
 
 *** To byte-compile-file
 
 NOTE: lusty-explorer.el doesn't want to compile
 
-# #+BEGIN_SRC emacs-lisp :results silent
+# #+begin_src emacs-lisp :results silent
 
 # (byte-compile-file
 # "~/.emacs.d/martyn/lusty-emacs/lusty-explorer.el")
 # (byte-compile-file
 # "~/.emacs.d/martyn/lusty-emacs/lusty-ido.el")
 
-# #+END_SRC
+# #+end_src
 
-** TODO Highlight Parantheses
-*** Site
-[[(add-to-list%20'load-path%20"/path/to/highlight-parentheses")(require%20'highlight-parentheses)][site]]
-
-*** Setup
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(add-to-list 'load-path (concat dotfiles-dir 
-  "martyn/highlight-parentheses"))
-(require 'highlight-parentheses)
-
-#+END_SRC
-
-*** To byte-compile-file
-
-# #+BEGIN_SRC emacs-lisp :results silent
-
-# (byte-compile-file
-# "~/.emacs.d/martyn/highlight-parentheses/highlight-parentheses.el"  t)
-
-# #+END_SRC
-
-** TODO S-C-d to backward-delete-char() - doesn't work!!
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-  (global-set-key [C-S-d] 'backward-delete-char)
-
-#+END_SRC
-
-** DONE Map C-x C-o to other window (as C-x o)
+** Map C-x C-o to other window (as C-x o)
    CLOSED: [2011-01-26 Wed 10:41]
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
   (global-set-key [C-x-o] 'other-window)
 
-#+END_SRC
+#+end_src
 
-** TODO Setup generic browser
+** Setup generic browser
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
   (if (string= "darwin" system-type)
       (setq browse-url-browser-function 'browse-url-generic
@@ -1405,23 +884,21 @@ NOTE: lusty-explorer.el doesn't want to compile
     (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "conkeror"))
 
-#+END_SRC
+#+end_src
 
-** TODO doremi-frm
+** Setup MacGPG2 (for gpg) on mac OSX
 
-** DONE Setup MacGPG2 (for gpg) on mac OSX
-
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
   (when (string= "darwin" system-type)
     (setq epg-gpg-program "/usr/local/MacGPG2/bin/gpg2")
     (message "MacGPG2 set up"))
 
-#+END_SRC
+#+end_src
 
-** TODO Make Password
+** Make Password
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
   
   (add-to-list 'load-path
                (concat dotfiles-dir  "martyn/make-password"))
@@ -1430,9 +907,390 @@ NOTE: lusty-explorer.el doesn't want to compile
   (defalias 'mj-generate-password 'make-password)
   (defalias 'generate-password 'make-password)
   
-#+END_SRC
+#+end_src
 
-*** CANCELLED Graphviz in babel doesn't appear to be implemented
+** mj-versions
+
+#+begin_src emacs-lisp :results silent
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/mj-versions"))
+(require 'mj-versions)
+
+#+end_src
+
+** my-org-test-setup
+
+#+begin_src emacs-lisp :results silent
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/my-org-test-setup"))
+(require 'my-org-test-setup)
+
+#+end_src
+
+** my-header-arguments
+
+#+begin_src emacs-lisp :results silent
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/my-header-arguments"))
+(require 'my-header-arguments)
+
+#+end_src
+
+** help-page
+
+#+begin_src emacs-lisp :results silent
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/help-page"))
+(require 'help-page)
+
+  (defalias 'hp 'help-page)
+  
+#+end_src
+
+** Setup IRC user info and channels
+    :PROPERTIES:
+    :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
+    :END:
+
+#+begin_src emacs-lisp :results silent
+
+(setq erc-header-line-format nil)
+(setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
+(setq erc-log-channels-directory t)
+(setq erc-log-file-name-function "~/erc")
+(setq erc-truncate-buffer-on-save t)
+
+#+end_src
+
+** Boxquote
+#+begin_src emacs-lisp :results silent
+(add-to-list 'load-path
+ (concat dotfiles-dir "martyn/boxquote"))
+(require 'boxquote)
+#+end_src
+
+** lorem-ipsum 
+#+begin_src emacs-lisp :results silent
+(add-to-list 'load-path
+ (concat dotfiles-dir "martyn/lorem-ipsum"))
+(require 'lorem-ipsum)
+#+end_src
+
+** magit-hide-diffs
+#+begin_src emacs-lisp :results silent
+
+(setq magit-hide-diffs t)
+
+#+end_src
+
+** continuous-testing
+
+#+begin_src emacs-lisp :results silent
+(add-to-list 'load-path
+ (concat dotfiles-dir "martyn/martyn/continuous-testing"))
+(require 'continuous-testing)
+#+end_src
+
+* Under Test
+** TODO Unity Mode
+*** load path and speed keys
+
+#+begin_src emacs-lisp :results silent
+
+ (add-to-list 
+  'load-path
+   (concat dotfiles-dir "martyn/martyn/unity-mode"))
+ (require 'unity-mode)
+ ;(add-hook 'c-mode-hook 'unity-mode)
+
+(global-set-key [f5] 'unity-find-and-open-a-primative-match-forward)
+(global-set-key [S-f5] 'unity-find-and-open-a-primative-match-reverse)
+(global-set-key [C-f5] 'unity-cycle-MCH-buffer)
+(global-set-key [f6] 'unity-cycle-alpha-ascending)
+(global-set-key [S-f6] 'unity-cycle-alpha-descending)
+
+#+end_src
+
+** TODO unity-project ()
+
+#+begin_src emacs-lisp :results silent
+  
+  (defun unity-project ()
+    (interactive)
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-parse-project-file.el")
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-auto-config.el")
+    (delete-other-windows)
+    (split-window-horizontally)
+    (windmove-right)
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode.el")
+    (windmove-left)
+;;    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode-tests.el")
+    (switch-to-buffer "#emacs")
+    (split-window-vertically)
+    (switch-to-buffer "*ert*")
+    (windmove-down)
+    (switch-to-buffer "#emacs"))
+ 
+#+end_src
+
+** TODO unity-eval-src-and-tests ()
+
+#+begin_src emacs-lisp :results silent
+  
+  (defun unity-eval-src-and-tests ()
+    (interactive)
+    (let ((original-buffer buffer-file-name)
+          (original-window (selected-window)))
+  
+      (if(string-match "^unity-" (file-name-nondirectory original-buffer)) 
+          (progn
+            (eval-buffer "unity-mode-tests.el")
+            (eval-buffer "unity-mode.el")
+            (ert t)))
+      (select-window original-window))) 
+  ;; (error "%s" (windmove-find-other-window 'right))
+  ;;     (if(equal original-buffer (windmove-find-other-window 'right))
+  ;;         (windmove-right)
+  ;;       (windmove-down))))
+  
+#+end_src
+
+** TODO unity-project-org()
+Moved to unity-mode.el
+
+#+begin_src emacs-lisp :results silent
+  
+;   (global-set-key [f4] 'unity-eval-src-and-tests)
+;   (global-set-key [C-f4] 'unity-switch-src-control-file)
+;   (global-set-key [C-c C-v] 'eval-region)
+  
+#+end_src
+
+** TODO Develop group agenda to show unscheduled TODO items
+
+[[http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html][Suggestions]]
+** TODO Setup for latex / pdf export of org-mode
+
+  1) NOTE: remember ubuntu requires texlive-latex-extra for this
+  2) NOTE: also required ttf-marvosym
+  3) For missing packages try searching [[http://packages.ubuntu.com/search?keywords%3Dmarvosym&searchon%3Dnames&suite%3Dmaverick&section%3Dall][here]] and apt-get install package
+  4) Useful latex [[http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf][prettifying link]]
+
+#+begin_src emacs-lisp :results silent
+
+;; remember ubuntu requires texlive-latex-extra for this
+
+(require 'org-latex)
+(setq org-export-latex-listings t)
+(add-to-list 'org-export-latex-packages-alist '("" "listings"))
+(add-to-list 'org-export-latex-packages-alist '("" "color"))
+
+#+end_src
+
+** TODO Setup for Auctex (ongoing)
+
+  ;;  Setup gleaned from [[http://salomie.ro/tudor/2010/09/02/console-based-system/][here]]
+  ;;  #+begin_src emacs-lisp :results silent
+  ;;  
+  ;;  ;; AUCTeX
+  ;;  (setq TeX-auto-save t)
+  ;;  (setq TeX-parse-self t)
+  ;;  ;set up AUCTeX to deal with multiple file documents.
+  ;;  (setq-default TeX-master nil)
+  ;;  ;turn on pdf-mode.  AUCTeX will call pdflatex to compile instead of latex.
+  ;;  (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+  ;;  ;turn on flyspell mode - this will automatically spell check the document in LaTex-mode
+  ;;  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  ;;  
+  ;;      ; allow for export=>beamer by placing
+  ;;      ;; #+LaTeX_CLASS: beamer in org files
+  ;;      (unless (boundp 'org-export-latex-classes)
+  ;;      (setq org-export-latex-classes nil))
+  ;;      (add-to-list 'org-export-latex-classes
+  ;;      ;; beamer class, for presentations
+  ;;      '("beamer"
+  ;;        "\\documentclass[11pt]{beamer}\n
+  ;;        \\mode<{{{beamermode}}}>\n
+  ;;        \\usetheme{{{{beamertheme}}}}\n
+  ;;        \\usecolortheme{{{{beamercolortheme}}}}\n
+  ;;        \\beamertemplateballitem\n
+  ;;        \\setbeameroption{show notes}
+  ;;        \\usepackage[utf8]{inputenc}\n
+  ;;        \\usepackage[T1]{fontenc}\n
+  ;;        \\usepackage{hyperref}\n
+  ;;        \\usepackage{color}
+  ;;        \\usepackage{listings}
+  ;;        \\lstset{numbers=none,language=[ISO]C++,tabsize=4,
+  ;;        frame=single,
+  ;;        basicstyle=\\small,
+  ;;        showspaces=false,showstringspaces=false,
+  ;;        showtabs=false,
+  ;;        keywordstyle=\\color{blue}\\bfseries,
+  ;;        commentstyle=\\color{red},
+  ;;        }\n
+  ;;        \\usepackage{verbatim}\n
+  ;;        \\institute{{{{beamerinstitute}}}}\n
+  ;;        \\subject{{{{beamersubject}}}}\n"
+  ;;        org-beamer-sectioning
+  ;;        ("\\section{%s}" . "\\section*{%s}")
+  ;;        ("\\begin{frame}[fragile]\\frametitle{%s}"
+  ;;        "\\end{frame}"
+  ;;        "\\begin{frame}[fragile]\\frametitle{%s}"
+  ;;        "\\end{frame}")
+  ;;      ))
+  ;;  
+  ;;      ;; Set up skeletons (see below) in a menu in ORG MODE mode
+  ;;      (defvar org-org-menu)
+  ;;      (add-hook 'org-mode-hook
+  ;;      (lambda () (easy-menu-add-item org-org-menu nil ["Skeletons" nil t])
+  ;;      (easy-menu-add-item org-org-menu '("Skeletons") ["Beamer Theme" orgmode-beamer-my-skeleton t])))
+  ;;      (define-skeleton orgmode-beamer-my-skeleton
+  ;;        "inserts a simple orgmode-beamer template skeleton - use C-c C-e d to build the pdf"
+  ;;        nil
+  ;;        "#+LaTeX_CLASS: beamer\n"
+  ;;        "#+MACRO: BEAMERMODE presentation\n"
+  ;;        "#+MACRO: BEAMERCOLORTHEME dove\n"
+  ;;        "#+MACRO: BEAMERSUBJECT RMRF\n"
+  ;;        "#+BEAMER_FRAME_LEVEL: 2\n"
+  ;;        "#+COLUMNS: %35ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)\n"
+  ;;        "#+OPTIONS: tags:nil\n"
+  ;;        "#+MACRO: BEAMERINSTITUTE My Affiliation\n"
+  ;;        "#+AUTHOR: Tudor-Ioan Salomie\n"
+  ;;        "\n"
+  ;;        "#+TITLE: Presentation title\n"
+  ;;        "\n"
+  ;;        "\n"
+  ;;        "* My Section\n"
+  ;;        "\n"
+  ;;        "** Frame 1 \\\\ with a subtitle\n"
+  ;;        "\n"
+  ;;        "*** Idea\n"
+  ;;        "\n"
+  ;;        "#+begin_LaTeX\n"
+  ;;        "\n"
+  ;;        "#+end_LaTeX\n"
+  ;;        "\n\n\n"
+  ;;      )
+  ;;  
+  ;;  
+  ;;  #+end_src
+  ;;  
+  ;;  #+results:
+  ;;  : orgmode-beamer-my-skeleton
+  ;;  
+*** TODO Setup Clocking work time
+
+#+begin_src emacs-lisp :results silent
+
+(setq org-clock-persist 'history)
+     (org-clock-persistence-insinuate)
+
+#+end_src
+
+** TODO Function mj-diary-org opens diary.org
+
+#+begin_src emacs-lisp :results silent
+  
+  (defun mj-diary-org()
+    "Fast route to diary.org"
+    (interactive)
+    (find-file "~/Dropbox/OrgData/diary.org"))
+  
+#+end_src emacs-lisp
+
+: mj-diary-org
+
+#+begin_src emacs-lisp :results silent
+
+  (defun mj-init-org()
+    "Fast route to init.org"
+    (interactive)
+    (find-file "~/.emacs.d/martyn/init.org"))
+
+#+end_src
+
+#+begin_src emacs-lisp :results silent
+
+  (defun mj-org-agenda ()
+    (interactive)
+    (org-agenda nil "a"))
+
+#+end_src
+
+** TODO Function mj-cycle-helps opens mj-helps
+
+#+begin_src emacs-lisp :results silent
+    
+  (defun mj-cycle-helps()
+    (interactive)
+    (unless (boundp 'mj-current-help)
+      (setq mj-current-help nil))
+  (cond 
+        ((equal (buffer-name) "diary.org")
+         (bury-buffer "diary.org")
+         (setq mj-current-help 'mj-org-agenda))
+        ((equal (buffer-name) "*Org Agenda*")
+         (org-agenda-quit)
+         (setq mj-current-help 'help-page))
+        ((equal (buffer-name) "help.org")
+         (bury-buffer "help.org")
+         (setq mj-current-help 'mj-init-org))
+        (t (setq mj-current-help 'mj-diary-org)))
+  (funcall mj-current-help))
+    
+#+end_src emacs-lisp
+
+** TODO Flyspell mode error avoidance
+*** web discussion
+
+[[http://stackoverflow.com/questions/1781762/enabling-flyspell-mode-gives-an-error][stackoverflow]]
+[[https://bugs.launchpad.net/ubuntu/%2Bsource/dictionaries-common/%2Bbug/619015][launchpad]]
+
+*** configuration
+
+# #+begin_src emacs-lisp :results silent
+;; (require 'ispell)
+;; (setq-default ispell-program-name "/usr/local/lib/aspell-0.60.6/aspell")
+;; (setq ispell-really-aspell t)
+;; (setq ispell-dictionary "/usr/local/lib/aspell6-en-7.1-0/english")
+;; ;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
+;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/flyspell.el
+;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/ispell.el
+;;# cd /usr/share/emacs23/site-lisp/dictionaries-common
+;;# sudo rm *.el *.elc
+;; the above didn't work for me so...
+
+(unload-feature 'flyspell-mode)
+;;neither did this! (not loaded)
+
+ ##+end_src
+** DEPRECATED ERT setup
+
+# #+begin_src emacs-lisp :results silent
+# 
+# (add-to-list 'load-path "~/.emacs.d/martyn/ert")
+# (require 'ert)
+# 
+# #+end_src
+** TODO Graphviz-dot-mode
+
+*** web
+link]]
+*** dot mode
+   SCHEDULED: <2010-11-29 Mon>
+
+#+begin_src emacs-lisp :results silent
+
+ (load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode/graphviz-dot-mode.el"))
+
+#+end_src
+
+** TODO Graphviz in babel doesn't appear to be implemented
     SCHEDULED: #<2010-11-28 Sun>
     - State "NEXT"       from "DONE"       [2011-02-18 Fri 06:41]
     :PROPERTIES:
@@ -1442,7 +1300,7 @@ NOTE: lusty-explorer.el doesn't want to compile
      It is now
 **** Test
 
-##+BEGIN_SRC dot
+##+begin_src dot
 
 digraph unix {
         size="6,6";
@@ -1498,102 +1356,9 @@ digraph unix {
         "System V.2" -> "System V.3";
 }
 
-#+END_SRC
+#+end_src
 
-** My custom functions
-*** mj-versions
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(add-to-list 'load-path
-             (concat dotfiles-dir  "martyn/martyn/mj-versions"))
-(require 'mj-versions)
-
-#+END_SRC
-
-*** my-org-test-setup
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(add-to-list 'load-path
-             (concat dotfiles-dir  "martyn/martyn/my-org-test-setup"))
-(require 'my-org-test-setup)
-
-#+END_SRC
-
-*** my-header-arguments
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(add-to-list 'load-path
-             (concat dotfiles-dir  "martyn/martyn/my-header-arguments"))
-(require 'my-header-arguments)
-
-#+END_SRC
-
-*** help-page
-#+BEGIN_SRC emacs-lisp :results silent
-  
-  (defun help-page (&optional page-name)
-    (interactive "s Enter help-page: ")
-    (if (not page-name)
-        (setq page-name ""))
-    (let ((case-fold-search nil)
-          (case-replace nil)
-          (help-directory
-           "~/Dropbox/OrgData/"))
-      (if(equal page-name "")
-        (progn 
-        (find-file (concat help-directory "help.org"))
-        (error "Opening help.org")))
-      (if (not (string-match "-help$"
-                             (file-name-sans-extension page-name)))
-          (setq page-name (concat page-name "-help.org")))
-      (if (not (file-exists-p  (concat help-directory page-name)))
-          (progn
-            (set-buffer "help.org")
-            (end-of-buffer)
-            (newline)
-            (insert (concat "[[file:" page-name "::*"
-                            (replace-regexp-in-string
-                             "-" "%20"
-                             (file-name-sans-extension page-name) t t nil nil)
-                            "]["
-                            (replace-regexp-in-string
-                             "-" " "
-                             (file-name-sans-extension
-                              page-name) t t nil nil)
-                            "]]"))
-            (sort-lines nil (point-min) (point-max))
-            (set-buffer (get-buffer-create page-name))
-            (org-insert-heading)
-            (insert (replace-regexp-in-string
-                     "-" " "
-                     (file-name-sans-extension page-name) t t nil nil))
-            (newline)
-            (write-file (concat help-directory page-name))))) 
-    (switch-to-buffer page-name))
-
-  (defalias 'hp 'help-page)
-#+END_SRC
-
-** Setup IRC user info and channels
-    :PROPERTIES:
-    :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
-    :END:
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(setq erc-header-line-format nil)
-(setq erc-hide-list '("JOIN" "PART" "QUIT"))
-
-(setq erc-log-channels-directory t)
-(setq erc-log-file-name-function "~/erc")
-(setq erc-truncate-buffer-on-save t)
-
-#+END_SRC
-
-** TODO org capture
+** TODO org-contacts
 
 #+begin_src emacs-lisp :results silent
 
@@ -1610,6 +1375,225 @@ digraph unix {
 
 #+end_src
 
+** TODO Yasnippet
+Need to check...
+ - org-mode hook 
+ - auto-complete compatibility 
+*** TODO Setup yasnippets (full install as opposed to bundle in starter kit elpa)
+ :PROPERTIES:
+ :ID:       6d14775e-03bd-4138-b772-ada3de677830
+ :END:
+**** Snippet locations (config below)
+***** Mycustom snippets
+ - ~/.emacs.d/martyn/martyn/snippets
+
+***** My org-mode-snippets clone repo
+TODO: Needs to be kept up-to date
+ - ~/.emacs.d/martyn/martyn/snippets
+
+***** My Unity-mode snippets
+ - ~/.emacs.d/martyn/martyn/unity-mode/snippets
+***** Standard non bundled yasnippet snippets
+ - ~/.emacs.d/martyn/yasnippets-rails/rails-snippets
+***** Standard non bundled yasnippet snippets
+ - ~/.emacs.d/martyn/yasnippet-read-only
+**** Yasnippet load and snippet locations config
+
+#+begin_src emacs-lisp :results silent
+  
+  (add-to-list 'load-path
+               (concat dotfiles-dir  "martyn/yasnippet-read-only"))
+  (require 'yasnippet) ;; not yasnippet-bundle
+  (yas/initialize)
+  
+  (setq yas/root-directory 
+        '("~/.emacs.d/martyn/martyn/unity-mode/snippets"
+          "~/.emacs.d/martyn/martyn/snippets"
+          "~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork/snippets"
+          "~/.emacs.d/martyn/yasnippets-rails/rails-snippets"
+          "~/.emacs.d/martyn/yasnippet-read-only/snippets"))
+  
+  ;; Load the snippets (NOTE: the mapc required for multiple directories)
+  ;; (Map `yas/load-directory' to every element)
+  
+  (mapc 'yas/load-directory yas/root-directory)
+  
+#+end_src
+
+*** To byte-compile-files
+
+# #+begin_src emacs-lisp :results silent
+
+# (byte-compile-file
+# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/yasnippet.el" t)
+# (byte-compile-file
+# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/dropdown-list.el" t)
+
+# #+end_src
+
+**** TODO Yasnippets config for org-mode compatability
+     SCHEDULED: <2011-01-19 Wed>
+
+# #+begin_src emacs-lisp :results silent
+
+#  (add-hook 'org-mode-hook
+#            (lambda ()
+#              (org-set-local 'yas/trigger-key [tab])
+#              (define-key yas/keymap [tab] 'yas/next-field-group)))
+
+# #+end_src
+*** TODO Setup yasnippet for rails
+   :PROPERTIES:
+   :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
+   :END:
+
+#+begin_src emacs-lisp :results silent
+
+;; (add-to-list 'load-path
+;;    (concat dotfiles-dir "/martyn/yasnippets-rails"))
+
+;; (add-hook 'ruby-mode-hook ; or rails-minor-mode-hook ?
+;;           '(lambda ()
+;;              (make-variable-buffer-local 'yas/trigger-key)
+;;              (setq yas/trigger-key [tab])))
+
+;; (require 'yasnippet)
+;; ;;(add-to-list 'yas/extra-mode-hooks
+;; ;;             'ruby-mode-hook)
+
+;; (yas/initialize)
+;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
+
+;; ;;(yas/load-directory
+;; ;;   (concat
+;; ;;      dotfiles-dir "/martyn/snippets/yasnippets-rails/rails-snippets/"))
+;; ;;(make-variable-buffer-local 'yas/trigger-key)
+
+;; ;; yasnippet-org-mode
+;; (yas/load-directory
+;;    (concat
+;;       dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))
+
+#+end_src
+
+** TODO Highlight Parantheses
+*** Site
+[[(add-to-list%20'load-path%20"/path/to/highlight-parentheses")(require%20'highlight-parentheses)][site]]
+
+*** Setup
+
+#+begin_src emacs-lisp :results silent
+
+(add-to-list 'load-path (concat dotfiles-dir 
+  "martyn/highlight-parentheses"))
+(require 'highlight-parentheses)
+
+#+end_src
+
+** TODO S-C-d to backward-delete-char() - doesn't work!!
+
+#+begin_src emacs-lisp :results silent
+
+  (global-set-key [C-S-d] 'backward-delete-char)
+
+#+end_src
+
+** TODO doremi-frm
+
+** TODO Comment or uncomment region with M-k
+   :PROPERTIES:
+   :ID:       54fe0628-6b92-4e51-b03b-c1610506f021
+   :END:
+
+#+begin_src emacs-lisp :results silent
+
+(global-set-key "\M-k" 'comment-or-uncomment-region)
+
+#+end_src
+
+** TODO column-number-mode
+
+Re: emacs and gnome-terminal
+(Anonymous)
+2008-05-20 04:51 am UTC (link)
+Not a bug fix, but this seems to make the problem go away.
+
+Turn on column-number-mode.
+
+You can put the following into your ~/.emacs to have it on on loading
+ 
+#+begin_src emacs-lisp :results silent
+
+(setq-default column-number-mode t)
+
+#+end_src
+
+#+begin_src emacs-lisp :results silent
+
+(setq cursor-type 'hbar)
+(set-cursor-color  "white")
+
+#+end_src
+
+** TODO Remap C-j to my custom goto-next-line function
+   :PROPERTIES:
+   :ID:       3f3b1218-c9dd-4dba-a2ee-f8aafa338992
+   :END:
+
+#+begin_src emacs-lisp :results silent
+
+;; function here
+
+#+end_src
+
+** TODO elpa
+
+;;#+begin_src emacs-lisp :results silent
+;;(setq package-user-dir (concat dotfiles-dir "martyn/elpa"))
+;;#+end_src
+
+** TODO Mode-compile 
+*** TODO Setup Mode-compile (emacs-wiki)
+
+#+begin_src emacs-lisp :results silent
+  
+  ;;mode-compile
+  (autoload 'mode-compile "mode-compile"
+    "Command to compile current buffer file based on the major mode" t)
+;;  (global-set-key "\C-cc" 'mode-compile)
+  (autoload 'mode-compile-kill "mode-compile"
+    "Command to kill a compilation launched by `mode-compile'" t)
+;;  (global-set-key "\C-ck" 'mode-compile-kill)
+  
+#+end_src
+
+** TODO Ruby
+*** TODO (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel :DISABLED:
+   :PROPERTIES:
+   :ID:       86bebb8b-e52d-43da-9f7b-a49ef5db14ba
+   :END:
+
+#+begin_src emacs-lisp :results silent
+
+ (add-to-list 'load-path (concat dotfiles-dir "martyn/rvm/rvm.el/"))
+ (require 'rvm)
+ (rvm-activate-corresponding-ruby)
+ (rvm-autodetect-ruby)
+ (rvm-use "1.9.2" "default")
+
+#+end_src
+
+*** Setup rspec-mode (development)
+   :PROPERTIES:
+   :ID:       ace283a7-2eb8-4c48-b667-8ebfb419606d
+   :END:
+
+#+begin_src emacs-lisp :results silent
+
+(add-to-list 'load-path (concat dotfiles-dir "martyn/rspec-mode"))
+
+#+end_src
+
 * Initial display
 ** Display diary org and agenda
 *** "martyn-laptop" system specific...
@@ -1619,7 +1603,7 @@ digraph unix {
  - Switch to diary.org
  - Bring up schedule agenda in other window
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (defun me-startup-in-agenda ()
   (if (string= system-name "martyn-laptop") 
@@ -1631,62 +1615,25 @@ digraph unix {
 
 (add-hook 'window-setup-hook 'me-startup-in-agenda)
 
-#+END_SRC
+#+end_src
 
-* Under Test
-
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(setq magit-hide-diffs t)
-
-#+END_SRC
-
-Re: emacs and gnome-terminal
-(Anonymous)
-2008-05-20 04:51 am UTC (link)
-Not a bug fix, but this seems to make the problem go away.
-
-Turn on column-number-mode.
-
-You can put the following into your ~/.emacs to have it on on loading
- 
-#+BEGIN_SRC emacs-lisp :results silent
-
-(setq-default column-number-mode t)
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(setq cursor-type 'hbar)
-(set-cursor-color  "white")
-
-#+END_SRC
-
-* Delete temp file martyn/init.el (do this last!)
+* Delete temp file martyn/init.el 
    :PROPERTIES:
    :ID:       6a8cf784-ad8c-4b52-b549-bc2d3c662e85
    :END:
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (delete-file "~/.emacs.d/martyn/init.el")
 
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 
 (setq org-export-directory "~/Dropbox/OrgData/html")
 
-#+END_SRC
+#+end_src
 
-* Emacs Loaded message
 
-#+BEGIN_SRC emacs-lisp :results silent
-
-(message (concat (version) " Loaded!"))
-
-#+END_SRC
 
 
