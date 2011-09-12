@@ -8,3 +8,5 @@ yasnippet**
 /.DS_Store
 /color-themes-added/.DS_Store
 /cscope/#cscope.el#
+/init.org_archive
+/loaddefs.el_
