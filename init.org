@@ -348,7 +348,6 @@ Customisations made using emacs Customizations go here...
 
 #+end_src
 
-** Org Mode  
 ** Add org-mode contrib/lisp files to load path
    :PROPERTIES:
    :ID:       45537f41-3389-45b8-9454-bc0e2e51ebe5
@@ -384,7 +383,7 @@ Customisations made using emacs Customizations go here...
 
 #+begin_src emacs-lisp :results silent
 
-(setq org-todo-keywords (quote ((sequence "TODO(t!)" "NEXT(n!)" "|" "DONE(d!/!)")
+(setq org-todo-keywords (quote ((sequence "TODO(t!)" "|" "DONE(d!/!)")
                                 (sequence "WAITING(w@/!)"
                                 "SOMEDAY(s!)" 
                                 "IGNORED" 
@@ -396,7 +395,6 @@ Customisations made using emacs Customizations go here...
 
 (setq org-todo-keyword-faces
       (quote (("TODO"      :foreground "red"          :weight bold)
-              ("NEXT"      :foreground "white"        :weight bold)
               ("DONE"      :foreground "forest green" :weight bold)
               ("WAITING"   :foreground "yellow"       :weight bold)
               ("SOMEDAY"   :foreground "goldenrod"    :weight bold)
@@ -410,153 +408,19 @@ Customisations made using emacs Customizations go here...
 
 #+end_src
 
-*** TODO Org Agenda
-
-**** TODO default to only showing current day
-
-#+begin_src emacs-lisp :results silent
-
-(setq org-agenda-ndays 1)
-
-#+end_src
-
-**** Org Agenda Files
-
-#+begin_src emacs-lisp :results silent
-
- (setq org-agenda-files (quote (
-    "~/Dropbox/OrgData/diary.org"
-    "~/Dropbox/OrgData/unity-mode.org"
-;;    "~/Dropbox/OrgData/personal_audit.org"
-    "~/Dropbox/OrgData/capture.org"
-    "~/Dropbox/OrgData/inbox.org"
-    "~/Dropbox/OrgData/drills/bbdb-drill.org"
- )))
-
- (setq org-directory "~/Dropbox/OrgData")
- (setq org-mobile-directory "~/Dropbox/MobileOrg")
- (setq org-mobile-files org-agenda-files)
- (setq org-mobile-inbox-for-pull "~/Dropbox/OrgData/inbox.org")
-
-#+end_src
-
-**** TODO Org Agenda Custom Commands
-
-#+begin_src emacs-lisp :results silent
-
-(defun run-todo-unscheduled ()
-"agenda of unscheduled todos"
-(interactive)
-(setq org-agenda-todo-ignore-scheduled t)
-(org-todo-list '("t"))
-(setq org-agenda-todo-ignore-scheduled nil))
-
-(provide 'run-todo-unscheduled)
-
- (setq org-agenda-custom-commands
-           '(("e" todo "-SCHEDULED")
-             ("W" todo-tree "WAITING")
-             ("u" tags "+boss-urgent")
-             ("v" tags-todo "+boss-urgent")
-             ("U" tags-tree "+boss-urgent")
-             ("f" occur-tree "\\<FIXME\\>")
-             ("hl" tags "+home+Lisa")
-             ("hp" tags "+home+Peter")
-             ("hk" tags "+home+Kim")))
-
-#+end_src
-
-#+begin_src emacs-lisp :results silent
-(setq org-agenda-custom-commands
-      (quote (("w" "Tasks waiting on something" tags "WAITING/!"
-               ((org-use-tag-inheritance nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-todo-ignore-with-date nil)
-                (org-agenda-overriding-header "Waiting Tasks")))
-              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
-               ((org-agenda-todo-ignore-with-date nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-overriding-header "Tasks to Refile")))
-              ("N" "Notes" tags "NOTE"
-               ((org-agenda-overriding-header "Notes")))
-              ("n" "Next" tags-todo "-WAITING-CANCELLED/!NEXT"
-               ((org-agenda-overriding-header "Next Tasks")))
-              ("p" "Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
-               ((org-agenda-skip-function 'bh/skip-non-projects)
-                (org-agenda-overriding-header "Projects")))
-              ("o" "Other (Non-Project) tasks" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
-               ((org-agenda-skip-function 'bh/skip-projects)
-                (org-agenda-overriding-header "Other Non-Project Tasks")))
-              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELLED"
-               ((org-agenda-overriding-header "Tasks to Archive")))
-              ("h" "Habits" tags "STYLE=\"habit\""
-               ((org-agenda-todo-ignore-with-date nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-overriding-header "Habits")))
-              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
-               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                (org-agenda-overriding-header "Stuck Projects")))
-              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
-               ((org-agenda-skip-function
-                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
-                (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
-
-#+end_src
-
-*** DONE Fast TODO key selection
-
-#+begin_src emacs-lisp :results silent
-
-(setq org-treat-S-cursor-todo-selection-as-state-change nil)
-
-#+end_src
-
-     - State "TODO"       from ""           [2011-02-08 Tue 14:09]
-*** Configure org-mobile
-    :PROPERTIES:
-    :ID:       d00980d4-443c-4cad-8bb2-3d4520e6c92d
-    :END:
-
-**** TODO my-run-drills function (doesn't work yet)
-
-#+begin_src emacs-lisp :results silent
-
- (defun my-run-drills ()
- "Function to run all drills that exist in agenda files"
-  (interactive)
-  (org-drill 'agenda))
-
- (provide 'my-run-drills)
-
-#+end_src
-
-*** DONE Lilypond mode
+** Lilypond mode
  
 #+begin_src emacs-lisp :results silent
 
  (add-to-list 'load-path
               (concat dotfiles-dir  "martyn/lilypond"))
-;;   (add-to-list 'load-path
-;;  #               (concat dotfiles-dir  "martyn/lilypond/"))
-;;  #  (add-to-list 'load-path
-;;  #               (concat dotfiles-dir  "martyn/martyn/lilypond-hook"))
-;;  #  (require 'ob-lilypond)
-;;  #  (require 'lilypond-hook)
 (autoload 'LilyPond-mode "lilypond-mode" "LilyPond Editing Mode" t)
 (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
 (add-to-list 'auto-mode-alist '("\\.ily$" . LilyPond-mode))
 
-;;  #  
-
 #+end_src
  
-*** Setup org-mode (development)
-   :PROPERTIES:
-   :ID:       475aca1e-5f54-42e6-bb58-4b8fb56dff0f
-   :END:
+** Setup org-mode (development)
 
 #+begin_src emacs-lisp :results silent
 
@@ -569,8 +433,8 @@ Customisations made using emacs Customizations go here...
 
 #+end_src
 
-*** Configure Babel languages 
-**** Configure Babel
+** Configure Babel languages 
+*** Configure Babel
 Configured for...
  - Ruby 
  - Python
@@ -618,35 +482,6 @@ Configured for...
 (add-hook 'org-shiftright-final-hook 'windmove-right)
 
 #+end_src
-
-*** Setup org-capture
-    :PROPERTIES:
-    :ID:       3f712c43-2db3-4001-93df-ffed1319e19a
-    :END:
-
-**** Setup capture location and key
-
-#+begin_src emacs-lisp :results silent
-
-(setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
-(define-key global-map "\C-cc" 'org-capture)
-
-#+end_src
-
-**** TODO Setup capture templates
-
-**** TODO Setup refile targets
-
-#+begin_src emacs-lisp :results silent
-
-; Use IDO for target completion
-(setq org-completion-use-ido t)
-
-; Targets include this file and any file contributing to the agenda - up to 5 levels deep
-(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))))
-
-; Targets start with the file name - allows creating level 1 tasks
-;; TESTING (setq org-refile-use-outline-path (quote file))
 
 ; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
 (setq org-outline-path-complete-in-steps t)
@@ -952,9 +787,6 @@ NOTE: lusty-explorer.el doesn't want to compile
 #+end_src
 
 ** Setup IRC user info and channels
-    :PROPERTIES:
-    :ID:       6696e701-1de9-40f9-ae4c-4d5673b9cc2f
-    :END:
 
 #+begin_src emacs-lisp :results silent
 
@@ -964,7 +796,7 @@ NOTE: lusty-explorer.el doesn't want to compile
 (setq erc-log-channels-directory t)
 (setq erc-log-file-name-function "~/erc")
 (setq erc-truncate-buffer-on-save t)
-
+(setq erc-nick "mjgo")
 #+end_src
 
 ** Boxquote
@@ -996,7 +828,162 @@ NOTE: lusty-explorer.el doesn't want to compile
 (require 'continuous-testing)
 #+end_src
 
+** ispell
+
+#+begin_src emacs-lisp :results silent
+(setq ispell-program-name "/opt/local/bin/ispell")
+(require 'ispell) 
+ 
+#+end_src
 * Under Test
+
+** TODO Fast TODO key selection
+
+#+begin_src emacs-lisp :results silent
+
+(setq org-treat-S-cursor-todo-selection-as-state-change nil)
+
+#+end_src
+
+** TODO Configure org-mobile
+** TODO my-run-drills function (doesn't work yet)
+
+#+begin_src emacs-lisp :results silent
+
+ (defun my-run-drills ()
+ "Function to run all drills that exist in agenda files"
+  (interactive)
+  (org-drill 'agenda))
+
+ (provide 'my-run-drills)
+
+#+end_src
+
+** TODO Setup org-capture
+    :PROPERTIES:
+    :ID:       3f712c43-2db3-4001-93df-ffed1319e19a
+    :END:
+
+*** Setup capture location and key
+
+#+begin_src emacs-lisp :results silent
+
+(setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
+(define-key global-map "\C-cc" 'org-capture)
+
+#+end_src
+
+*** TODO Setup capture templates
+
+*** TODO Setup refile targets
+
+#+begin_src emacs-lisp :results silent
+
+; Use IDO for target completion
+(setq org-completion-use-ido t)
+
+; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))))
+
+; Targets start with the file name - allows creating level 1 tasks
+;; TESTING (setq org-refile-use-outline-path (quote file))
+
+#+end_src
+
+** TODO Org Agenda Custom Commands
+
+#+begin_src emacs-lisp :results silent
+
+(defun run-todo-unscheduled ()
+"agenda of unscheduled todos"
+(interactive)
+(setq org-agenda-todo-ignore-scheduled t)
+(org-todo-list '("t"))
+(setq org-agenda-todo-ignore-scheduled nil))
+
+(provide 'run-todo-unscheduled)
+
+ (setq org-agenda-custom-commands
+           '(("e" todo "-SCHEDULED")
+             ("W" todo-tree "WAITING")
+             ("u" tags "+boss-urgent")
+             ("v" tags-todo "+boss-urgent")
+             ("U" tags-tree "+boss-urgent")
+             ("f" occur-tree "\\<FIXME\\>")
+             ("hl" tags "+home+Lisa")
+             ("hp" tags "+home+Peter")
+             ("hk" tags "+home+Kim")))
+
+#+end_src
+
+#+begin_src emacs-lisp :results silent
+(setq org-agenda-custom-commands
+      (quote (("w" "Tasks waiting on something" tags "WAITING/!"
+               ((org-use-tag-inheritance nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-with-date nil)
+                (org-agenda-overriding-header "Waiting Tasks")))
+              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-overriding-header "Tasks to Refile")))
+              ("N" "Notes" tags "NOTE"
+               ((org-agenda-overriding-header "Notes")))
+              ("p" "Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-non-projects)
+                (org-agenda-overriding-header "Projects")))
+              ("o" "Other (Non-Project) tasks" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-projects)
+                (org-agenda-overriding-header "Other Non-Project Tasks")))
+              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELLED"
+               ((org-agenda-overriding-header "Tasks to Archive")))
+              ("h" "Habits" tags "STYLE=\"habit\""
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-overriding-header "Habits")))
+              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                (org-agenda-overriding-header "Stuck Projects")))
+              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+               ((org-agenda-skip-function
+                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+                (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+
+#+end_src
+
+** TODO Org Agenda
+
+*** TODO default to only showing current day
+
+#+begin_src emacs-lisp :results silent
+
+(setq org-agenda-ndays 1)
+
+#+end_src
+
+**** Org Agenda Files
+
+#+begin_src emacs-lisp :results silent
+
+ (setq org-agenda-files (quote (
+    "~/Dropbox/OrgData/diary.org"
+;;    "~/Dropbox/OrgData/unity-mode.org"
+;;    "~/Dropbox/OrgData/personal_audit.org"
+    "~/Dropbox/OrgData/capture.org"
+    "~/Dropbox/OrgData/inbox.org"
+;;    "~/Dropbox/OrgData/drills/bbdb-drill.org"
+ )))
+
+ (setq org-directory "~/Dropbox/OrgData")
+ (setq org-mobile-directory "~/Dropbox/MobileOrg")
+ (setq org-mobile-files org-agenda-files)
+ (setq org-mobile-inbox-for-pull "~/Dropbox/OrgData/inbox.org")
+
+#+end_src
+
 ** TODO Unity Mode
 *** load path and speed keys
 
@@ -1291,73 +1278,6 @@ link]]
 #+end_src
 
 ** TODO Graphviz in babel doesn't appear to be implemented
-    SCHEDULED: #<2010-11-28 Sun>
-    - State "NEXT"       from "DONE"       [2011-02-18 Fri 06:41]
-    :PROPERTIES:
-    :ID:       4686abc7-0d27-4f18-8a70-c35537790842
-    :END:
-**** Check it is configured in init
-     It is now
-**** Test
-
-##+begin_src dot
-
-digraph unix {
-        size="6,6";
-        node [color=lightblue2, style=filled];
-        "5th Edition" -> "6th Edition";
-        "5th Edition" -> "PWB 1.0";
-        "6th Edition" -> "LSX";
-        "6th Edition" -> "1 BSD";
-        "6th Edition" -> "Mini Unix";
-        "6th Edition" -> "Wollongong";
-        "6th Edition" -> "Interdata";
-        "Interdata" -> "Unix/TS 3.0";
-        "Interdata" -> "PWB 2.0";
-        "Interdata" -> "7th Edition";
-        "7th Edition" -> "8th Edition";
-        "7th Edition" -> "32V";
-        "7th Edition" -> "V7M";
-        "7th Edition" -> "Ultrix-11";
-        "7th Edition" -> "Xenix";
-        "7th Edition" -> "UniPlus+";
-        "V7M" -> "Ultrix-11";
-        "8th Edition" -> "9th Edition";
-        "1 BSD" -> "2 BSD";
-        "2 BSD" -> "2.8 BSD";
-        "2.8 BSD" -> "Ultrix-11";
-        "2.8 BSD" -> "2.9 BSD";
-        "32V" -> "3 BSD";
-        "3 BSD" -> "4 BSD";
-        "4 BSD" -> "4.1 BSD";
-        "4.1 BSD" -> "4.2 BSD";
-        "4.1 BSD" -> "2.8 BSD";
-        "4.1 BSD" -> "8th Edition";
-        "4.2 BSD" -> "4.3 BSD";
-        "4.2 BSD" -> "Ultrix-32";
-        "PWB 1.0" -> "PWB 1.2";
-        "PWB 1.0" -> "USG 1.0";
-        "PWB 1.2" -> "PWB 2.0";
-        "USG 1.0" -> "CB Unix 1";
-        "USG 1.0" -> "USG 2.0";
-        "CB Unix 1" -> "CB Unix 2";
-        "CB Unix 2" -> "CB Unix 3";
-        "CB Unix 3" -> "Unix/TS++";
-        "CB Unix 3" -> "PDP-11 Sys V";
-        "USG 2.0" -> "USG 3.0";
-        "USG 3.0" -> "Unix/TS 3.0";
-        "PWB 2.0" -> "Unix/TS 3.0";
-        "Unix/TS 1.0" -> "Unix/TS 3.0";
-        "Unix/TS 3.0" -> "TS 4.0";
-        "Unix/TS++" -> "TS 4.0";
-        "CB Unix 3" -> "TS 4.0";
-        "TS 4.0" -> "System V.0";
-        "System V.0" -> "System V.2";
-        "System V.2" -> "System V.3";
-}
-
-#+end_src
-
 ** TODO org-contacts
 
 #+begin_src emacs-lisp :results silent
