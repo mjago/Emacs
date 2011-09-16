@@ -321,7 +321,7 @@ Customisations made using emacs Customizations go here...
 
 #+begin_src emacs-lisp :results silent
 
-(setq custom-file (concat dotfiles-dir "martyn/custom.el"))
+(setq custom-file ("~/Dropbox/custom.el"))
 
 #+end_src
 
