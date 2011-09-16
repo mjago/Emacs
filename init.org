@@ -359,6 +359,33 @@ Customisations made using emacs Customizations go here...
 
 #+end_src
 
+** org-mode directory
+#+begin_src emacs-lisp :results silent
+
+(setq org-directory "~/Dropbox/OrgData")
+
+#+end_src
+
+** Org Agenda
+*** default to show current day
+
+#+begin_src emacs-lisp :results silent
+
+(setq org-agenda-ndays 1)
+
+#+end_src
+
+*** Org Agenda Files
+
+#+begin_src emacs-lisp :results silent
+
+ (setq org-agenda-files (quote (
+    "~/Dropbox/OrgData/diary.org"
+    "~/Dropbox/OrgData/capture.org"
+    "~/Dropbox/OrgData/inbox.org")))
+ 
+#+end_src
+
 ** org-drill
    :PROPERTIES:
    :ID:       eb6dd9b1-86bd-4fb4-acb3-992ef90e29da
@@ -543,10 +570,6 @@ Not sure this is of any benefit anymore!
 
    ;; fix tab
    (local-set-key "\C-y" 'yank)
-   ;; yasnippet (allow yasnippet to do it's thing in org files)
-;;   (make-variable-buffer-local 'yas/trigger-key)
-;;   (setq yas/trigger-key [tab])
-;;   (define-key yas/keymap [tab] 'yas/next-field-group)))
 
 #+end_src
 
@@ -607,6 +630,30 @@ emacswiki]]
 (define-key global-map (kbd "M-z") 'redo)
 (define-key global-map (kbd "C-z") 'undo)
 
+#+end_src
+
+** Yasnippet
+
+#+begin_src emacs-lisp :results silent
+  
+  (add-to-list 'load-path
+               (concat dotfiles-dir  "martyn/yasnippet-read-only"))
+  (require 'yasnippet) ;; not yasnippet-bundle
+  (yas/initialize)
+  
+  (setq yas/root-directory 
+        '(
+       ;; "~/.emacs.d/martyn/martyn/unity-mode/snippets"
+          "~/.emacs.d/martyn/martyn/snippets"
+          "~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork/snippets"
+       ;; "~/.emacs.d/martyn/yasnippets-rails/rails-snippets"
+          "~/.emacs.d/martyn/yasnippet-read-only/snippets"))
+
+  ;; Load the snippets (NOTE: the mapc required for multiple directories)
+  ;; (Map `yas/load-directory' to every element)
+  
+  (mapc 'yas/load-directory yas/root-directory)
+  
 #+end_src
 
 ** HideShow
@@ -836,6 +883,16 @@ NOTE: lusty-explorer.el doesn't want to compile
  
 #+end_src
 * Under Test
+** TODO One-touch timestamps
+
+#+begin_src emacs-lisp :results silent
+(setq org-agenda-skip-additional-timestamps nil)
+(defun mj-one-touch-timestamp ()
+  (interactive)
+  (when (eq major-mode 'org-mode)
+    (org-insert-time-stamp nil t t)))
+(define-key global-map (kbd "<f8>") 'mj-one-touch-timestamp)
+#+end_src
 
 ** TODO Fast TODO key selection
 
@@ -846,6 +903,13 @@ NOTE: lusty-explorer.el doesn't want to compile
 #+end_src
 
 ** TODO Configure org-mobile
+
+#+begin_src emacs-lisp :results silent
+ (setq org-mobile-directory "~/Dropbox/MobileOrg")
+ (setq org-mobile-files org-agenda-files)
+ (setq org-mobile-inbox-for-pull "~/Dropbox/OrgData/inbox.org")
+#+end_src
+
 ** TODO my-run-drills function (doesn't work yet)
 
 #+begin_src emacs-lisp :results silent
@@ -866,11 +930,23 @@ NOTE: lusty-explorer.el doesn't want to compile
 
 *** Setup capture location and key
 
+
 #+begin_src emacs-lisp :results silent
 
 (setq org-default-notes-file "~/Dropbox/OrgData/capture.org")
 (define-key global-map "\C-cc" 'org-capture)
 
+(setq org-capture-templates
+      '(("t" "Agenda Todo" entry
+         (file+datetree "~/Dropbox/OrgData/diary.org")
+;;	 "\n\n** TODO %?\n%T\n\n%i\n%a\n\n\n"
+	 "\n\n** TODO %?\n%T\n\n"
+	 :empty-lines 1)
+
+	("n" "Agenda Notes" entry
+	 (file+headline "c:/Org/MyAgenda.org" "Agenda")
+	 "\n\n** %?\n%T\n%i\n%a\n\n\n"
+	 :empty-lines 1)))
 #+end_src
 
 *** TODO Setup capture templates
@@ -951,36 +1027,6 @@ NOTE: lusty-explorer.el doesn't want to compile
                ((org-agenda-skip-function
                  '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
                 (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
-
-#+end_src
-
-** TODO Org Agenda
-
-*** TODO default to only showing current day
-
-#+begin_src emacs-lisp :results silent
-
-(setq org-agenda-ndays 1)
-
-#+end_src
-
-**** Org Agenda Files
-
-#+begin_src emacs-lisp :results silent
-
- (setq org-agenda-files (quote (
-    "~/Dropbox/OrgData/diary.org"
-;;    "~/Dropbox/OrgData/unity-mode.org"
-;;    "~/Dropbox/OrgData/personal_audit.org"
-    "~/Dropbox/OrgData/capture.org"
-    "~/Dropbox/OrgData/inbox.org"
-;;    "~/Dropbox/OrgData/drills/bbdb-drill.org"
- )))
-
- (setq org-directory "~/Dropbox/OrgData")
- (setq org-mobile-directory "~/Dropbox/MobileOrg")
- (setq org-mobile-files org-agenda-files)
- (setq org-mobile-inbox-for-pull "~/Dropbox/OrgData/inbox.org")
 
 #+end_src
 
@@ -1269,7 +1315,7 @@ Moved to unity-mode.el
 *** web
 link]]
 *** dot mode
-   SCHEDULED: <2010-11-29 Mon>
+   SCHEDULED: <2010-12-01 Wed>
 
 #+begin_src emacs-lisp :results silent
 
@@ -1295,77 +1341,7 @@ link]]
 
 #+end_src
 
-** TODO Yasnippet
-Need to check...
- - org-mode hook 
- - auto-complete compatibility 
-*** TODO Setup yasnippets (full install as opposed to bundle in starter kit elpa)
- :PROPERTIES:
- :ID:       6d14775e-03bd-4138-b772-ada3de677830
- :END:
-**** Snippet locations (config below)
-***** Mycustom snippets
- - ~/.emacs.d/martyn/martyn/snippets
-
-***** My org-mode-snippets clone repo
-TODO: Needs to be kept up-to date
- - ~/.emacs.d/martyn/martyn/snippets
-
-***** My Unity-mode snippets
- - ~/.emacs.d/martyn/martyn/unity-mode/snippets
-***** Standard non bundled yasnippet snippets
- - ~/.emacs.d/martyn/yasnippets-rails/rails-snippets
-***** Standard non bundled yasnippet snippets
- - ~/.emacs.d/martyn/yasnippet-read-only
-**** Yasnippet load and snippet locations config
-
-#+begin_src emacs-lisp :results silent
-  
-  (add-to-list 'load-path
-               (concat dotfiles-dir  "martyn/yasnippet-read-only"))
-  (require 'yasnippet) ;; not yasnippet-bundle
-  (yas/initialize)
-  
-  (setq yas/root-directory 
-        '("~/.emacs.d/martyn/martyn/unity-mode/snippets"
-          "~/.emacs.d/martyn/martyn/snippets"
-          "~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork/snippets"
-          "~/.emacs.d/martyn/yasnippets-rails/rails-snippets"
-          "~/.emacs.d/martyn/yasnippet-read-only/snippets"))
-  
-  ;; Load the snippets (NOTE: the mapc required for multiple directories)
-  ;; (Map `yas/load-directory' to every element)
-  
-  (mapc 'yas/load-directory yas/root-directory)
-  
-#+end_src
-
-*** To byte-compile-files
-
-# #+begin_src emacs-lisp :results silent
-
-# (byte-compile-file
-# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/yasnippet.el" t)
-# (byte-compile-file
-# "/home/martyn/.emacs.d/martyn/yasnippet-0.6.1c/dropdown-list.el" t)
-
-# #+end_src
-
-**** TODO Yasnippets config for org-mode compatability
-     SCHEDULED: <2011-01-19 Wed>
-
-# #+begin_src emacs-lisp :results silent
-
-#  (add-hook 'org-mode-hook
-#            (lambda ()
-#              (org-set-local 'yas/trigger-key [tab])
-#              (define-key yas/keymap [tab] 'yas/next-field-group)))
-
-# #+end_src
-*** TODO Setup yasnippet for rails
-   :PROPERTIES:
-   :ID:       d8f99c14-50a5-4788-b375-a31e24f1e26a
-   :END:
+*** TODO Yasnippet for rails
 
 #+begin_src emacs-lisp :results silent
 
@@ -1393,6 +1369,11 @@ TODO: Needs to be kept up-to date
 ;; (yas/load-directory
 ;;    (concat
 ;;       dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))
+
+   ;; yasnippet (allow yasnippet to do it's thing in org files)
+;;   (make-variable-buffer-local 'yas/trigger-key)
+;;   (setq yas/trigger-key [tab])
+;;   (define-key yas/keymap [tab] 'yas/next-field-group)))
 
 #+end_src
 
@@ -1513,6 +1494,22 @@ You can put the following into your ~/.emacs to have it on on loading
 (add-to-list 'load-path (concat dotfiles-dir "martyn/rspec-mode"))
 
 #+end_src
+
+** TODO Kill to start of line
+
+#+begin_src emacs-lisp
+
+(defun mj-kill-to-start-of-line ()
+"kill from point to start of line"
+(interactive)
+(kill-line 0)
+)
+(global-set-key [C-j]  'mj-kill-to-start-of-line)
+
+#+end_src
+
+#+results:
+: mj-kill-to-start-of-line
 
 * Initial display
 ** Display diary org and agenda
