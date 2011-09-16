@@ -461,7 +461,6 @@ Customisations made using emacs Customizations go here...
 #+end_src
 
 ** Configure Babel languages 
-*** Configure Babel
 Configured for...
  - Ruby 
  - Python
@@ -496,35 +495,12 @@ Configured for...
 
 #+end_src
 
-*** Make windmove work in org-mode
-   :PROPERTIES:
-   :ID:       77b9e2f6-674d-406c-a1f2-3f8e1307a541
-   :END:
-
+** org-confirm-babel-evaluate
 #+begin_src emacs-lisp :results silent
-
-(add-hook 'org-shiftup-final-hook 'windmove-up)
-(add-hook 'org-shiftleft-final-hook 'windmove-left)
-(add-hook 'org-shiftdown-final-hook 'windmove-down)
-(add-hook 'org-shiftright-final-hook 'windmove-right)
-
+(setq org-confirm-babel-evaluate nil)
 #+end_src
 
-; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
-(setq org-outline-path-complete-in-steps t)
-
-; Allow refile to create parent tasks with confirmation
-(setq org-refile-allow-creating-parent-nodes (quote confirm))
-
-; Use IDO only for buffers
-; set ido-mode to buffer and ido-everywhere to t via the customize interface
-; '(ido-mode (quote both) nil (ido))
-; '(ido-everywhere t)
-
-
-#+end_src
-
-*** Display images in org mode
+** Display images in org mode
 
 #+begin_src emacs-lisp :results silent
 
@@ -556,25 +532,13 @@ Configured for...
 
 #+end_src
 
-*** Org Attach Directory
+** Org Attach Directory
 
 #+begin_src emacs-lisp :results silent
 (setq org-attach-directory "~/Dropbox/OrgData/attach-directory")
 #+end_src
 
-*** WAITING Fix tab in org mode
-
-Not sure this is of any benefit anymore!    
-
-#+begin_src emacs-lisp :results silent
-
-   ;; fix tab
-   (local-set-key "\C-y" 'yank)
-
-#+end_src
-
-*** DONE Don't insert blank lines on heading generation
-    CLOSED: [2011-02-08 Tue 13:16]
+** Don't insert blank lines on org heading generation
 
 #+begin_src emacs-lisp :results silent
 
@@ -883,6 +847,41 @@ NOTE: lusty-explorer.el doesn't want to compile
  
 #+end_src
 * Under Test
+** TODO Make windmove work in org-mode
+
+#+begin_src emacs-lisp :results silent
+
+(add-hook 'org-shiftup-final-hook 'windmove-up)
+(add-hook 'org-shiftleft-final-hook 'windmove-left)
+(add-hook 'org-shiftdown-final-hook 'windmove-down)
+(add-hook 'org-shiftright-final-hook 'windmove-right)
+
+#+end_src
+
+; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
+(setq org-outline-path-complete-in-steps t)
+
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+; Use IDO only for buffers
+; set ido-mode to buffer and ido-everywhere to t via the customize interface
+; '(ido-mode (quote both) nil (ido))
+; '(ido-everywhere t)
+
+#+end_src
+
+** TODO Fix tab in org mode
+
+Not sure this is of any benefit anymore!    
+
+#+begin_src emacs-lisp :results silent
+
+   ;; fix tab
+   (local-set-key "\C-y" 'yank)
+
+#+end_src
+
 ** TODO One-touch timestamps
 
 #+begin_src emacs-lisp :results silent
@@ -1216,7 +1215,8 @@ Moved to unity-mode.el
   ;;  #+results:
   ;;  : orgmode-beamer-my-skeleton
   ;;  
-*** TODO Setup Clocking work time
+
+** TODO Setup Clocking work time
 
 #+begin_src emacs-lisp :results silent
 
@@ -1311,11 +1311,6 @@ Moved to unity-mode.el
 # 
 # #+end_src
 ** TODO Graphviz-dot-mode
-
-*** web
-link]]
-*** dot mode
-   SCHEDULED: <2010-12-01 Wed>
 
 #+begin_src emacs-lisp :results silent
 
@@ -1454,7 +1449,8 @@ You can put the following into your ~/.emacs to have it on on loading
 ;;#+end_src
 
 ** TODO Mode-compile 
-*** TODO Setup Mode-compile (emacs-wiki)
+
+Setup Mode-compile (emacs-wiki)
 
 #+begin_src emacs-lisp :results silent
   
@@ -1550,7 +1546,4 @@ You can put the following into your ~/.emacs to have it on on loading
 (setq org-export-directory "~/Dropbox/OrgData/html")
 
 #+end_src
-
-
-
 
