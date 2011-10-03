@@ -845,7 +845,23 @@ NOTE: lusty-explorer.el doesn't want to compile
 (require 'ispell) 
  
 #+end_src
+** ess
+#+begin_src emacs-lisp :results silent
+
+  (add-to-list
+   'load-path
+    (concat dotfiles-dir "martyn/ess-5.14/lisp/"))
+  (require 'ess-site)
+
+#+end_src
+
 * Under Test
+** TODO disable org-use-speed-commands (default)
+
+#+begin_src emacs-lisp :results silent
+(setq org-use-speed-commands nil)
+#+end_src
+
 ** TODO Make windmove work in org-mode
 
 #+begin_src emacs-lisp :results silent
