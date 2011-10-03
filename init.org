@@ -936,15 +936,16 @@ Not sure this is of any benefit anymore!
 
 (setq org-capture-templates
       '(("t" "Agenda Todo" entry
-         (file+datetree "~/Dropbox/OrgData/diary.org")
+         (file+datetree+prompt "~/Dropbox/OrgData/diary.org")
 ;;	 "\n\n** TODO %?\n%T\n\n%i\n%a\n\n\n"
-	 "\n\n** TODO %?\n%T\n\n"
-	 :empty-lines 1)
-
-	("n" "Agenda Notes" entry
-	 (file+headline "c:/Org/MyAgenda.org" "Agenda")
-	 "\n\n** %?\n%T\n%i\n%a\n\n\n"
+	 "\n\n** TODO %?\n%t\n\n"
 	 :empty-lines 1)))
+
+;;	("n" "Agenda Notes" entry
+;;	 (file+headline "~/Dropbox/OrgData/diary.org" "Agenda")
+;;	 "\n\n** %?\n%T\n%i\n%a\n\n\n"
+;;	 :empty-lines 1))
+
 #+end_src
 
 *** TODO Setup capture templates
