@@ -367,14 +367,6 @@ Customisations made using emacs Customizations go here...
 #+end_src
 
 ** Org Agenda
-*** default to show current day
-
-#+begin_src emacs-lisp :results silent
-
-(setq org-agenda-ndays 1)
-
-#+end_src
-
 *** Org Agenda Files
 
 #+begin_src emacs-lisp :results silent
