@@ -1393,6 +1393,22 @@ Moved to unity-mode.el
   (global-set-key [C-S-d] 'backward-delete-char)
 
 #+end_src
+** TODO backward-kill-line (SHIFT CTRL K)
+
+#+begin_src emacs-lisp :results silent
+
+  (defun mj-backward-kill-line ()
+    (interactive)
+    (if (bolp) 
+        (progn (previous-line)
+               (org-kill-line))
+      (let ((here (point)))
+        (beginning-of-line)
+        (kill-region (point) here))))
+      
+  (global-set-key (kbd "C-M-k") 'mj-backward-kill-line)
+
+#+end_src
 
 ** TODO doremi-frm
 
