@@ -381,7 +381,6 @@ Customisations made using emacs Customizations go here...
 
  (setq org-agenda-files (quote (
     "~/Dropbox/OrgData/diary.org"
-    "~/Dropbox/OrgData/capture.org"
     "~/Dropbox/OrgData/inbox.org")))
  
 #+end_src
