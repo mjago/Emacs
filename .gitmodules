@@ -1,0 +1,15 @@
+[submodule "martyn/martyn/ob-lilypond"]
+	path = martyn/martyn/ob-lilypond
+	url = https://github.com/mjago/ob-lilypond.git
+[submodule "martyn/ob-lilypond"]
+	path = martyn/ob-lilypond
+	url = https://github.com/mjago/ob-lilypond.git
+[submodule "martyn/lilypond-hook"]
+	path = martyn/lilypond-hook
+	url = https://github.com/mjago/lilypond-hook.git
+[submodule "martyn/unity-mode"]
+	path = martyn/unity-mode
+	url = https://github.com/mjago/unity-mode.git
+[submodule "martyn/theme-faves"]
+	path = martyn/theme-faves
+	url = https://github.com/mjago/Theme-Faves.git
