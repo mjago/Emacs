@@ -1,0 +1,2995 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>init</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2011-10-15 10:56:08 BST"/>
+<meta name="author" content="Martyn Jago"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">init</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 My Emacs Configurations </a>
+<ul>
+<li><a href="#sec-1-1">1.1 C-k to kill whole line </a></li>
+<li><a href="#sec-1-2">1.2 Mark (select) all on S-C-SPC </a></li>
+<li><a href="#sec-1-3">1.3 Map M-l to goto-line </a></li>
+<li><a href="#sec-1-4">1.4 Remap M-j, M-l to navigation </a></li>
+<li><a href="#sec-1-5">1.5 don't kill my window setup </a></li>
+<li><a href="#sec-1-6">1.6 Changes all yes/no questions to y/n type </a></li>
+<li><a href="#sec-1-7">1.7 CScope </a></li>
+<li><a href="#sec-1-8">1.8 Confirm on exit </a></li>
+<li><a href="#sec-1-9">1.9 Key mappings for F1 key </a></li>
+<li><a href="#sec-1-10">1.10 Emacs default command modifications </a></li>
+<li><a href="#sec-1-11">1.11 Setup bbdb Contact Database </a></li>
+<li><a href="#sec-1-12">1.12 Visual config </a></li>
+<li><a href="#sec-1-13">1.13 Disable visible bell (for removing white square on OSX </a></li>
+<li><a href="#sec-1-14">1.14 Smooth Scrolling </a>
+<ul>
+<li><a href="#sec-1-14-1">1.14.1 web </a></li>
+<li><a href="#sec-1-14-2">1.14.2 initialisation </a></li>
+<li><a href="#sec-1-14-3">1.14.3 adjust margin to 3 lines </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-15">1.15 Color theme initialisation </a>
+<ul>
+<li><a href="#sec-1-15-1">1.15.1 Configure color-theme </a></li>
+<li><a href="#sec-1-15-2">1.15.2 web </a></li>
+<li><a href="#sec-1-15-3">1.15.3 configuration </a></li>
+<li><a href="#sec-1-15-4">1.15.4 Theme Faves </a></li>
+<li><a href="#sec-1-15-5">1.15.5 Maximise frame at startup (hook) </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-16">1.16 Inhibit scratch message </a></li>
+<li><a href="#sec-1-17">1.17 Remove Paredit default from emacs-lisp mode hook </a></li>
+<li><a href="#sec-1-18">1.18 Add .emacs.d/martyn/martyn to load-path </a></li>
+<li><a href="#sec-1-19">1.19 my-load-init-files function </a></li>
+<li><a href="#sec-1-20">1.20 my-load-drill-files function </a></li>
+<li><a href="#sec-1-21">1.21 my-load-org-files function </a></li>
+<li><a href="#sec-1-22">1.22 Emacs Customisation destination files </a>
+<ul>
+<li><a href="#sec-1-22-1">1.22.1 loaddefs </a></li>
+<li><a href="#sec-1-22-2">1.22.2 custom </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-23">1.23 Notification (todochiku / growl) </a></li>
+<li><a href="#sec-1-24">1.24 Add org-mode contrib/lisp files to load path </a></li>
+<li><a href="#sec-1-25">1.25 org-mode directory </a></li>
+<li><a href="#sec-1-26">1.26 Org Agenda </a>
+<ul>
+<li><a href="#sec-1-26-1">1.26.1 Org Agenda Files </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-27">1.27 org-drill </a></li>
+<li><a href="#sec-1-28">1.28 \TODO keywords global setup </a></li>
+<li><a href="#sec-1-29">1.29 Lilypond mode </a></li>
+<li><a href="#sec-1-30">1.30 Setup org-mode (development) </a></li>
+<li><a href="#sec-1-31">1.31 Configure Babel languages </a></li>
+<li><a href="#sec-1-32">1.32 org-confirm-babel-evaluate </a></li>
+<li><a href="#sec-1-33">1.33 Display images in org mode </a></li>
+<li><a href="#sec-1-34">1.34 Org Attach Directory </a></li>
+<li><a href="#sec-1-35">1.35 Don't insert blank lines on org heading generation </a></li>
+<li><a href="#sec-1-36">1.36 Auto-Complete </a>
+<ul>
+<li><a href="#sec-1-36-1">1.36.1 To load </a></li>
+<li><a href="#sec-1-36-2">1.36.2 Add to init </a></li>
+<li><a href="#sec-1-36-3">1.36.3 Screencast </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-37">1.37 Redo+ </a>
+<ul>
+<li><a href="#sec-1-37-1">1.37.1 web </a></li>
+<li><a href="#sec-1-37-2">1.37.2 configuration </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-38">1.38 Yasnippet </a></li>
+<li><a href="#sec-1-39">1.39 HideShow </a>
+<ul>
+<li><a href="#sec-1-39-1">1.39.1 Website </a></li>
+<li><a href="#sec-1-39-2">1.39.2 HideShow Configuration </a></li>
+<li><a href="#sec-1-39-3">1.39.3 hideshow.org </a></li>
+<li><a href="#sec-1-39-4">1.39.4 To byte-compile-file </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-40">1.40 Lusty Explorer </a>
+<ul>
+<li><a href="#sec-1-40-1">1.40.1 emacswiki </a></li>
+<li><a href="#sec-1-40-2">1.40.2 Github </a></li>
+<li><a href="#sec-1-40-3">1.40.3 Config </a></li>
+<li><a href="#sec-1-40-4">1.40.4 To byte-compile-file </a></li>
+</ul>
+</li>
+<li><a href="#sec-1-41">1.41 Map C-x C-o to other window (as C-x o) </a></li>
+<li><a href="#sec-1-42">1.42 Setup generic browser </a></li>
+<li><a href="#sec-1-43">1.43 Setup MacGPG2 (for gpg) on mac OSX </a></li>
+<li><a href="#sec-1-44">1.44 Make Password </a></li>
+<li><a href="#sec-1-45">1.45 mj-versions </a></li>
+<li><a href="#sec-1-46">1.46 my-org-test-setup </a></li>
+<li><a href="#sec-1-47">1.47 my-header-arguments </a></li>
+<li><a href="#sec-1-48">1.48 help-page </a></li>
+<li><a href="#sec-1-49">1.49 Setup IRC user info and channels </a></li>
+<li><a href="#sec-1-50">1.50 Boxquote </a></li>
+<li><a href="#sec-1-51">1.51 lorem-ipsum </a></li>
+<li><a href="#sec-1-52">1.52 magit-hide-diffs </a></li>
+<li><a href="#sec-1-53">1.53 continuous-testing </a></li>
+<li><a href="#sec-1-54">1.54 ispell </a></li>
+<li><a href="#sec-1-55">1.55 ess </a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Under Test </a>
+<ul>
+<li><a href="#sec-2-1">2.1 shen-mode </a></li>
+<li><a href="#sec-2-2">2.2 disable org-use-speed-commands (default) </a></li>
+<li><a href="#sec-2-3">2.3 Make windmove work in org-mode </a></li>
+<li><a href="#sec-2-4">2.4 Fix tab in org mode </a></li>
+<li><a href="#sec-2-5">2.5 One-touch timestamps </a></li>
+<li><a href="#sec-2-6">2.6 Fast TODO key selection </a></li>
+<li><a href="#sec-2-7">2.7 Configure org-mobile </a></li>
+<li><a href="#sec-2-8">2.8 my-run-drills function (doesn't work yet) </a></li>
+<li><a href="#sec-2-9">2.9 Setup org-capture </a>
+<ul>
+<li><a href="#sec-2-9-1">2.9.1 Setup capture location and key </a></li>
+<li><a href="#sec-2-9-2">2.9.2 Setup capture templates </a></li>
+<li><a href="#sec-2-9-3">2.9.3 Setup refile targets </a></li>
+</ul>
+</li>
+<li><a href="#sec-2-10">2.10 Org Agenda Custom Commands </a></li>
+<li><a href="#sec-2-11">2.11 Unity Mode </a>
+<ul>
+<li><a href="#sec-2-11-1">2.11.1 load path and speed keys </a></li>
+</ul>
+</li>
+<li><a href="#sec-2-12">2.12 unity-project () </a></li>
+<li><a href="#sec-2-13">2.13 unity-eval-src-and-tests () </a></li>
+<li><a href="#sec-2-14">2.14 unity-project-org() </a></li>
+<li><a href="#sec-2-15">2.15 Develop group agenda to show unscheduled TODO items </a></li>
+<li><a href="#sec-2-16">2.16 Setup for latex / pdf export of org-mode </a></li>
+<li><a href="#sec-2-17">2.17 Setup for Auctex (ongoing) </a></li>
+<li><a href="#sec-2-18">2.18 Setup Clocking work time </a></li>
+<li><a href="#sec-2-19">2.19 Function mj-diary-org opens diary.org </a></li>
+<li><a href="#sec-2-20">2.20 Function mj-cycle-helps opens mj-helps </a></li>
+<li><a href="#sec-2-21">2.21 Flyspell mode error avoidance </a>
+<ul>
+<li><a href="#sec-2-21-1">2.21.1 web discussion </a></li>
+<li><a href="#sec-2-21-2">2.21.2 configuration </a></li>
+</ul>
+</li>
+<li><a href="#sec-2-22">2.22 ERT setup </a></li>
+<li><a href="#sec-2-23">2.23 Graphviz-dot-mode </a></li>
+<li><a href="#sec-2-24">2.24 Graphviz in babel doesn't appear to be implemented </a></li>
+<li><a href="#sec-2-25">2.25 org-contacts </a>
+<ul>
+<li><a href="#sec-2-25-1">2.25.1 Yasnippet for rails </a></li>
+</ul>
+</li>
+<li><a href="#sec-2-26">2.26 Highlight Parantheses </a>
+<ul>
+<li><a href="#sec-2-26-1">2.26.1 Site </a></li>
+<li><a href="#sec-2-26-2">2.26.2 Setup </a></li>
+</ul>
+</li>
+<li><a href="#sec-2-27">2.27 S-C-d to backward-delete-char() - doesn't work!! </a></li>
+<li><a href="#sec-2-28">2.28 backward-kill-line (SHIFT CTRL K) </a></li>
+<li><a href="#sec-2-29">2.29 doremi-frm </a></li>
+<li><a href="#sec-2-30">2.30 Comment or uncomment region with M-k </a></li>
+<li><a href="#sec-2-31">2.31 column-number-mode </a></li>
+<li><a href="#sec-2-32">2.32 Remap C-j to my custom goto-next-line function </a></li>
+<li><a href="#sec-2-33">2.33 elpa </a></li>
+<li><a href="#sec-2-34">2.34 Mode-compile </a></li>
+<li><a href="#sec-2-35">2.35 Ruby </a>
+<ul>
+<li><a href="#sec-2-35-1">2.35.1 (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel</a></li>
+<li><a href="#sec-2-35-2">2.35.2 Setup rspec-mode (development) </a></li>
+</ul>
+</li>
+<li><a href="#sec-2-36">2.36 Kill to start of line </a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 Initial display </a>
+<ul>
+<li><a href="#sec-3-1">3.1 Display diary org and agenda </a>
+<ul>
+<li><a href="#sec-3-1-1">3.1.1 "martyn-laptop" system specific&hellip; </a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 Delete temp file martyn/init.el </a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> My Emacs Configurations </h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><a name="ID-df2f072d-30d1-40e9-9905-deb39a963b1d" id="ID-df2f072d-30d1-40e9-9905-deb39a963b1d"></a><span class="section-number-3">1.1</span> C-k to kill whole line </h3>
+<div class="outline-text-3" id="text-1-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq kill-whole-line t<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><a name="ID-bac7b873-a758-4991-afe7-abba7aada174" id="ID-bac7b873-a758-4991-afe7-abba7aada174"></a><span class="section-number-3">1.2</span> Mark (select) all on S-C-SPC </h3>
+<div class="outline-text-3" id="text-1-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>define-key global-map <span style="color: #7f7f7f;">(</span>kbd <span style="color: #ff7f00;">"S-C-SPC"</span><span style="color: #7f7f7f;">)</span> 'mark-whole-buffer<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><a name="ID-d90de769-45ce-4e5a-a878-88d0e76e162a" id="ID-d90de769-45ce-4e5a-a878-88d0e76e162a"></a><span class="section-number-3">1.3</span> Map M-l to goto-line </h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>global-unset-key <span style="color: #ff7f00;">"\M-l"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #ff7f00;">"\M-l"</span> 'goto-line<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><a name="ID-ffa0b60c-9281-44ff-b939-c6c00dc7b728" id="ID-ffa0b60c-9281-44ff-b939-c6c00dc7b728"></a><span class="section-number-3">1.4</span> Remap M-j, M-l to navigation </h3>
+<div class="outline-text-3" id="text-1-4">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">(global-set-key "\M-i" 'previous-line)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #ff7f00;">"\M-j"</span> 'backward-char<span style="color: #7f7f7f;">)</span>
+<span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">(global-set-key "\M-k" 'forward-line)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #ff7f00;">"\M-l"</span> 'forward-char<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> don't kill my window setup </h3>
+<div class="outline-text-3" id="text-1-5">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-agenda-window-setup 'current-window<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Changes all yes/no questions to y/n type </h3>
+<div class="outline-text-3" id="text-1-6">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>fset 'yes-or-no-p 'y-or-n-p<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> CScope </h3>
+<div class="outline-text-3" id="text-1-7">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/cscope"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">cscope</span><span style="color: #7f7f7f;">)</span>
+ <span style="color: #7f7f7f;">(</span>setq cscope-do-not-update-database t<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Confirm on exit </h3>
+<div class="outline-text-3" id="text-1-8">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq confirm-kill-emacs 'y-or-n-p<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Key mappings for F1 key </h3>
+<div class="outline-text-3" id="text-1-9">
+
+<ul>
+<li>State "TODO"       from "" <span class="timestamp-wrapper"> <span class="timestamp">2011-03-15 Tue 15:03</span></span>
+</li>
+</ul>
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>global-set-key [C-f1] 'help-for-help-internal<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [S-C-f1] 'mj-cycle-helps<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [f1] 'mj-cycle-helps<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Emacs default command modifications </h3>
+<div class="outline-text-3" id="text-1-10">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>put 'upcase-region 'disabled nil<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-11" class="outline-3">
+<h3 id="sec-1-11"><a name="ID-8947b21f-9a13-4850-b1e6-01ac553d4c67" id="ID-8947b21f-9a13-4850-b1e6-01ac553d4c67"></a><span class="section-number-3">1.11</span> Setup bbdb Contact Database </h3>
+<div class="outline-text-3" id="text-1-11">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/bbdb-2.35/lisp"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">bbdb</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>bbdb-initialize<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq bbdb-north-american-phone-numbers-p nil
+<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> Visual config </h3>
+<div class="outline-text-3" id="text-1-12">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-13" class="outline-3">
+<h3 id="sec-1-13"><span class="section-number-3">1.13</span> Disable visible bell (for removing white square on OSX </h3>
+<div class="outline-text-3" id="text-1-13">
+
+
+<p>
+Since I don't like either the beep or the flashing white square
+(visible bell) the following is required to silence both (from <a href="http://stackoverflow.com/questions/324457/disable-carbon-emacs-scroll-beep">here</a>)
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(setq visible-bell nil)</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(setq ring-bell-function nil)</span>
+
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">my-bell-function</span> <span style="color: #7f7f7f;">()</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(unless (memq this-command</span>
+<span style="color: #cd5c5c;">;;      </span><span style="color: #cd5c5c;">'(isearch-abort abort-recursive-edit exit-minibuffer</span>
+<span style="color: #cd5c5c;">;;             </span><span style="color: #cd5c5c;">keyboard-quit mwheel-scroll down up next-line previous-line</span>
+<span style="color: #cd5c5c;">;;             </span><span style="color: #cd5c5c;">backward-char forward-char next prior))</span>
+<span style="color: #cd5c5c;">;;   </span><span style="color: #cd5c5c;">(ding))</span>
+<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq ring-bell-function 'my-bell-function<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-14" class="outline-3">
+<h3 id="sec-1-14"><span class="section-number-3">1.14</span> Smooth Scrolling </h3>
+<div class="outline-text-3" id="text-1-14">
+
+
+</div>
+
+<div id="outline-container-1-14-1" class="outline-4">
+<h4 id="sec-1-14-1"><span class="section-number-4">1.14.1</span> web </h4>
+<div class="outline-text-4" id="text-1-14-1">
+
+
+<p>
+<a href="http://adamspiers.org/computing/elisp/smooth-scrolling.el">link</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-14-2" class="outline-4">
+<h4 id="sec-1-14-2"><a name="ID-42144f41-08ac-4f3d-825e-94d4a87a20c1" id="ID-42144f41-08ac-4f3d-825e-94d4a87a20c1"></a><span class="section-number-4">1.14.2</span> initialisation </h4>
+<div class="outline-text-4" id="text-1-14-2">
+
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/smooth-scrolling"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">smooth-scrolling</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-14-3" class="outline-4">
+<h4 id="sec-1-14-3"><span class="section-number-4">1.14.3</span> adjust margin to 3 lines </h4>
+<div class="outline-text-4" id="text-1-14-3">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq smooth-scroll-margin 3<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-15" class="outline-3">
+<h3 id="sec-1-15"><span class="section-number-3">1.15</span> Color theme initialisation </h3>
+<div class="outline-text-3" id="text-1-15">
+
+
+</div>
+
+<div id="outline-container-1-15-1" class="outline-4">
+<h4 id="sec-1-15-1"><span class="section-number-4">1.15.1</span> Configure color-theme </h4>
+<div class="outline-text-4" id="text-1-15-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/color-theme-6.6.0"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/color-theme-6.6.0/themes"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">color-theme</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">eval-after-load</span> <span style="color: #ff7f00;">"color-theme"</span>
+  '<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">progn</span>
+      <span style="color: #7f7f7f;">(</span>color-theme-initialize<span style="color: #7f7f7f;">)))</span>
+<span style="color: #cd5c5c;">;;     </span><span style="color: #cd5c5c;">(color-theme-hober)))</span>
+<span style="color: #cd5c5c;">;;     </span><span style="color: #cd5c5c;">(color-theme-tangotango)))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-15-2" class="outline-4">
+<h4 id="sec-1-15-2"><span class="section-number-4">1.15.2</span> web </h4>
+<div class="outline-text-4" id="text-1-15-2">
+
+
+<p>
+github]]
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-15-3" class="outline-4">
+<h4 id="sec-1-15-3"><span class="section-number-4">1.15.3</span> configuration </h4>
+<div class="outline-text-4" id="text-1-15-3">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-15-4" class="outline-4">
+<h4 id="sec-1-15-4"><span class="section-number-4">1.15.4</span> Theme Faves </h4>
+<div class="outline-text-4" id="text-1-15-4">
+
+<ul>
+<li id="sec-1-15-4-1"><a name="ID-d8e20a1b-6727-4b41-894a-744c5a530072" id="ID-d8e20a1b-6727-4b41-894a-744c5a530072"></a>configuration <br/>
+
+
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/martyn/theme-faves"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">theme-faves</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>add-hook 'window-setup-hook 'theme-faves-init<span style="color: #7f7f7f;">)</span>
+
+<span style="color: #7f7f7f;">(</span>global-set-key [C-f7] 'theme-faves-audition-cycle-up<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [S-C-f7] 'theme-faves-audition-cycle-down<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [f7] 'theme-faves-cycle-up<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [S-f7] 'theme-faves-cycle-down<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1-15-5" class="outline-4">
+<h4 id="sec-1-15-5"><a name="ID-5ec698bf-0dcd-4b19-b923-a5f90e5a1073" id="ID-5ec698bf-0dcd-4b19-b923-a5f90e5a1073"></a><span class="section-number-4">1.15.5</span> Maximise frame at startup (hook) </h4>
+<div class="outline-text-4" id="text-1-15-5">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">;;</span><span style="color: #cd5c5c;">(add-to-list 'load-path</span>
+<span style="color: #cd5c5c;">;;             </span><span style="color: #cd5c5c;">(concat dotfiles-dir "martyn/maxframe"))</span>
+<span style="color: #cd5c5c;">;;  </span><span style="color: #cd5c5c;">(require 'maxframe)</span>
+<span style="color: #cd5c5c;">;;  </span><span style="color: #cd5c5c;">(add-hook 'window-setup-hook 'maximize-frame t)</span>
+<span style="color: #cd5c5c;">;;  </span><span style="color: #cd5c5c;">(maximize-frame)</span>
+
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">toggle-fullscreen</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">if</span> <span style="color: #7f7f7f;">(</span>string= system-name <span style="color: #ff7f00;">"martyn-laptop"</span><span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>x-send-client-message nil 0 nil <span style="color: #ff7f00;">"_NET_WM_STATE"</span> 32
+                         '<span style="color: #7f7f7f;">(</span>2 <span style="color: #ff7f00;">"_NET_WM_STATE_MAXIMIZED_VERT"</span> 0<span style="color: #7f7f7f;">))</span>
+    <span style="color: #7f7f7f;">(</span>x-send-client-message nil 0 nil <span style="color: #ff7f00;">"_NET_WM_STATE"</span> 32
+                         '<span style="color: #7f7f7f;">(</span>2 <span style="color: #ff7f00;">"_NET_WM_STATE_MAXIMIZED_HORZ"</span> 0<span style="color: #7f7f7f;">))</span>
+    <span style="color: #7f7f7f;">(</span>add-hook 'window-setup-hook 'toggle-fullscreen<span style="color: #7f7f7f;">)))</span>
+
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-16" class="outline-3">
+<h3 id="sec-1-16"><span class="section-number-3">1.16</span> Inhibit scratch message </h3>
+<div class="outline-text-3" id="text-1-16">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq initial-scratch-message nil<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-17" class="outline-3">
+<h3 id="sec-1-17"><span class="section-number-3">1.17</span> Remove Paredit default from emacs-lisp mode hook </h3>
+<div class="outline-text-3" id="text-1-17">
+
+<p>(turned on by emacs starter kit)
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left">hs-minor-mode</td><td class="left">ert&ndash;activate-font-lock-keywords</td><td class="left">ac-emacs-lisp-mode-setup</td><td class="left">run-coding-hook</td><td class="left">esk-remove-elc-on-save</td><td class="left">turn-on-eldoc-mode</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-18" class="outline-3">
+<h3 id="sec-1-18"><span class="section-number-3">1.18</span> Add .emacs.d/martyn/martyn to load-path </h3>
+<div class="outline-text-3" id="text-1-18">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/martyn"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-19" class="outline-3">
+<h3 id="sec-1-19"><span class="section-number-3">1.19</span> my-load-init-files function </h3>
+<div class="outline-text-3" id="text-1-19">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">my-load-init-files</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-20" class="outline-3">
+<h3 id="sec-1-20"><span class="section-number-3">1.20</span> my-load-drill-files function </h3>
+<div class="outline-text-3" id="text-1-20">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">my-load-drill-files</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-21" class="outline-3">
+<h3 id="sec-1-21"><span class="section-number-3">1.21</span> my-load-org-files function </h3>
+<div class="outline-text-3" id="text-1-21">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">my-load-org-files</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-22" class="outline-3">
+<h3 id="sec-1-22"><span class="section-number-3">1.22</span> Emacs Customisation destination files </h3>
+<div class="outline-text-3" id="text-1-22">
+
+
+<p>
+These are already defined in Starter Kit but are re-adjusted here to keep
+under my revision control&hellip;
+</p>
+
+</div>
+
+<div id="outline-container-1-22-1" class="outline-4">
+<h4 id="sec-1-22-1"><span class="section-number-4">1.22.1</span> loaddefs </h4>
+<div class="outline-text-4" id="text-1-22-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq autoload-file <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/loaddefs.el"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-22-2" class="outline-4">
+<h4 id="sec-1-22-2"><span class="section-number-4">1.22.2</span> custom </h4>
+<div class="outline-text-4" id="text-1-22-2">
+
+
+<p>
+Customisations made using emacs Customizations go here&hellip;
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq custom-file <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/custom.el"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-23" class="outline-3">
+<h3 id="sec-1-23"><span class="section-number-3">1.23</span> Notification (todochiku / growl) </h3>
+<div class="outline-text-3" id="text-1-23">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">when</span> <span style="color: #7f7f7f;">(</span>string= <span style="color: #ff7f00;">"darwin"</span> system-type<span style="color: #7f7f7f;">)</span>
+ <span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+  <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/todochiku"</span><span style="color: #7f7f7f;">))</span>
+ <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">todochiku</span><span style="color: #7f7f7f;">)</span>
+ <span style="color: #7f7f7f;">(</span>setq todochiku-icons-directory 
+  <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/todochiku/todochiku-icons"</span><span style="color: #7f7f7f;">))</span>
+ <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-notify-pomodoro-done</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span>todochiku-message <span style="color: #ff7f00;">"Pomodoro"</span>
+<span style="color: #ff7f00;">"</span>
+<span style="color: #ff7f00;">  This Pomodoro Session is Complete</span>
+
+<span style="color: #ff7f00;">        Release Concentration</span>
+
+<span style="color: #ff7f00;">           Take a Break</span>
+
+<span style="color: #ff7f00;">"</span> <span style="color: #7f7f7f;">(</span>todochiku-icon 'bell<span style="color: #7f7f7f;">)))</span>
+  <span style="color: #7f7f7f;">(</span>add-hook 'org-timer-done-hook  'mj-notify-pomodoro-done<span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-24" class="outline-3">
+<h3 id="sec-1-24"><a name="ID-45537f41-3389-45b8-9454-bc0e2e51ebe5" id="ID-45537f41-3389-45b8-9454-bc0e2e51ebe5"></a><span class="section-number-3">1.24</span> Add org-mode contrib/lisp files to load path </h3>
+<div class="outline-text-3" id="text-1-24">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path <span style="color: #ff7f00;">"~/org-mode/contrib/lisp"</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-25" class="outline-3">
+<h3 id="sec-1-25"><span class="section-number-3">1.25</span> org-mode directory </h3>
+<div class="outline-text-3" id="text-1-25">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-directory <span style="color: #ff7f00;">"~/Dropbox/OrgData"</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-26" class="outline-3">
+<h3 id="sec-1-26"><span class="section-number-3">1.26</span> Org Agenda </h3>
+<div class="outline-text-3" id="text-1-26">
+
+
+</div>
+
+<div id="outline-container-1-26-1" class="outline-4">
+<h4 id="sec-1-26-1"><span class="section-number-4">1.26.1</span> Org Agenda Files </h4>
+<div class="outline-text-4" id="text-1-26-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-agenda-files <span style="color: #7f7f7f;">(</span>quote <span style="color: #7f7f7f;">(</span>
+   <span style="color: #ff7f00;">"~/Dropbox/OrgData/diary.org"</span>
+   <span style="color: #ff7f00;">"~/Dropbox/OrgData/inbox.org"</span><span style="color: #7f7f7f;">)))</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-27" class="outline-3">
+<h3 id="sec-1-27"><a name="ID-eb6dd9b1-86bd-4fb4-acb3-992ef90e29da" id="ID-eb6dd9b1-86bd-4fb4-acb3-992ef90e29da"></a><span class="section-number-3">1.27</span> org-drill </h3>
+<div class="outline-text-3" id="text-1-27">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">org-drill</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq org-learn-always-reschedule t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq org-drill-use-visible-cloze-face-p t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq org-drill-add-random-noise-to-intervals-p t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>put 'scroll-left 'disabled nil<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-28" class="outline-3">
+<h3 id="sec-1-28"><a name="ID-c22f6325-70c9-42c3-8c30-221f115c864d" id="ID-c22f6325-70c9-42c3-8c30-221f115c864d"></a><span class="section-number-3">1.28</span> \TODO keywords global setup </h3>
+<div class="outline-text-3" id="text-1-28">
+
+
+<p>
+<img src="file:///Users/martyn/Dropbox/OrgData/Images/TODO.png"  alt="file:///Users/martyn/Dropbox/OrgData/Images/TODO.png" />
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-todo-keywords <span style="color: #7f7f7f;">(</span>quote <span style="color: #7f7f7f;">((</span>sequence <span style="color: #ff7f00;">"TODO(t!)"</span> <span style="color: #ff7f00;">"|"</span> <span style="color: #ff7f00;">"DONE(d!/!)"</span><span style="color: #7f7f7f;">)</span>
+                                <span style="color: #7f7f7f;">(</span>sequence <span style="color: #ff7f00;">"WAITING(w@/!)"</span>
+                                <span style="color: #ff7f00;">"SOMEDAY(s!)"</span> 
+                                <span style="color: #ff7f00;">"IGNORED"</span> 
+                                <span style="color: #ff7f00;">"FAIL"</span> 
+                                <span style="color: #ff7f00;">"PASS"</span>
+                                <span style="color: #ff7f00;">"MISSING"</span>
+                                <span style="color: #ff7f00;">"DEPRECATED"</span>
+                                <span style="color: #ff7f00;">"|"</span> <span style="color: #ff7f00;">"CANCELLED(c@/!)"</span><span style="color: #7f7f7f;">))))</span>
+
+<span style="color: #7f7f7f;">(</span>setq org-todo-keyword-faces
+      <span style="color: #7f7f7f;">(</span>quote <span style="color: #7f7f7f;">((</span><span style="color: #ff7f00;">"TODO"</span>      <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"red"</span>          <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"DONE"</span>      <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"forest green"</span> <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"WAITING"</span>   <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"yellow"</span>       <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"SOMEDAY"</span>   <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"goldenrod"</span>    <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"CANCELLED"</span> <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"orangered"</span>    <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"EXPIRED"</span>   <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"olivedrab1"</span>   <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"IGNORED"</span>   <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"yellow"</span>       <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"FAIL"</span>      <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"red"</span>          <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"MISSING"</span>   <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"olivedrab1"</span>   <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"PASS"</span>      <span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"forest green"</span> <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">)</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"DEPRECATED"</span><span style="color: #b0c4de;">:foreground</span> <span style="color: #ff7f00;">"orangered"</span>    <span style="color: #b0c4de;">:weight</span> bold<span style="color: #7f7f7f;">))))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-29" class="outline-3">
+<h3 id="sec-1-29"><span class="section-number-3">1.29</span> Lilypond mode </h3>
+<div class="outline-text-3" id="text-1-29">
+
+
+
+
+
+<pre class="src src-emacs-lisp"> <span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+              <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/lilypond"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span>autoload 'LilyPond-mode <span style="color: #ff7f00;">"lilypond-mode"</span> <span style="color: #ff7f00;">"LilyPond Editing Mode"</span> t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>add-to-list 'auto-mode-alist '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"\\.ly$"</span> . LilyPond-mode<span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span>add-to-list 'auto-mode-alist '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"\\.ily$"</span> . LilyPond-mode<span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-30" class="outline-3">
+<h3 id="sec-1-30"><span class="section-number-3">1.30</span> Setup org-mode (development) </h3>
+<div class="outline-text-3" id="text-1-30">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'auto-mode-alist '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"\\.org\\'"</span> . org-mode<span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #ff7f00;">"\C-cl"</span> 'org-store-link<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #ff7f00;">"\C-ca"</span> 'org-agenda<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #ff7f00;">"\C-cb"</span> 'org-iswitchb<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-font-lock-mode 1<span style="color: #7f7f7f;">)</span>                     <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">for all buffers</span>
+<span style="color: #7f7f7f;">(</span>setq load-path <span style="color: #7f7f7f;">(</span>cons <span style="color: #ff7f00;">"~/org-mode"</span> load-path<span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-31" class="outline-3">
+<h3 id="sec-1-31"><a name="ID-9983a066-2f94-4446-82e5-bea078211562" id="ID-9983a066-2f94-4446-82e5-bea078211562"></a><span class="section-number-3">1.31</span> Configure Babel languages </h3>
+<div class="outline-text-3" id="text-1-31">
+
+<p>Configured for&hellip;
+</p><ul>
+<li>Ruby 
+</li>
+<li>Python
+</li>
+<li>C 
+</li>
+<li>emacs-lisp
+</li>
+<li>shell
+</li>
+<li>graphviz
+</li>
+<li>clojure
+</li>
+<li>ditaa 
+</li>
+<li>lilypond
+
+</li>
+</ul>
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>org-babel-do-load-languages
+ 'org-babel-load-languages
+ '<span style="color: #7f7f7f;">((</span>ruby . t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>python . t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>R . t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>C . t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>emacs-lisp . t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>sh t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>dot t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>clojure t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>ditaa t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">(</span>lilypond t<span style="color: #7f7f7f;">)</span>
+   <span style="color: #7f7f7f;">))</span>
+
+<span style="color: #7f7f7f;">(</span>setq org-src-fontify-natively t<span style="color: #7f7f7f;">)</span> <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">color blocks</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-32" class="outline-3">
+<h3 id="sec-1-32"><span class="section-number-3">1.32</span> org-confirm-babel-evaluate </h3>
+<div class="outline-text-3" id="text-1-32">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-confirm-babel-evaluate nil<span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-33" class="outline-3">
+<h3 id="sec-1-33"><span class="section-number-3">1.33</span> Display images in org mode </h3>
+<div class="outline-text-3" id="text-1-33">
+
+
+
+
+
+<pre class="src src-emacs-lisp">  <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">display images</span>
+  <span style="color: #7f7f7f;">(</span>local-set-key <span style="color: #ff7f00;">"\M-I"</span> 'org-toggle-iimage-in-org<span style="color: #7f7f7f;">)</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">-- Display images in org mode</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">enable image mode first</span>
+<span style="color: #7f7f7f;">(</span>iimage-mode<span style="color: #7f7f7f;">)</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">add the org file link format to the iimage mode regex</span>
+<span style="color: #7f7f7f;">(</span>add-to-list 'iimage-mode-image-regex-alist
+  <span style="color: #7f7f7f;">(</span>cons <span style="color: #7f7f7f;">(</span>concat <span style="color: #ff7f00;">"\\[\\[file:</span><span style="color: #ff7f00; font-weight: bold;">\\</span><span style="color: #ff7f00; font-weight: bold;">(</span><span style="color: #ff7f00;">~?"</span> iimage-mode-image-filename-regex <span style="color: #ff7f00;">"</span><span style="color: #ff7f00; font-weight: bold;">\\</span><span style="color: #ff7f00; font-weight: bold;">)</span><span style="color: #ff7f00;">\\]"</span><span style="color: #7f7f7f;">)</span>  1<span style="color: #7f7f7f;">))</span>
+<span style="color: #cd5c5c;">;;  </span><span style="color: #cd5c5c;">add a hook so we can display images on load</span>
+<span style="color: #7f7f7f;">(</span>add-hook 'org-mode-hook '<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">lambda</span> <span style="color: #7f7f7f;">()</span> <span style="color: #7f7f7f;">(</span>org-turn-on-iimage-in-org<span style="color: #7f7f7f;">)))</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">function to setup images for display on load</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">org-turn-on-iimage-in-org</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #ff7f00;">"display images in your org file"</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>turn-on-iimage-mode<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>set-face-underline-p 'org-link nil<span style="color: #7f7f7f;">))</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">function to toggle images in a org bugger</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">org-toggle-iimage-in-org</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #ff7f00;">"display images in your org file"</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">if</span> <span style="color: #7f7f7f;">(</span>face-underline-p 'org-link<span style="color: #7f7f7f;">)</span>
+      <span style="color: #7f7f7f;">(</span>set-face-underline-p 'org-link nil<span style="color: #7f7f7f;">)</span>
+      <span style="color: #7f7f7f;">(</span>set-face-underline-p 'org-link t<span style="color: #7f7f7f;">))</span>
+  <span style="color: #7f7f7f;">(</span>call-interactively 'iimage-mode<span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-34" class="outline-3">
+<h3 id="sec-1-34"><span class="section-number-3">1.34</span> Org Attach Directory </h3>
+<div class="outline-text-3" id="text-1-34">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-attach-directory <span style="color: #ff7f00;">"~/Dropbox/OrgData/attach-directory"</span><span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-35" class="outline-3">
+<h3 id="sec-1-35"><span class="section-number-3">1.35</span> Don't insert blank lines on org heading generation </h3>
+<div class="outline-text-3" id="text-1-35">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-blank-before-new-entry nil<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-36" class="outline-3">
+<h3 id="sec-1-36"><span class="section-number-3">1.36</span> Auto-Complete </h3>
+<div class="outline-text-3" id="text-1-36">
+
+
+</div>
+
+<div id="outline-container-1-36-1" class="outline-4">
+<h4 id="sec-1-36-1"><span class="section-number-4">1.36.1</span> To load </h4>
+<div class="outline-text-4" id="text-1-36-1">
+
+
+<p>
+M-x load-file RET 
+file to load: ~/.emacs.d/martyn/auto-complete/etc/install.el
+destination: ~/.emacs.d/martyn/auto-complete/installation
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-36-2" class="outline-4">
+<h4 id="sec-1-36-2"><span class="section-number-4">1.36.2</span> Add to init </h4>
+<div class="outline-text-4" id="text-1-36-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path <span style="color: #ff7f00;">"~/.emacs.d/martyn/auto-complete/installation"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">auto-complete-config</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>add-to-list 'ac-dictionary-directories <span style="color: #ff7f00;">"~/.emacs.d/martyn/auto-complete/installation/ac-dict"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>ac-config-default<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-36-3" class="outline-4">
+<h4 id="sec-1-36-3"><span class="section-number-4">1.36.3</span> Screencast </h4>
+<div class="outline-text-4" id="text-1-36-3">
+
+
+<p>
+<a href="http://www.youtube.com/watch?v=rGVVnDxwJYE">YouTube</a>
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-37" class="outline-3">
+<h3 id="sec-1-37"><span class="section-number-3">1.37</span> Redo+ </h3>
+<div class="outline-text-3" id="text-1-37">
+
+<p>This appears to be an upgrade of redo (although I never had any
+problems with redo). I shall monitor this!
+</p>
+
+</div>
+
+<div id="outline-container-1-37-1" class="outline-4">
+<h4 id="sec-1-37-1"><span class="section-number-4">1.37.1</span> web </h4>
+<div class="outline-text-4" id="text-1-37-1">
+
+<p><a href="http://www.emacswiki.org/emacs/RedoPlus"> emacswiki</a>
+<a href="http://www.emacswiki.org/emacs/RedoMode">older-redo</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-37-2" class="outline-4">
+<h4 id="sec-1-37-2"><span class="section-number-4">1.37.2</span> configuration </h4>
+<div class="outline-text-4" id="text-1-37-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/redoplus"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">redo+</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+
+<ul>
+<li id="sec-1-37-2-1">Make C-z undo, and M-z redo <br/>
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>define-key global-map <span style="color: #7f7f7f;">(</span>kbd <span style="color: #ff7f00;">"M-z"</span><span style="color: #7f7f7f;">)</span> 'redo<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>define-key global-map <span style="color: #7f7f7f;">(</span>kbd <span style="color: #ff7f00;">"C-z"</span><span style="color: #7f7f7f;">)</span> 'undo<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-38" class="outline-3">
+<h3 id="sec-1-38"><span class="section-number-3">1.38</span> Yasnippet </h3>
+<div class="outline-text-3" id="text-1-38">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/yasnippet-read-only"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">yasnippet</span><span style="color: #7f7f7f;">)</span> <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">not yasnippet-bundle</span>
+<span style="color: #7f7f7f;">(</span>yas/initialize<span style="color: #7f7f7f;">)</span>
+
+<span style="color: #7f7f7f;">(</span>setq yas/root-directory 
+      '<span style="color: #7f7f7f;">(</span>
+     <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">"~/.emacs.d/martyn/martyn/unity-mode/snippets"</span>
+        <span style="color: #ff7f00;">"~/.emacs.d/martyn/martyn/snippets"</span>
+        <span style="color: #ff7f00;">"~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork/snippets"</span>
+     <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">"~/.emacs.d/martyn/yasnippets-rails/rails-snippets"</span>
+        <span style="color: #ff7f00;">"~/.emacs.d/martyn/yasnippet-read-only/snippets"</span><span style="color: #7f7f7f;">))</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">Load the snippets (NOTE: the mapc required for multiple directories)</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(Map `</span><span style="color: #7fffd4;">yas/load-directory</span><span style="color: #cd5c5c;">' to every element)</span>
+
+<span style="color: #7f7f7f;">(</span>mapc 'yas/load-directory yas/root-directory<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-39" class="outline-3">
+<h3 id="sec-1-39"><span class="section-number-3">1.39</span> HideShow </h3>
+<div class="outline-text-3" id="text-1-39">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2011-01-25 Tue 14:49</span></span><br/>
+</p>
+</div>
+
+<div id="outline-container-1-39-1" class="outline-4">
+<h4 id="sec-1-39-1"><span class="section-number-4">1.39.1</span> Website </h4>
+<div class="outline-text-4" id="text-1-39-1">
+
+
+<p>
+<a href="http://www.emacswiki.org/emacs/HideShow">emacsWiki/hideshow</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-39-2" class="outline-4">
+<h4 id="sec-1-39-2"><span class="section-number-4">1.39.2</span> HideShow Configuration </h4>
+<div class="outline-text-4" id="text-1-39-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-hook 'c-mode-common-hook   'hs-minor-mode<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>add-hook 'emacs-lisp-mode-hook 'hs-minor-mode<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>add-hook 'java-mode-hook       'hs-minor-mode<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>add-hook 'lisp-mode-hook       'hs-minor-mode<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>add-hook 'perl-mode-hook       'hs-minor-mode<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>add-hook 'sh-mode-hook         'hs-minor-mode<span style="color: #7f7f7f;">)</span>
+
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">me-toggle-hiding-all</span><span style="color: #7f7f7f;">()</span>
+  <span style="color: #ff7f00;">"Fast cycling of all folded all unfolded utilising </span>
+<span style="color: #ff7f00;">   hideshow minor mode hs-minor-mode"</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defvar</span> <span style="color: #8fbc8f;">me-hideshow-active</span> nil<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>setq me-hideshow-active
+    <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">if</span> me-hideshow-active 
+        <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">progn</span> <span style="color: #7f7f7f;">(</span>hs-show-all<span style="color: #7f7f7f;">)</span> nil<span style="color: #7f7f7f;">)</span>
+      <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">progn</span> <span style="color: #7f7f7f;">(</span>hs-hide-all<span style="color: #7f7f7f;">)</span> t<span style="color: #7f7f7f;">))))</span>
+
+  <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">add hook for hideshow minor mode</span>
+  <span style="color: #7f7f7f;">(</span>add-hook 'lisp-mode-hook 'hs-minor-mode<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>global-set-key [f3] 'hs-toggle-hiding<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>global-set-key [C-f3] 'me-toggle-hiding-all<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-39-3" class="outline-4">
+<h4 id="sec-1-39-3"><span class="section-number-4">1.39.3</span> hideshow.org </h4>
+<div class="outline-text-4" id="text-1-39-3">
+
+<ul>
+<li id="sec-1-39-3-1">Website <br/>
+
+<p>
+     <a href="https://github.com/secelis/hideshow-org">github/hideshow-org</a>
+</p>
+</li>
+</ul>
+<ul>
+<li id="sec-1-39-3-2">Configuration <br/>
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/hideshow-org"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">hideshow-org</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1-39-4" class="outline-4">
+<h4 id="sec-1-39-4"><span class="section-number-4">1.39.4</span> To byte-compile-file </h4>
+<div class="outline-text-4" id="text-1-39-4">
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-40" class="outline-3">
+<h3 id="sec-1-40"><span class="section-number-3">1.40</span> Lusty Explorer </h3>
+<div class="outline-text-3" id="text-1-40">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2011-01-25 Tue 14:49</span></span><br/>
+</p>
+</div>
+
+<div id="outline-container-1-40-1" class="outline-4">
+<h4 id="sec-1-40-1"><span class="section-number-4">1.40.1</span> emacswiki </h4>
+<div class="outline-text-4" id="text-1-40-1">
+
+
+<p>
+<a href="http://www.emacswiki.org/emacs/lusty-explorer.el">emacswiki</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-40-2" class="outline-4">
+<h4 id="sec-1-40-2"><span class="section-number-4">1.40.2</span> Github </h4>
+<div class="outline-text-4" id="text-1-40-2">
+
+
+<p>
+<a href="https://github.com/sjbach/lusty-emacs">lusty-emacs</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-40-3" class="outline-4">
+<h4 id="sec-1-40-3"><span class="section-number-4">1.40.3</span> Config </h4>
+<div class="outline-text-4" id="text-1-40-3">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/lusty-emacs"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">lusty-explorer</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>define-key global-map <span style="color: #7f7f7f;">(</span>kbd <span style="color: #ff7f00;">"C-x C-d"</span><span style="color: #7f7f7f;">)</span> 'lusty-file-explorer<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-40-4" class="outline-4">
+<h4 id="sec-1-40-4"><span class="section-number-4">1.40.4</span> To byte-compile-file </h4>
+<div class="outline-text-4" id="text-1-40-4">
+
+
+<p>
+NOTE: lusty-explorer.el doesn't want to compile
+</p>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-41" class="outline-3">
+<h3 id="sec-1-41"><span class="section-number-3">1.41</span> Map C-x C-o to other window (as C-x o) </h3>
+<div class="outline-text-3" id="text-1-41">
+
+<p>    <span class="timestamp-wrapper"><span class="timestamp-kwd">CLOSED: </span> <span class="timestamp">2011-01-26 Wed 10:41</span></span><br/>
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>global-set-key [C-x-o] 'other-window<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-42" class="outline-3">
+<h3 id="sec-1-42"><span class="section-number-3">1.42</span> Setup generic browser </h3>
+<div class="outline-text-3" id="text-1-42">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">if</span> <span style="color: #7f7f7f;">(</span>string= <span style="color: #ff7f00;">"darwin"</span> system-type<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program <span style="color: #ff7f00;">"open"</span><span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>setq browse-url-browser-function 'browse-url-generic
+    browse-url-generic-program <span style="color: #ff7f00;">"conkeror"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-43" class="outline-3">
+<h3 id="sec-1-43"><span class="section-number-3">1.43</span> Setup MacGPG2 (for gpg) on mac OSX </h3>
+<div class="outline-text-3" id="text-1-43">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">when</span> <span style="color: #7f7f7f;">(</span>string= <span style="color: #ff7f00;">"darwin"</span> system-type<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>setq epg-gpg-program <span style="color: #ff7f00;">"/usr/local/MacGPG2/bin/gpg2"</span><span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>message <span style="color: #ff7f00;">"MacGPG2 set up"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-44" class="outline-3">
+<h3 id="sec-1-44"><span class="section-number-3">1.44</span> Make Password </h3>
+<div class="outline-text-3" id="text-1-44">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/make-password"</span><span style="color: #7f7f7f;">))</span>
+
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">make-password</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defalias</span> '<span style="color: #9acd32;">mj-generate-password</span> 'make-password<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defalias</span> '<span style="color: #9acd32;">generate-password</span> 'make-password<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-45" class="outline-3">
+<h3 id="sec-1-45"><span class="section-number-3">1.45</span> mj-versions </h3>
+<div class="outline-text-3" id="text-1-45">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/martyn/mj-versions"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">mj-versions</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-46" class="outline-3">
+<h3 id="sec-1-46"><span class="section-number-3">1.46</span> my-org-test-setup </h3>
+<div class="outline-text-3" id="text-1-46">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/martyn/my-org-test-setup"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">my-org-test-setup</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-47" class="outline-3">
+<h3 id="sec-1-47"><span class="section-number-3">1.47</span> my-header-arguments </h3>
+<div class="outline-text-3" id="text-1-47">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/martyn/my-header-arguments"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">my-header-arguments</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-48" class="outline-3">
+<h3 id="sec-1-48"><span class="section-number-3">1.48</span> help-page </h3>
+<div class="outline-text-3" id="text-1-48">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+             <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/martyn/help-page"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">help-page</span><span style="color: #7f7f7f;">)</span>
+
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defalias</span> '<span style="color: #9acd32;">hp</span> 'help-page<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-49" class="outline-3">
+<h3 id="sec-1-49"><span class="section-number-3">1.49</span> Setup IRC user info and channels </h3>
+<div class="outline-text-3" id="text-1-49">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq erc-header-line-format nil<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq erc-hide-list '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"JOIN"</span> <span style="color: #ff7f00;">"PART"</span> <span style="color: #ff7f00;">"QUIT"</span><span style="color: #7f7f7f;">))</span>
+
+<span style="color: #7f7f7f;">(</span>setq erc-log-channels-directory t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq erc-log-file-name-function <span style="color: #ff7f00;">"~/erc"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq erc-truncate-buffer-on-save t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq erc-nick <span style="color: #ff7f00;">"mjgo"</span><span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-50" class="outline-3">
+<h3 id="sec-1-50"><span class="section-number-3">1.50</span> Boxquote </h3>
+<div class="outline-text-3" id="text-1-50">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+ <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/boxquote"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">boxquote</span><span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-51" class="outline-3">
+<h3 id="sec-1-51"><span class="section-number-3">1.51</span> lorem-ipsum </h3>
+<div class="outline-text-3" id="text-1-51">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+ <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/lorem-ipsum"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">lorem-ipsum</span><span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-52" class="outline-3">
+<h3 id="sec-1-52"><span class="section-number-3">1.52</span> magit-hide-diffs </h3>
+<div class="outline-text-3" id="text-1-52">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq magit-hide-diffs t<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-53" class="outline-3">
+<h3 id="sec-1-53"><span class="section-number-3">1.53</span> continuous-testing </h3>
+<div class="outline-text-3" id="text-1-53">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path
+ <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/martyn/continuous-testing"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">continuous-testing</span><span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-54" class="outline-3">
+<h3 id="sec-1-54"><span class="section-number-3">1.54</span> ispell </h3>
+<div class="outline-text-3" id="text-1-54">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq ispell-program-name <span style="color: #ff7f00;">"/opt/local/bin/ispell"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">ispell</span><span style="color: #7f7f7f;">)</span> 
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-55" class="outline-3">
+<h3 id="sec-1-55"><span class="section-number-3">1.55</span> ess </h3>
+<div class="outline-text-3" id="text-1-55">
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list
+ 'load-path
+  <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/ess-5.14/lisp/"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">ess-site</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Under Test </h2>
+<div class="outline-text-2" id="text-2">
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> <span class="todo TODO"> TODO</span> shen-mode </h3>
+<div class="outline-text-3" id="text-2-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 
+ 'load-path
+  <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/shen-mode"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> <span class="todo TODO"> TODO</span> disable org-use-speed-commands (default) </h3>
+<div class="outline-text-3" id="text-2-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-use-speed-commands nil<span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> <span class="todo TODO"> TODO</span> Make windmove work in org-mode </h3>
+<div class="outline-text-3" id="text-2-3">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-hook 'org-shiftup-final-hook 'windmove-up<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>add-hook 'org-shiftleft-final-hook 'windmove-left<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>add-hook 'org-shiftdown-final-hook 'windmove-down<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>add-hook 'org-shiftright-final-hook 'windmove-right<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+<p>
+; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
+(setq org-outline-path-complete-in-steps t)
+</p>
+<p>
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+</p>
+<p>
+; Use IDO only for buffers
+; set ido-mode to buffer and ido-everywhere to t via the customize interface
+; '(ido-mode (quote both) nil (ido))
+; '(ido-everywhere t)
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> <span class="todo TODO"> TODO</span> Fix tab in org mode </h3>
+<div class="outline-text-3" id="text-2-4">
+
+
+<p>
+Not sure this is of any benefit anymore!    
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">fix tab</span>
+<span style="color: #7f7f7f;">(</span>local-set-key <span style="color: #ff7f00;">"\C-y"</span> 'yank<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> <span class="todo TODO"> TODO</span> One-touch timestamps </h3>
+<div class="outline-text-3" id="text-2-5">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-agenda-skip-additional-timestamps nil<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-one-touch-timestamp</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">when</span> <span style="color: #7f7f7f;">(</span>eq major-mode 'org-mode<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>org-insert-time-stamp nil t t<span style="color: #7f7f7f;">)))</span>
+<span style="color: #7f7f7f;">(</span>define-key global-map <span style="color: #7f7f7f;">(</span>kbd <span style="color: #ff7f00;">"&lt;f8&gt;"</span><span style="color: #7f7f7f;">)</span> 'mj-one-touch-timestamp<span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> <span class="todo TODO"> TODO</span> Fast TODO key selection </h3>
+<div class="outline-text-3" id="text-2-6">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-treat-S-cursor-todo-selection-as-state-change nil<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> <span class="todo TODO"> TODO</span> Configure org-mobile </h3>
+<div class="outline-text-3" id="text-2-7">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-mobile-directory <span style="color: #ff7f00;">"~/Dropbox/MobileOrg"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq org-mobile-files org-agenda-files<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq org-mobile-inbox-for-pull <span style="color: #ff7f00;">"~/Dropbox/OrgData/inbox.org"</span><span style="color: #7f7f7f;">)</span>
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> <span class="todo TODO"> TODO</span> my-run-drills function (doesn't work yet) </h3>
+<div class="outline-text-3" id="text-2-8">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">my-run-drills</span> <span style="color: #7f7f7f;">()</span>
+<span style="color: #ff7f00;">"Function to run all drills that exist in agenda files"</span>
+ <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+ <span style="color: #7f7f7f;">(</span>org-drill 'agenda<span style="color: #7f7f7f;">))</span>
+
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">provide</span> '<span style="color: #7fffd4;">my-run-drills</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-9" class="outline-3">
+<h3 id="sec-2-9"><a name="ID-3f712c43-2db3-4001-93df-ffed1319e19a" id="ID-3f712c43-2db3-4001-93df-ffed1319e19a"></a><span class="section-number-3">2.9</span> <span class="todo TODO"> TODO</span> Setup org-capture </h3>
+<div class="outline-text-3" id="text-2-9">
+
+
+
+</div>
+
+<div id="outline-container-2-9-1" class="outline-4">
+<h4 id="sec-2-9-1"><span class="section-number-4">2.9.1</span> Setup capture location and key </h4>
+<div class="outline-text-4" id="text-2-9-1">
+
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-default-notes-file <span style="color: #ff7f00;">"~/Dropbox/OrgData/capture.org"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>define-key global-map <span style="color: #ff7f00;">"\C-cc"</span> 'org-capture<span style="color: #7f7f7f;">)</span>
+
+<span style="color: #7f7f7f;">(</span>setq org-capture-templates
+      '<span style="color: #7f7f7f;">((</span><span style="color: #ff7f00;">"t"</span> <span style="color: #ff7f00;">"Agenda Todo"</span> entry
+         <span style="color: #7f7f7f;">(</span>file+datetree+prompt <span style="color: #ff7f00;">"~/Dropbox/OrgData/diary.org"</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #cd5c5c;">;;       </span><span style="color: #cd5c5c;">"\n\n** TODO %?\n%T\n\n%i\n%a\n\n\n"</span>
+         <span style="color: #ff7f00;">"\n\n** TODO %?\n%t\n\n"</span>
+         <span style="color: #b0c4de;">:empty-lines</span> 1<span style="color: #7f7f7f;">)))</span>
+
+<span style="color: #cd5c5c;">;;      </span><span style="color: #cd5c5c;">("n" "Agenda Notes" entry</span>
+<span style="color: #cd5c5c;">;;       </span><span style="color: #cd5c5c;">(file+headline "~/Dropbox/OrgData/diary.org" "Agenda")</span>
+<span style="color: #cd5c5c;">;;       </span><span style="color: #cd5c5c;">"\n\n** %?\n%T\n%i\n%a\n\n\n"</span>
+<span style="color: #cd5c5c;">;;       </span><span style="color: #cd5c5c;">:empty-lines 1))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-9-2" class="outline-4">
+<h4 id="sec-2-9-2"><span class="section-number-4">2.9.2</span> <span class="todo TODO"> TODO</span> Setup capture templates </h4>
+<div class="outline-text-4" id="text-2-9-2">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-9-3" class="outline-4">
+<h4 id="sec-2-9-3"><span class="section-number-4">2.9.3</span> <span class="todo TODO"> TODO</span> Setup refile targets </h4>
+<div class="outline-text-4" id="text-2-9-3">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">Use IDO for target completion</span>
+<span style="color: #7f7f7f;">(</span>setq org-completion-use-ido t<span style="color: #7f7f7f;">)</span>
+
+<span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">Targets include this file and any file contributing to the agenda - up to 5 levels deep</span>
+<span style="color: #7f7f7f;">(</span>setq org-refile-targets <span style="color: #7f7f7f;">(</span>quote <span style="color: #7f7f7f;">((</span>org-agenda-files <span style="color: #b0c4de;">:maxlevel</span> . 5<span style="color: #7f7f7f;">)</span> <span style="color: #7f7f7f;">(</span>nil <span style="color: #b0c4de;">:maxlevel</span> . 5<span style="color: #7f7f7f;">))))</span>
+
+<span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">Targets start with the file name - allows creating level 1 tasks</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">TESTING (setq org-refile-use-outline-path (quote file))</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> <span class="todo TODO"> TODO</span> Org Agenda Custom Commands </h3>
+<div class="outline-text-3" id="text-2-10">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">run-todo-unscheduled</span> <span style="color: #7f7f7f;">()</span>
+<span style="color: #ff7f00;">"agenda of unscheduled todos"</span>
+<span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq org-agenda-todo-ignore-scheduled t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>org-todo-list '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"t"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span>setq org-agenda-todo-ignore-scheduled nil<span style="color: #7f7f7f;">))</span>
+
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">provide</span> '<span style="color: #7fffd4;">run-todo-unscheduled</span><span style="color: #7f7f7f;">)</span>
+
+ <span style="color: #7f7f7f;">(</span>setq org-agenda-custom-commands
+           '<span style="color: #7f7f7f;">((</span><span style="color: #ff7f00;">"e"</span> todo <span style="color: #ff7f00;">"-SCHEDULED"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"W"</span> todo-tree <span style="color: #ff7f00;">"WAITING"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"u"</span> tags <span style="color: #ff7f00;">"+boss-urgent"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"v"</span> tags-todo <span style="color: #ff7f00;">"+boss-urgent"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"U"</span> tags-tree <span style="color: #ff7f00;">"+boss-urgent"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"f"</span> occur-tree <span style="color: #ff7f00;">"\\&lt;FIXME\\&gt;"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"hl"</span> tags <span style="color: #ff7f00;">"+home+Lisa"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"hp"</span> tags <span style="color: #ff7f00;">"+home+Peter"</span><span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"hk"</span> tags <span style="color: #ff7f00;">"+home+Kim"</span><span style="color: #7f7f7f;">)))</span>
+
+</pre>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-agenda-custom-commands
+      <span style="color: #7f7f7f;">(</span>quote <span style="color: #7f7f7f;">((</span><span style="color: #ff7f00;">"w"</span> <span style="color: #ff7f00;">"Tasks waiting on something"</span> tags <span style="color: #ff7f00;">"WAITING/!"</span>
+               <span style="color: #7f7f7f;">((</span>org-use-tag-inheritance nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-todo-ignore-scheduled nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-todo-ignore-deadlines nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-todo-ignore-with-date nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Waiting Tasks"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"r"</span> <span style="color: #ff7f00;">"Refile New Notes and Tasks"</span> tags <span style="color: #ff7f00;">"LEVEL=1+REFILE"</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-todo-ignore-with-date nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-todo-ignore-deadlines nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-todo-ignore-scheduled nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Tasks to Refile"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"N"</span> <span style="color: #ff7f00;">"Notes"</span> tags <span style="color: #ff7f00;">"NOTE"</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Notes"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"p"</span> <span style="color: #ff7f00;">"Projects"</span> tags-todo <span style="color: #ff7f00;">"LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-skip-function 'bh/skip-non-projects<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Projects"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"o"</span> <span style="color: #ff7f00;">"Other (Non-Project) tasks"</span> tags-todo <span style="color: #ff7f00;">"LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-skip-function 'bh/skip-projects<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Other Non-Project Tasks"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"A"</span> <span style="color: #ff7f00;">"Tasks to be Archived"</span> tags <span style="color: #ff7f00;">"LEVEL=2-REFILE/DONE|CANCELLED"</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Tasks to Archive"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"h"</span> <span style="color: #ff7f00;">"Habits"</span> tags <span style="color: #ff7f00;">"STYLE=\"habit\""</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-todo-ignore-with-date nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-todo-ignore-scheduled nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-todo-ignore-deadlines nil<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Habits"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"#"</span> <span style="color: #ff7f00;">"Stuck Projects"</span> tags-todo <span style="color: #ff7f00;">"LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-skip-function 'bh/skip-non-stuck-projects<span style="color: #7f7f7f;">)</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Stuck Projects"</span><span style="color: #7f7f7f;">)))</span>
+              <span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"c"</span> <span style="color: #ff7f00;">"Select default clocking task"</span> tags <span style="color: #ff7f00;">"LEVEL=2-REFILE"</span>
+               <span style="color: #7f7f7f;">((</span>org-agenda-skip-function
+                 '<span style="color: #7f7f7f;">(</span>org-agenda-skip-subtree-if 'notregexp <span style="color: #ff7f00;">"^\\*\\* Organization"</span><span style="color: #7f7f7f;">))</span>
+                <span style="color: #7f7f7f;">(</span>org-agenda-overriding-header <span style="color: #ff7f00;">"Set default clocking task with C-u C-u I"</span><span style="color: #7f7f7f;">))))))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> <span class="todo TODO"> TODO</span> Unity Mode </h3>
+<div class="outline-text-3" id="text-2-11">
+
+
+</div>
+
+<div id="outline-container-2-11-1" class="outline-4">
+<h4 id="sec-2-11-1"><span class="section-number-4">2.11.1</span> load path and speed keys </h4>
+<div class="outline-text-4" id="text-2-11-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"> <span style="color: #7f7f7f;">(</span>add-to-list 
+  'load-path
+   <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/martyn/unity-mode"</span><span style="color: #7f7f7f;">))</span>
+ <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">unity-mode</span><span style="color: #7f7f7f;">)</span>
+ <span style="color: #cd5c5c;">;</span><span style="color: #cd5c5c;">(add-hook 'c-mode-hook 'unity-mode)</span>
+
+<span style="color: #7f7f7f;">(</span>global-set-key [f5] 'unity-find-and-open-a-primative-match-forward<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [S-f5] 'unity-find-and-open-a-primative-match-reverse<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [C-f5] 'unity-cycle-MCH-buffer<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [f6] 'unity-cycle-alpha-ascending<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [S-f6] 'unity-cycle-alpha-descending<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-12" class="outline-3">
+<h3 id="sec-2-12"><span class="section-number-3">2.12</span> <span class="todo TODO"> TODO</span> unity-project () </h3>
+<div class="outline-text-3" id="text-2-12">
+
+
+
+
+
+<pre class="src src-emacs-lisp">  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">unity-project</span> <span style="color: #7f7f7f;">()</span>
+    <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>find-file <span style="color: #ff7f00;">"~/.emacs.d/martyn/martyn/unity-mode/unity-parse-project-file.el"</span><span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>find-file <span style="color: #ff7f00;">"~/.emacs.d/martyn/martyn/unity-mode/unity-auto-config.el"</span><span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>delete-other-windows<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>split-window-horizontally<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>windmove-right<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>find-file <span style="color: #ff7f00;">"~/.emacs.d/martyn/martyn/unity-mode/unity-mode.el"</span><span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>windmove-left<span style="color: #7f7f7f;">)</span>
+<span style="color: #cd5c5c;">;;    </span><span style="color: #cd5c5c;">(find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode-tests.el")</span>
+    <span style="color: #7f7f7f;">(</span>switch-to-buffer <span style="color: #ff7f00;">"#emacs"</span><span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>split-window-vertically<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>switch-to-buffer <span style="color: #ff7f00;">"*ert*"</span><span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>windmove-down<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>switch-to-buffer <span style="color: #ff7f00;">"#emacs"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-13" class="outline-3">
+<h3 id="sec-2-13"><span class="section-number-3">2.13</span> <span class="todo TODO"> TODO</span> unity-eval-src-and-tests () </h3>
+<div class="outline-text-3" id="text-2-13">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">unity-eval-src-and-tests</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">let</span> <span style="color: #7f7f7f;">((</span>original-buffer buffer-file-name<span style="color: #7f7f7f;">)</span>
+        <span style="color: #7f7f7f;">(</span>original-window <span style="color: #7f7f7f;">(</span>selected-window<span style="color: #7f7f7f;">)))</span>
+
+    <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">if</span><span style="color: #7f7f7f;">(</span>string-match <span style="color: #ff7f00;">"^unity-"</span> <span style="color: #7f7f7f;">(</span>file-name-nondirectory original-buffer<span style="color: #7f7f7f;">))</span> 
+        <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">progn</span>
+          <span style="color: #7f7f7f;">(</span>eval-buffer <span style="color: #ff7f00;">"unity-mode-tests.el"</span><span style="color: #7f7f7f;">)</span>
+          <span style="color: #7f7f7f;">(</span>eval-buffer <span style="color: #ff7f00;">"unity-mode.el"</span><span style="color: #7f7f7f;">)</span>
+          <span style="color: #7f7f7f;">(</span>ert t<span style="color: #7f7f7f;">)))</span>
+    <span style="color: #7f7f7f;">(</span>select-window original-window<span style="color: #7f7f7f;">)))</span> 
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(error "%s" (windmove-find-other-window 'right))</span>
+<span style="color: #cd5c5c;">;;     </span><span style="color: #cd5c5c;">(if(equal original-buffer (windmove-find-other-window 'right))</span>
+<span style="color: #cd5c5c;">;;         </span><span style="color: #cd5c5c;">(windmove-right)</span>
+<span style="color: #cd5c5c;">;;       </span><span style="color: #cd5c5c;">(windmove-down))))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-14" class="outline-3">
+<h3 id="sec-2-14"><span class="section-number-3">2.14</span> <span class="todo TODO"> TODO</span> unity-project-org() </h3>
+<div class="outline-text-3" id="text-2-14">
+
+<p>Moved to unity-mode.el
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">;   </span><span style="color: #cd5c5c;">(global-set-key [f4] 'unity-eval-src-and-tests)</span>
+<span style="color: #cd5c5c;">;   </span><span style="color: #cd5c5c;">(global-set-key [C-f4] 'unity-switch-src-control-file)</span>
+<span style="color: #cd5c5c;">;   </span><span style="color: #cd5c5c;">(global-set-key [C-c C-v] 'eval-region)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-15" class="outline-3">
+<h3 id="sec-2-15"><span class="section-number-3">2.15</span> <span class="todo TODO"> TODO</span> Develop group agenda to show unscheduled TODO items </h3>
+<div class="outline-text-3" id="text-2-15">
+
+
+<p>
+<a href="http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html">Suggestions</a>
+</p></div>
+
+</div>
+
+<div id="outline-container-2-16" class="outline-3">
+<h3 id="sec-2-16"><span class="section-number-3">2.16</span> <span class="todo TODO"> TODO</span> Setup for latex / pdf export of org-mode </h3>
+<div class="outline-text-3" id="text-2-16">
+
+
+<ol>
+<li>NOTE: remember ubuntu requires texlive-latex-extra for this
+</li>
+<li>NOTE: also required ttf-marvosym
+</li>
+<li>For missing packages try searching <a href="http://packages.ubuntu.com/search?keywords=marvosym&amp;searchon=names&amp;suite=maverick&amp;section=all">here</a> and apt-get install package
+</li>
+<li>Useful latex <a href="http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf">prettifying link</a>
+</li>
+</ol>
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">remember ubuntu requires texlive-latex-extra for this</span>
+
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">org-latex</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>setq org-export-latex-listings t<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>add-to-list 'org-export-latex-packages-alist '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">""</span> <span style="color: #ff7f00;">"listings"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span>add-to-list 'org-export-latex-packages-alist '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">""</span> <span style="color: #ff7f00;">"color"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-17" class="outline-3">
+<h3 id="sec-2-17"><span class="section-number-3">2.17</span> <span class="todo TODO"> TODO</span> Setup for Auctex (ongoing) </h3>
+<div class="outline-text-3" id="text-2-17">
+
+
+<p>
+  ;;  Setup gleaned from <a href="http://salomie.ro/tudor/2010/09/02/console-based-system/">here</a>
+  ;;  #+begin_src emacs-lisp :results silent
+  ;;  
+  ;;  ;; AUCTeX
+  ;;  (setq TeX-auto-save t)
+  ;;  (setq TeX-parse-self t)
+  ;;  ;set up AUCTeX to deal with multiple file documents.
+  ;;  (setq-default TeX-master nil)
+  ;;  ;turn on pdf-mode.  AUCTeX will call pdflatex to compile instead of latex.
+  ;;  (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+  ;;  ;turn on flyspell mode - this will automatically spell check the document in LaTex-mode
+  ;;  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  ;;  
+  ;;      ; allow for export=&gt;beamer by placing
+  ;;      ;; #+LaTeX_CLASS: beamer in org files
+  ;;      (unless (boundp 'org-export-latex-classes)
+  ;;      (setq org-export-latex-classes nil))
+  ;;      (add-to-list 'org-export-latex-classes
+  ;;      ;; beamer class, for presentations
+  ;;      '("beamer"
+  ;;        "\\documentclass[11pt]{beamer}\n
+  ;;        \\mode&lt;{{{beamermode}}}&gt;\n
+  ;;        \\usetheme{{{{beamertheme}}}}\n
+  ;;        \\usecolortheme{{{{beamercolortheme}}}}\n
+  ;;        \\beamertemplateballitem\n
+  ;;        \\setbeameroption{show notes}
+  ;;        \\usepackage[utf8]{inputenc}\n
+  ;;        \\usepackage[T1]{fontenc}\n
+  ;;        \\usepackage{hyperref}\n
+  ;;        \\usepackage{color}
+  ;;        \\usepackage{listings}
+  ;;        \\lstset{numbers=none,language=[ISO]C++,tabsize=4,
+  ;;        frame=single,
+  ;;        basicstyle=\\small,
+  ;;        showspaces=false,showstringspaces=false,
+  ;;        showtabs=false,
+  ;;        keywordstyle=\\color{blue}\\bfseries,
+  ;;        commentstyle=\\color{red},
+  ;;        }\n
+  ;;        \\usepackage{verbatim}\n
+  ;;        \\institute{{{{beamerinstitute}}}}\n
+  ;;        \\subject{{{{beamersubject}}}}\n"
+  ;;        org-beamer-sectioning
+  ;;        ("\\section{%s}" . "\\section*{%s}")
+  ;;        ("\\begin{frame}[fragile]\\frametitle{%s}"
+  ;;        "\\end{frame}"
+  ;;        "\\begin{frame}[fragile]\\frametitle{%s}"
+  ;;        "\\end{frame}")
+  ;;      ))
+  ;;  
+  ;;      ;; Set up skeletons (see below) in a menu in ORG MODE mode
+  ;;      (defvar org-org-menu)
+  ;;      (add-hook 'org-mode-hook
+  ;;      (lambda () (easy-menu-add-item org-org-menu nil ["Skeletons" nil t])
+  ;;      (easy-menu-add-item org-org-menu '("Skeletons") ["Beamer Theme" orgmode-beamer-my-skeleton t])))
+  ;;      (define-skeleton orgmode-beamer-my-skeleton
+  ;;        "inserts a simple orgmode-beamer template skeleton - use C-c C-e d to build the pdf"
+  ;;        nil
+  ;;        "#+LaTeX_CLASS: beamer\n"
+  ;;        "#+MACRO: BEAMERMODE presentation\n"
+  ;;        "#+MACRO: BEAMERCOLORTHEME dove\n"
+  ;;        "#+MACRO: BEAMERSUBJECT RMRF\n"
+  ;;        "#+BEAMER_FRAME_LEVEL: 2\n"
+  ;;        "#+COLUMNS: %35ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)\n"
+  ;;        "#+OPTIONS: tags:nil\n"
+  ;;        "#+MACRO: BEAMERINSTITUTE My Affiliation\n"
+  ;;        "#+AUTHOR: Tudor-Ioan Salomie\n"
+  ;;        "\n"
+  ;;        "#+TITLE: Presentation title\n"
+  ;;        "\n"
+  ;;        "\n"
+  ;;        "* My Section\n"
+  ;;        "\n"
+  ;;        "** Frame 1 \\\\ with a subtitle\n"
+  ;;        "\n"
+  ;;        "*** Idea\n"
+  ;;        "\n"
+  ;;        "#+begin_LaTeX\n"
+  ;;        "\n"
+  ;;        "#+end_LaTeX\n"
+  ;;        "\n\n\n"
+  ;;      )
+  ;;  
+  ;;  
+  ;;  #+end_src
+  ;;  
+  ;;  #+results:
+  ;;  : orgmode-beamer-my-skeleton
+  ;;  
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-18" class="outline-3">
+<h3 id="sec-2-18"><span class="section-number-3">2.18</span> <span class="todo TODO"> TODO</span> Setup Clocking work time </h3>
+<div class="outline-text-3" id="text-2-18">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-clock-persist 'history<span style="color: #7f7f7f;">)</span>
+     <span style="color: #7f7f7f;">(</span>org-clock-persistence-insinuate<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-19" class="outline-3">
+<h3 id="sec-2-19"><span class="section-number-3">2.19</span> <span class="todo TODO"> TODO</span> Function mj-diary-org opens diary.org </h3>
+<div class="outline-text-3" id="text-2-19">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-diary-org</span><span style="color: #7f7f7f;">()</span>
+  <span style="color: #ff7f00;">"Fast route to diary.org"</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>find-file <span style="color: #ff7f00;">"~/Dropbox/OrgData/diary.org"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+<pre class="example">
+mj-diary-org
+</pre>
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-init-org</span><span style="color: #7f7f7f;">()</span>
+  <span style="color: #ff7f00;">"Fast route to init.org"</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>find-file <span style="color: #ff7f00;">"~/.emacs.d/martyn/init.org"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-org-agenda</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span>org-agenda nil <span style="color: #ff7f00;">"a"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-20" class="outline-3">
+<h3 id="sec-2-20"><span class="section-number-3">2.20</span> <span class="todo TODO"> TODO</span> Function mj-cycle-helps opens mj-helps </h3>
+<div class="outline-text-3" id="text-2-20">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-cycle-helps</span><span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">unless</span> <span style="color: #7f7f7f;">(</span>boundp 'mj-current-help<span style="color: #7f7f7f;">)</span>
+    <span style="color: #7f7f7f;">(</span>setq mj-current-help nil<span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">cond</span> 
+      <span style="color: #7f7f7f;">((</span>equal <span style="color: #7f7f7f;">(</span>buffer-name<span style="color: #7f7f7f;">)</span> <span style="color: #ff7f00;">"diary.org"</span><span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span>bury-buffer <span style="color: #ff7f00;">"diary.org"</span><span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span>setq mj-current-help 'mj-org-agenda<span style="color: #7f7f7f;">))</span>
+      <span style="color: #7f7f7f;">((</span>equal <span style="color: #7f7f7f;">(</span>buffer-name<span style="color: #7f7f7f;">)</span> <span style="color: #ff7f00;">"*Org Agenda*"</span><span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span>org-agenda-quit<span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span>setq mj-current-help 'help-page<span style="color: #7f7f7f;">))</span>
+      <span style="color: #7f7f7f;">((</span>equal <span style="color: #7f7f7f;">(</span>buffer-name<span style="color: #7f7f7f;">)</span> <span style="color: #ff7f00;">"help.org"</span><span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span>bury-buffer <span style="color: #ff7f00;">"help.org"</span><span style="color: #7f7f7f;">)</span>
+       <span style="color: #7f7f7f;">(</span>setq mj-current-help 'mj-init-org<span style="color: #7f7f7f;">))</span>
+      <span style="color: #7f7f7f;">(</span>t <span style="color: #7f7f7f;">(</span>setq mj-current-help 'mj-diary-org<span style="color: #7f7f7f;">)))</span>
+<span style="color: #7f7f7f;">(</span>funcall mj-current-help<span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-21" class="outline-3">
+<h3 id="sec-2-21"><span class="section-number-3">2.21</span> <span class="todo TODO"> TODO</span> Flyspell mode error avoidance </h3>
+<div class="outline-text-3" id="text-2-21">
+
+
+</div>
+
+<div id="outline-container-2-21-1" class="outline-4">
+<h4 id="sec-2-21-1"><span class="section-number-4">2.21.1</span> web discussion </h4>
+<div class="outline-text-4" id="text-2-21-1">
+
+
+<p>
+<a href="http://stackoverflow.com/questions/1781762/enabling-flyspell-mode-gives-an-error">stackoverflow</a>
+<a href="https://bugs.launchpad.net/ubuntu/+source/dictionaries-common/+bug/619015">launchpad</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-21-2" class="outline-4">
+<h4 id="sec-2-21-2"><span class="section-number-4">2.21.2</span> configuration </h4>
+<div class="outline-text-4" id="text-2-21-2">
+
+
+<p>
+;; (require 'ispell)
+;; (setq-default ispell-program-name "/usr/local/lib/aspell-0.60.6/aspell")
+;; (setq ispell-really-aspell t)
+;; (setq ispell-dictionary "/usr/local/lib/aspell6-en-7.1-0/english")
+;; ;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
+;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/flyspell.el
+;;# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/ispell.el
+;;# cd /usr/share/emacs23/site-lisp/dictionaries-common
+;;# sudo rm *.el *.elc
+;; the above didn't work for me so&hellip;
+</p>
+<p>
+(unload-feature 'flyspell-mode)
+;;neither did this! (not loaded)
+</p>
+<p>
+ ##+end_src
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-2-22" class="outline-3">
+<h3 id="sec-2-22"><span class="section-number-3">2.22</span> <span class="todo DEPRECATED"> DEPRECATED</span> ERT setup </h3>
+<div class="outline-text-3" id="text-2-22">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-23" class="outline-3">
+<h3 id="sec-2-23"><span class="section-number-3">2.23</span> <span class="todo TODO"> TODO</span> Graphviz-dot-mode </h3>
+<div class="outline-text-3" id="text-2-23">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>load-file  <span style="color: #7f7f7f;">(</span>concat dotfiles-dir  <span style="color: #ff7f00;">"martyn/graphviz-dot-mode/graphviz-dot-mode.el"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-24" class="outline-3">
+<h3 id="sec-2-24"><span class="section-number-3">2.24</span> <span class="todo TODO"> TODO</span> Graphviz in babel doesn't appear to be implemented </h3>
+<div class="outline-text-3" id="text-2-24">
+
+</div>
+
+</div>
+
+<div id="outline-container-2-25" class="outline-3">
+<h3 id="sec-2-25"><span class="section-number-3">2.25</span> <span class="todo TODO"> TODO</span> org-contacts </h3>
+<div class="outline-text-3" id="text-2-25">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">org-contacts</span><span style="color: #7f7f7f;">)</span>
+
+ <span style="color: #7f7f7f;">(</span>custom-set-variables
+ '<span style="color: #7f7f7f;">(</span>org-contacts-files '<span style="color: #7f7f7f;">(</span><span style="color: #ff7f00;">"~/Dropbox/OrgData/contacts.org"</span><span style="color: #7f7f7f;">)))</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">("c" "Contacts" entry (file "~/Org/contacts.org")</span>
+<span style="color: #cd5c5c;">;;  </span><span style="color: #cd5c5c;">"* %(org-contacts-template-name)</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">:PROPERTIES:</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">:EMAIL: %(org-contacts-template-email)</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">:END:")</span>
+
+</pre>
+
+
+
+</div>
+
+<div id="outline-container-2-25-1" class="outline-4">
+<h4 id="sec-2-25-1"><span class="section-number-4">2.25.1</span> <span class="todo TODO"> TODO</span> Yasnippet for rails </h4>
+<div class="outline-text-4" id="text-2-25-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(add-to-list 'load-path</span>
+<span style="color: #cd5c5c;">;;    </span><span style="color: #cd5c5c;">(concat dotfiles-dir "/martyn/yasnippets-rails"))</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(add-hook 'ruby-mode-hook ; or rails-minor-mode-hook ?</span>
+<span style="color: #cd5c5c;">;;           </span><span style="color: #cd5c5c;">'(lambda ()</span>
+<span style="color: #cd5c5c;">;;              </span><span style="color: #cd5c5c;">(make-variable-buffer-local 'yas/trigger-key)</span>
+<span style="color: #cd5c5c;">;;              </span><span style="color: #cd5c5c;">(setq yas/trigger-key [tab])))</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(require 'yasnippet)</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">;;(add-to-list 'yas/extra-mode-hooks</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">;;             'ruby-mode-hook)</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(yas/initialize)</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">;;(yas/load-directory</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">;;   (concat</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">;;      dotfiles-dir "/martyn/snippets/yasnippets-rails/rails-snippets/"))</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">;;(make-variable-buffer-local 'yas/trigger-key)</span>
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">;; yasnippet-org-mode</span>
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">(yas/load-directory</span>
+<span style="color: #cd5c5c;">;;    </span><span style="color: #cd5c5c;">(concat</span>
+<span style="color: #cd5c5c;">;;       </span><span style="color: #cd5c5c;">dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))</span>
+
+   <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">yasnippet (allow yasnippet to do it's thing in org files)</span>
+<span style="color: #cd5c5c;">;;   </span><span style="color: #cd5c5c;">(make-variable-buffer-local 'yas/trigger-key)</span>
+<span style="color: #cd5c5c;">;;   </span><span style="color: #cd5c5c;">(setq yas/trigger-key [tab])</span>
+<span style="color: #cd5c5c;">;;   </span><span style="color: #cd5c5c;">(define-key yas/keymap [tab] 'yas/next-field-group)))</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-26" class="outline-3">
+<h3 id="sec-2-26"><span class="section-number-3">2.26</span> <span class="todo TODO"> TODO</span> Highlight Parantheses </h3>
+<div class="outline-text-3" id="text-2-26">
+
+
+</div>
+
+<div id="outline-container-2-26-1" class="outline-4">
+<h4 id="sec-2-26-1"><span class="section-number-4">2.26.1</span> Site </h4>
+<div class="outline-text-4" id="text-2-26-1">
+
+<p><a href="#coderef-add-to-list 'load-path "/path/to/highlight-parentheses")(require 'highlight-parentheses" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-add-to-list 'load-path "/path/to/highlight-parentheses")(require 'highlight-parentheses');" onmouseout="CodeHighlightOff(this, 'coderef-add-to-list 'load-path "/path/to/highlight-parentheses")(require 'highlight-parentheses');">site</a>
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-26-2" class="outline-4">
+<h4 id="sec-2-26-2"><span class="section-number-4">2.26.2</span> Setup </h4>
+<div class="outline-text-4" id="text-2-26-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path <span style="color: #7f7f7f;">(</span>concat dotfiles-dir 
+  <span style="color: #ff7f00;">"martyn/highlight-parentheses"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">highlight-parentheses</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-27" class="outline-3">
+<h3 id="sec-2-27"><span class="section-number-3">2.27</span> <span class="todo TODO"> TODO</span> S-C-d to backward-delete-char() - doesn't work!! </h3>
+<div class="outline-text-3" id="text-2-27">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>global-set-key [C-S-d] 'backward-delete-char<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-28" class="outline-3">
+<h3 id="sec-2-28"><span class="section-number-3">2.28</span> <span class="todo TODO"> TODO</span> backward-kill-line (SHIFT CTRL K) </h3>
+<div class="outline-text-3" id="text-2-28">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-backward-kill-line</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">if</span> <span style="color: #7f7f7f;">(</span>bolp<span style="color: #7f7f7f;">)</span> 
+      <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">progn</span> <span style="color: #7f7f7f;">(</span>previous-line<span style="color: #7f7f7f;">)</span>
+             <span style="color: #7f7f7f;">(</span>org-kill-line<span style="color: #7f7f7f;">))</span>
+    <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">let</span> <span style="color: #7f7f7f;">((</span>here <span style="color: #7f7f7f;">(</span>point<span style="color: #7f7f7f;">)))</span>
+      <span style="color: #7f7f7f;">(</span>beginning-of-line<span style="color: #7f7f7f;">)</span>
+      <span style="color: #7f7f7f;">(</span>kill-region <span style="color: #7f7f7f;">(</span>point<span style="color: #7f7f7f;">)</span> here<span style="color: #7f7f7f;">))))</span>
+
+<span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #7f7f7f;">(</span>kbd <span style="color: #ff7f00;">"C-M-k"</span><span style="color: #7f7f7f;">)</span> 'mj-backward-kill-line<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-29" class="outline-3">
+<h3 id="sec-2-29"><span class="section-number-3">2.29</span> <span class="todo TODO"> TODO</span> doremi-frm </h3>
+<div class="outline-text-3" id="text-2-29">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-30" class="outline-3">
+<h3 id="sec-2-30"><a name="ID-54fe0628-6b92-4e51-b03b-c1610506f021" id="ID-54fe0628-6b92-4e51-b03b-c1610506f021"></a><span class="section-number-3">2.30</span> <span class="todo TODO"> TODO</span> Comment or uncomment region with M-k </h3>
+<div class="outline-text-3" id="text-2-30">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>global-set-key <span style="color: #ff7f00;">"\M-k"</span> 'comment-or-uncomment-region<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-31" class="outline-3">
+<h3 id="sec-2-31"><span class="section-number-3">2.31</span> <span class="todo TODO"> TODO</span> column-number-mode </h3>
+<div class="outline-text-3" id="text-2-31">
+
+
+<p>
+Re: emacs and gnome-terminal
+(Anonymous)
+2008-05-20 04:51 am UTC (link)
+Not a bug fix, but this seems to make the problem go away.
+</p>
+<p>
+Turn on column-number-mode.
+</p>
+<p>
+You can put the following into your ~/.emacs to have it on on loading
+</p>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq-default column-number-mode t<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq cursor-type 'hbar<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>set-cursor-color  <span style="color: #ff7f00;">"white"</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-32" class="outline-3">
+<h3 id="sec-2-32"><a name="ID-3f3b1218-c9dd-4dba-a2ee-f8aafa338992" id="ID-3f3b1218-c9dd-4dba-a2ee-f8aafa338992"></a><span class="section-number-3">2.32</span> <span class="todo TODO"> TODO</span> Remap C-j to my custom goto-next-line function </h3>
+<div class="outline-text-3" id="text-2-32">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">function here</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-33" class="outline-3">
+<h3 id="sec-2-33"><span class="section-number-3">2.33</span> <span class="todo TODO"> TODO</span> elpa </h3>
+<div class="outline-text-3" id="text-2-33">
+
+
+<p>
+;;#+begin_src emacs-lisp :results silent
+;;(setq package-user-dir (concat dotfiles-dir "martyn/elpa"))
+;;#+end_src
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-34" class="outline-3">
+<h3 id="sec-2-34"><span class="section-number-3">2.34</span> <span class="todo TODO"> TODO</span> Mode-compile </h3>
+<div class="outline-text-3" id="text-2-34">
+
+
+<p>
+Setup Mode-compile (emacs-wiki)
+</p>
+
+
+
+<pre class="src src-emacs-lisp">  <span style="color: #cd5c5c;">;;</span><span style="color: #cd5c5c;">mode-compile</span>
+  <span style="color: #7f7f7f;">(</span>autoload 'mode-compile <span style="color: #ff7f00;">"mode-compile"</span>
+    <span style="color: #ff7f00;">"Command to compile current buffer file based on the major mode"</span> t<span style="color: #7f7f7f;">)</span>
+<span style="color: #cd5c5c;">;;  </span><span style="color: #cd5c5c;">(global-set-key "\C-cc" 'mode-compile)</span>
+  <span style="color: #7f7f7f;">(</span>autoload 'mode-compile-kill <span style="color: #ff7f00;">"mode-compile"</span>
+    <span style="color: #ff7f00;">"Command to kill a compilation launched by `</span><span style="color: #7fffd4;">mode-compile</span><span style="color: #ff7f00;">'"</span> t<span style="color: #7f7f7f;">)</span>
+<span style="color: #cd5c5c;">;;  </span><span style="color: #cd5c5c;">(global-set-key "\C-ck" 'mode-compile-kill)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-35" class="outline-3">
+<h3 id="sec-2-35"><span class="section-number-3">2.35</span> <span class="todo TODO"> TODO</span> Ruby </h3>
+<div class="outline-text-3" id="text-2-35">
+
+
+</div>
+
+<div id="outline-container-2-35-1" class="outline-4">
+<h4 id="sec-2-35-1"><a name="ID-86bebb8b-e52d-43da-9f7b-a49ef5db14ba" id="ID-86bebb8b-e52d-43da-9f7b-a49ef5db14ba"></a><span class="section-number-4">2.35.1</span> <span class="todo TODO"> TODO</span> (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel &nbsp;&nbsp;&nbsp;<span class="tag"><span class="DISABLED">DISABLED</span></span></h4>
+<div class="outline-text-4" id="text-2-35-1">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/rvm/rvm.el/"</span><span style="color: #7f7f7f;">))</span>
+<span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">require</span> '<span style="color: #7fffd4;">rvm</span><span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>rvm-activate-corresponding-ruby<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>rvm-autodetect-ruby<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>rvm-use <span style="color: #ff7f00;">"1.9.2"</span> <span style="color: #ff7f00;">"default"</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-35-2" class="outline-4">
+<h4 id="sec-2-35-2"><a name="ID-ace283a7-2eb8-4c48-b667-8ebfb419606d" id="ID-ace283a7-2eb8-4c48-b667-8ebfb419606d"></a><span class="section-number-4">2.35.2</span> Setup rspec-mode (development) </h4>
+<div class="outline-text-4" id="text-2-35-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>add-to-list 'load-path <span style="color: #7f7f7f;">(</span>concat dotfiles-dir <span style="color: #ff7f00;">"martyn/rspec-mode"</span><span style="color: #7f7f7f;">))</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-36" class="outline-3">
+<h3 id="sec-2-36"><span class="section-number-3">2.36</span> <span class="todo TODO"> TODO</span> Kill to start of line </h3>
+<div class="outline-text-3" id="text-2-36">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">mj-kill-to-start-of-line</span> <span style="color: #7f7f7f;">()</span>
+<span style="color: #ff7f00;">"kill from point to start of line"</span>
+<span style="color: #7f7f7f;">(</span>interactive<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>kill-line 0<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">)</span>
+<span style="color: #7f7f7f;">(</span>global-set-key [C-j]  'mj-kill-to-start-of-line<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Initial display </h2>
+<div class="outline-text-2" id="text-3">
+
+
+</div>
+
+<div id="outline-container-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Display diary org and agenda </h3>
+<div class="outline-text-3" id="text-3-1">
+
+
+</div>
+
+<div id="outline-container-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> "martyn-laptop" system specific&hellip; </h4>
+<div class="outline-text-4" id="text-3-1-1">
+
+
+<ul>
+<li>NOTE: Currently loads ALL org files - might consider just "tracked" 
+   org files
+</li>
+<li>Switch to diary.org
+</li>
+<li>Bring up schedule agenda in other window
+</li>
+</ul>
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">defun</span> <span style="color: #9acd32;">me-startup-in-agenda</span> <span style="color: #7f7f7f;">()</span>
+  <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">if</span> <span style="color: #7f7f7f;">(</span>string= system-name <span style="color: #ff7f00;">"martyn-laptop"</span><span style="color: #7f7f7f;">)</span> 
+      <span style="color: #7f7f7f;">(</span><span style="color: #ffff00;">progn</span>
+        <span style="color: #7f7f7f;">(</span>split-window-horizontally<span style="color: #7f7f7f;">)</span>
+        <span style="color: #7f7f7f;">(</span>my-load-org-files<span style="color: #7f7f7f;">)</span>
+        <span style="color: #7f7f7f;">(</span>switch-to-buffer <span style="color: #ff7f00;">"diary.org"</span><span style="color: #7f7f7f;">)</span>
+        <span style="color: #7f7f7f;">(</span>org-agenda-list<span style="color: #7f7f7f;">))))</span>
+
+<span style="color: #7f7f7f;">(</span>add-hook 'window-setup-hook 'me-startup-in-agenda<span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><a name="ID-6a8cf784-ad8c-4b52-b549-bc2d3c662e85" id="ID-6a8cf784-ad8c-4b52-b549-bc2d3c662e85"></a><span class="section-number-2">4</span> Delete temp file martyn/init.el </h2>
+<div class="outline-text-2" id="text-4">
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>delete-file <span style="color: #ff7f00;">"~/.emacs.d/martyn/init.el"</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #7f7f7f;">(</span>setq org-export-directory <span style="color: #ff7f00;">"~/Dropbox/OrgData/html"</span><span style="color: #7f7f7f;">)</span>
+
+</pre>
+
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2011-10-15 10:56:08 BST</p>
+<p class="author">Author: Martyn Jago</p>
+<p class="creator">Org version 7.7 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>

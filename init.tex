@@ -1,0 +1,2027 @@
+% Created 2012-03-07 Wed 23:19
+\documentclass[colorlinks=true,urlcolor=blue,listings-sv]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{color}
+\usepackage{listings}
+\lstset{
+keywordstyle=\color{blue},
+commentstyle=\color{red},
+stringstyle=\color{green},
+basicstyle=\ttfamily\small,
+columns=fullflexible,
+basewidth={0.5em,0.4em}
+}
+\RequirePackage{fancyvrb}
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\small,formatcom = {\color[rgb]{0.5,0,0}}}
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{init}
+\author{Martyn Jago}
+\date{\today}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.8.03}}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\vspace*{1cm}
+
+\section{My Emacs Configurations}
+\label{sec-1}
+\subsection{C-k to kill whole line}
+\label{sec-1-1}
+\label{df2f072d-30d1-40e9-9905-deb39a963b1d}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq kill-whole-line t)
+\end{lstlisting}
+\subsection{Mark (select) all on S-C-SPC}
+\label{sec-1-2}
+\label{bac7b873-a758-4991-afe7-abba7aada174}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(define-key global-map (kbd "S-C-SPC") 'mark-whole-buffer)
+\end{lstlisting}
+\subsection{Map M-l to goto-line}
+\label{sec-1-3}
+\label{d90de769-45ce-4e5a-a878-88d0e76e162a}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(global-unset-key "\M-l")
+(global-set-key "\M-l" 'goto-line)
+\end{lstlisting}
+\subsection{Remap M-j, M-l to navigation}
+\label{sec-1-4}
+\label{ffa0b60c-9281-44ff-b939-c6c00dc7b728}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+; (global-set-key "\M-i" 'previous-line)
+(global-set-key "\M-j" 'backward-char)
+; (global-set-key "\M-k" 'forward-line)
+(global-set-key "\M-l" 'forward-char)
+\end{lstlisting}
+\subsection{don't kill my window setup}
+\label{sec-1-5}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-agenda-window-setup 'current-window)
+\end{lstlisting}
+\subsection{Changes all yes/no questions to y/n type}
+\label{sec-1-6}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(fset 'yes-or-no-p 'y-or-n-p)
+\end{lstlisting}
+\subsection{CScope}
+\label{sec-1-7}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/cscope"))
+(require 'cscope)
+ (setq cscope-do-not-update-database t)
+\end{lstlisting}
+\subsection{Confirm on exit}
+\label{sec-1-8}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq confirm-kill-emacs 'y-or-n-p)
+\end{lstlisting}
+\subsection{Key mappings for F1 key}
+\label{sec-1-9}
+
+\begin{itemize}
+\item State ``TODO''       from ``''           \textit{2011-03-15 Tue 15:03}
+\end{itemize}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(global-set-key [C-f1] 'help-for-help-internal)
+(global-set-key [S-C-f1] 'mj-cycle-helps)
+(global-set-key [f1] 'mj-cycle-helps)
+\end{lstlisting}
+\subsection{Emacs default command modifications}
+\label{sec-1-10}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(put 'upcase-region 'disabled nil)
+\end{lstlisting}
+\subsection{Setup bbdb Contact Database}
+\label{sec-1-11}
+\label{8947b21f-9a13-4850-b1e6-01ac553d4c67}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/bbdb-2.35/lisp"))
+(require 'bbdb)
+(bbdb-initialize)
+(setq bbdb-north-american-phone-numbers-p nil
+)
+\end{lstlisting}
+\subsection{Visual config}
+\label{sec-1-12}
+\subsection{Disable visible bell (for removing white square on OSX}
+\label{sec-1-13}
+
+
+Since I don't like either the beep or the flashing white square
+(visible bell) the following is required to silence both (from \href{http://stackoverflow.com/questions/324457/disable-carbon-emacs-scroll-beep}{here})
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+;; (setq visible-bell nil)
+;; (setq ring-bell-function nil)
+
+(defun my-bell-function ()
+;; (unless (memq this-command
+;;      '(isearch-abort abort-recursive-edit exit-minibuffer
+;;             keyboard-quit mwheel-scroll down up next-line previous-line
+;;             backward-char forward-char next prior))
+;;   (ding))
+)
+(setq ring-bell-function 'my-bell-function)
+\end{lstlisting}
+\subsection{Smooth Scrolling}
+\label{sec-1-14}
+\subsubsection{web}
+\label{sec-1-14-1}
+
+
+\href{http://adamspiers.org/computing/elisp/smooth-scrolling.el}{link}
+\subsubsection{initialisation}
+\label{sec-1-14-2}
+\label{42144f41-08ac-4f3d-825e-94d4a87a20c1}
+
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/smooth-scrolling"))
+(require 'smooth-scrolling)
+\end{lstlisting}
+\subsubsection{adjust margin to 3 lines}
+\label{sec-1-14-3}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq smooth-scroll-margin 3)
+\end{lstlisting}
+\subsection{Color theme initialisation}
+\label{sec-1-15}
+\subsubsection{Configure color-theme}
+\label{sec-1-15-1}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/color-theme-6.6.0"))
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/color-theme-6.6.0/themes"))
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+      (color-theme-initialize)))
+;;     (color-theme-hober)))
+;;     (color-theme-tangotango)))
+\end{lstlisting}
+\subsubsection{web}
+\label{sec-1-15-2}
+
+
+github]]
+\subsubsection{configuration}
+\label{sec-1-15-3}
+\subsubsection{Theme Faves}
+\label{sec-1-15-4}
+\begin{itemize}
+
+\item configuration\\
+\label{sec-1-15-4-1}%
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir "martyn/martyn/theme-faves"))
+(require 'theme-faves)
+(add-hook 'window-setup-hook 'theme-faves-init)
+
+(global-set-key [C-f7] 'theme-faves-audition-cycle-up)
+(global-set-key [S-C-f7] 'theme-faves-audition-cycle-down)
+(global-set-key [f7] 'theme-faves-cycle-up)
+(global-set-key [S-f7] 'theme-faves-cycle-down)
+\end{lstlisting}
+
+\end{itemize} % ends low level
+\subsubsection{Maximise frame at startup (hook)}
+\label{sec-1-15-5}
+\label{5ec698bf-0dcd-4b19-b923-a5f90e5a1073}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+;;(add-to-list 'load-path
+;;             (concat dotfiles-dir "martyn/maxframe"))
+;;  (require 'maxframe)
+;;  (add-hook 'window-setup-hook 'maximize-frame t)
+;;  (maximize-frame)
+
+(defun toggle-fullscreen ()
+  (interactive)
+  (if (string= system-name "martyn-laptop")
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                         '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                         '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+    (add-hook 'window-setup-hook 'toggle-fullscreen)))
+\end{lstlisting}
+\subsection{Inhibit scratch message}
+\label{sec-1-16}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq initial-scratch-message nil)
+\end{lstlisting}
+\subsection{Remove Paredit default from emacs-lisp mode hook}
+\label{sec-1-17}
+
+(turned on by emacs starter kit)
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(remove-hook 'emacs-lisp-mode-hook 'turn-on-paredit nil)
+\end{lstlisting}
+
+
+\begin{center}
+\begin{tabular}{llllll}
+ hs-minor-mode  &  ert--activate-font-lock-keywords  &  ac-emacs-lisp-mode-setup  &  run-coding-hook  &  esk-remove-elc-on-save  &  turn-on-eldoc-mode  \\
+\end{tabular}
+\end{center}
+
+
+     
+\subsection{Add .emacs.d/martyn/martyn to load-path}
+\label{sec-1-18}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn"))
+\end{lstlisting}
+\subsection{my-load-init-files function}
+\label{sec-1-19}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(require 'my-load-init-files)
+\end{lstlisting}
+\subsection{my-load-drill-files function}
+\label{sec-1-20}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(require 'my-load-drill-files)
+\end{lstlisting}
+\subsection{my-load-org-files function}
+\label{sec-1-21}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(require 'my-load-org-files)
+\end{lstlisting}
+\subsection{Emacs Customisation destination files}
+\label{sec-1-22}
+
+
+These are already defined in Starter Kit but are re-adjusted here to keep
+under my revision control\ldots{}
+\subsubsection{loaddefs}
+\label{sec-1-22-1}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq autoload-file (concat dotfiles-dir "martyn/loaddefs.el"))
+\end{lstlisting}
+\subsubsection{custom}
+\label{sec-1-22-2}
+
+
+Customisations made using emacs Customizations go here\ldots{}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq custom-file (concat dotfiles-dir "martyn/custom.el"))
+\end{lstlisting}
+\subsection{Notification (todochiku / growl)}
+\label{sec-1-23}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(when (string= "darwin" system-type)
+ (add-to-list 'load-path
+  (concat dotfiles-dir  "martyn/todochiku"))
+ (require 'todochiku)
+ (setq todochiku-icons-directory 
+  (concat dotfiles-dir  "martyn/todochiku/todochiku-icons"))
+ (defun mj-notify-pomodoro-done ()
+  (todochiku-message "Pomodoro"
+"
+  This Pomodoro Session is Complete
+
+        Release Concentration
+
+           Take a Break
+
+" (todochiku-icon 'bell)))
+  (add-hook 'org-timer-done-hook  'mj-notify-pomodoro-done))
+\end{lstlisting}
+\subsection{Follow links with return}
+\label{sec-1-24}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-return-follows-link t)
+\end{lstlisting}
+\subsection{Add org-mode contrib/lisp files to load path}
+\label{sec-1-25}
+\label{45537f41-3389-45b8-9454-bc0e2e51ebe5}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path "~/org-mode/contrib/lisp")
+\end{lstlisting}
+\subsection{org-mode directory}
+\label{sec-1-26}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-directory "~/.emacs-config/OrgData")
+\end{lstlisting}
+\subsection{Org Agenda}
+\label{sec-1-27}
+\subsubsection{Org Agenda Files}
+\label{sec-1-27-1}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-agenda-files (quote (
+   "~/.emacs-config/OrgData/diary.org"
+   "~/ngpod/dev/ngpod.org")))
+\end{lstlisting}
+\subsection{org-drill}
+\label{sec-1-28}
+\label{eb6dd9b1-86bd-4fb4-acb3-992ef90e29da}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(require 'org-drill)
+(setq org-learn-always-reschedule t)
+(setq org-drill-use-visible-cloze-face-p t)
+(setq org-drill-add-random-noise-to-intervals-p t)
+(put 'scroll-left 'disabled nil)
+\end{lstlisting}
+\subsection{\TODO keywords global setup}
+\label{sec-1-29}
+\label{c22f6325-70c9-42c3-8c30-221f115c864d}
+
+
+\includegraphics[width=.9\linewidth]{/Users/martyn/.emacs-config/OrgData/Images/TODO.png}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-todo-keywords (quote ((sequence "TODO(t!)" "|" "DONE(d!/!)")
+                                (sequence "WAITING(w@/!)"
+                                "SOMEDAY(s!)" 
+                                "IGNORED" 
+                                "FAIL" 
+                                "PASS"
+                                "MISSING"
+                                "DEPRECATED"
+                                "|" "CANCELLED(c@/!)"))))
+
+(setq org-todo-keyword-faces
+      (quote (("TODO"      :foreground "red"          :weight bold)
+              ("DONE"      :foreground "forest green" :weight bold)
+              ("WAITING"   :foreground "yellow"       :weight bold)
+              ("SOMEDAY"   :foreground "goldenrod"    :weight bold)
+              ("CANCELLED" :foreground "orangered"    :weight bold)
+              ("EXPIRED"   :foreground "olivedrab1"   :weight bold)
+              ("IGNORED"   :foreground "yellow"       :weight bold)
+              ("FAIL"      :foreground "red"          :weight bold)
+              ("MISSING"   :foreground "olivedrab1"   :weight bold)
+              ("PASS"      :foreground "forest green" :weight bold)
+              ("DEPRECATED":foreground "orangered"    :weight bold))))
+\end{lstlisting}
+\subsection{Lilypond mode}
+\label{sec-1-30}
+
+ 
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+ (add-to-list 'load-path
+              (concat dotfiles-dir  "martyn/lilypond"))
+(autoload 'LilyPond-mode "lilypond-mode" "LilyPond Editing Mode" t)
+(add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
+(add-to-list 'auto-mode-alist '("\\.ily$" . LilyPond-mode))
+\end{lstlisting}
+ 
+\subsection{Setup org-mode (development)}
+\label{sec-1-31}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(global-font-lock-mode 1)                     ; for all buffers
+(setq load-path (cons "~/org-mode" load-path))
+\end{lstlisting}
+\subsection{Configure Babel languages}
+\label{sec-1-32}
+\subsubsection{For Test}
+\label{sec-1-32-1}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+   '((sh . t)(org . t)))
+\end{lstlisting}
+\subsubsection{For production}
+\label{sec-1-32-2}
+\label{9983a066-2f94-4446-82e5-bea078211562}
+
+Configured for\ldots{}
+\begin{itemize}
+\item Org
+\item Ruby
+\item Python
+\item C
+\item emacs-lisp
+\item shell
+\item graphviz
+\item clojure
+\item ditaa
+\item lilypond
+\end{itemize}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((org . t)
+   (ruby . t)
+   (python . t)
+   (R . t)
+   (C . t)
+   (emacs-lisp . t)
+   (sh . t)
+   (dot . t)
+   (clojure . t)
+   (ditaa . t)
+   (lilypond . t)
+   (plantuml . t)
+   ))
+
+(setq org-src-fontify-natively t) ;; color blocks
+\end{lstlisting}
+\subsection{org-confirm-babel-evaluate}
+\label{sec-1-33}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-confirm-babel-evaluate nil)
+\end{lstlisting}
+\subsection{Display images in org mode}
+\label{sec-1-34}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+  ;; display images
+  (local-set-key "\M-I" 'org-toggle-iimage-in-org)
+
+;; -- Display images in org mode
+;; enable image mode first
+(iimage-mode)
+;; add the org file link format to the iimage mode regex
+(add-to-list 'iimage-mode-image-regex-alist
+  (cons (concat "\\[\\[file:\\(~?" iimage-mode-image-filename-regex "\\)\\]")  1))
+;;  add a hook so we can display images on load
+(add-hook 'org-mode-hook '(lambda () (org-turn-on-iimage-in-org)))
+;; function to setup images for display on load
+(defun org-turn-on-iimage-in-org ()
+  "display images in your org file"
+  (interactive)
+  (turn-on-iimage-mode)
+  (set-face-underline-p 'org-link nil))
+;; function to toggle images in a org bugger
+(defun org-toggle-iimage-in-org ()
+  "display images in your org file"
+  (interactive)
+  (if (face-underline-p 'org-link)
+      (set-face-underline-p 'org-link nil)
+      (set-face-underline-p 'org-link t))
+  (call-interactively 'iimage-mode))
+\end{lstlisting}
+\subsection{Org Attach Directory}
+\label{sec-1-35}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-attach-directory "~/.emacs-config/OrgData/attach-directory")
+\end{lstlisting}
+\subsection{Don't insert blank lines on org heading generation}
+\label{sec-1-36}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-blank-before-new-entry nil)
+\end{lstlisting}
+\subsection{Auto-Complete}
+\label{sec-1-37}
+\subsubsection{To load}
+\label{sec-1-37-1}
+
+
+M-x load-file RET 
+file to load: \~{}/.emacs.d/martyn/auto-complete/etc/install.el
+destination: \~{}/.emacs.d/martyn/auto-complete/installation
+\subsubsection{Add to init}
+\label{sec-1-37-2}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path "~/.emacs.d/martyn/auto-complete/installation")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/martyn/auto-complete/installation/ac-dict")
+(ac-config-default)
+\end{lstlisting}
+\subsubsection{Screencast}
+\label{sec-1-37-3}
+
+
+\href{http://www.youtube.com/watch?v%3DrGVVnDxwJYE}{YouTube}
+\subsection{Redo+}
+\label{sec-1-38}
+
+This appears to be an upgrade of redo (although I never had any
+problems with redo). I shall monitor this!
+\subsubsection{web}
+\label{sec-1-38-1}
+
+\href{http://www.emacswiki.org/emacs/RedoPlus}{ emacswiki}
+\href{http://www.emacswiki.org/emacs/RedoMode}{older-redo}
+\subsubsection{configuration}
+\label{sec-1-38-2}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path (concat dotfiles-dir "martyn/redoplus"))
+(require 'redo+)
+\end{lstlisting}
+    
+    
+\begin{itemize}
+
+\item Make C-z undo, and M-z redo\\
+\label{sec-1-38-2-1}%
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(define-key global-map (kbd "M-z") 'redo)
+(define-key global-map (kbd "C-z") 'undo)
+\end{lstlisting}
+
+\end{itemize} % ends low level
+\subsection{Yasnippet}
+\label{sec-1-39}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/yasnippet-read-only"))
+(require 'yasnippet) ;; not yasnippet-bundle
+(yas/initialize)
+
+(setq yas/root-directory 
+      '(
+     ;; "~/.emacs.d/martyn/martyn/unity-mode/snippets"
+        "~/.emacs.d/martyn/martyn/snippets"
+        "~/.emacs.d/martyn/martyn/snippets/yasnippet-org-mode-fork/snippets"
+     ;; "~/.emacs.d/martyn/yasnippets-rails/rails-snippets"
+        "~/.emacs.d/martyn/yasnippet-read-only/snippets"))
+
+;; Load the snippets (NOTE: the mapc required for multiple directories)
+;; (Map `yas/load-directory' to every element)
+
+(mapc 'yas/load-directory yas/root-directory)
+\end{lstlisting}
+\subsection{HideShow}
+\label{sec-1-40}
+
+   \texttt{CLOSED:} \textit{2011-01-25 Tue 14:49}
+\subsubsection{Website}
+\label{sec-1-40-1}
+
+
+\href{http://www.emacswiki.org/emacs/HideShow}{emacsWiki/hideshow}
+\subsubsection{HideShow Configuration}
+\label{sec-1-40-2}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-hook 'c-mode-common-hook   'hs-minor-mode)
+    (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
+    (add-hook 'java-mode-hook       'hs-minor-mode)
+    (add-hook 'lisp-mode-hook       'hs-minor-mode)
+    (add-hook 'perl-mode-hook       'hs-minor-mode)
+    (add-hook 'sh-mode-hook         'hs-minor-mode)
+
+  (defun me-toggle-hiding-all()
+  "Fast cycling of all folded all unfolded utilising 
+   hideshow minor mode hs-minor-mode"
+  (interactive)
+  (defvar me-hideshow-active nil)
+  (setq me-hideshow-active
+    (if me-hideshow-active 
+        (progn (hs-show-all) nil)
+      (progn (hs-hide-all) t))))
+
+  ; add hook for hideshow minor mode
+  (add-hook 'lisp-mode-hook 'hs-minor-mode)
+  (global-set-key [f3] 'hs-toggle-hiding)
+  (global-set-key [C-f3] 'me-toggle-hiding-all)
+\end{lstlisting}
+\subsubsection{hideshow.org}
+\label{sec-1-40-3}
+\begin{itemize}
+
+\item Website\\
+\label{sec-1-40-3-1}%
+\href{https://github.com/secelis/hideshow-org}{github/hideshow-org}
+
+
+\item Configuration\\
+\label{sec-1-40-3-2}%
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path (concat dotfiles-dir "martyn/hideshow-org"))
+(require 'hideshow-org)
+\end{lstlisting}
+
+\end{itemize} % ends low level
+\subsubsection{To byte-compile-file}
+\label{sec-1-40-4}
+\subsection{Lusty Explorer}
+\label{sec-1-41}
+
+   \texttt{CLOSED:} \textit{2011-01-25 Tue 14:49}
+\subsubsection{emacswiki}
+\label{sec-1-41-1}
+
+
+\href{http://www.emacswiki.org/emacs/lusty-explorer.el}{emacswiki}
+\subsubsection{Github}
+\label{sec-1-41-2}
+
+
+\href{https://github.com/sjbach/lusty-emacs}{lusty-emacs}
+\subsubsection{Config}
+\label{sec-1-41-3}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/lusty-emacs"))
+(require 'lusty-explorer)
+(define-key global-map (kbd "C-x C-d") 'lusty-file-explorer)
+\end{lstlisting}
+\subsubsection{To byte-compile-file}
+\label{sec-1-41-4}
+
+
+NOTE: lusty-explorer.el doesn't want to compile
+\subsection{Map C-x C-o to other window (as C-x o)}
+\label{sec-1-42}
+
+   \texttt{CLOSED:} \textit{2011-01-26 Wed 10:41}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(global-set-key [C-x-o] 'other-window)
+\end{lstlisting}
+\subsection{lua-mode}
+\label{sec-1-43}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/lua-mode/testing/lisp"))
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/lua-mode/lisp"))
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/lua-mode/testing/examples"))
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+(setq lua-default-application "/opt/local/bin/lua")
+\end{lstlisting}
+\subsection{Setup generic browser}
+\label{sec-1-44}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(if (string= "darwin" system-type)
+    (setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "open")
+  (setq browse-url-browser-function 'browse-url-generic
+    browse-url-generic-program "conkeror"))
+\end{lstlisting}
+\subsection{Setup MacGPG2 (for gpg) on mac OSX}
+\label{sec-1-45}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(when (string= "darwin" system-type)
+  (setq epg-gpg-program "/usr/local/MacGPG2/bin/gpg2")
+  (message "MacGPG2 set up"))
+\end{lstlisting}
+\subsection{Make Password}
+\label{sec-1-46}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/make-password"))
+
+(require 'make-password)
+(defalias 'mj-generate-password 'make-password)
+(defalias 'generate-password 'make-password)
+\end{lstlisting}
+\subsection{mj-versions}
+\label{sec-1-47}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/mj-versions"))
+(require 'mj-versions)
+\end{lstlisting}
+\subsection{my-org-test-setup}
+\label{sec-1-48}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/my-org-test-setup"))
+(require 'my-org-test-setup)
+\end{lstlisting}
+\subsection{my-header-arguments}
+\label{sec-1-49}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/my-header-arguments"))
+(require 'my-header-arguments)
+\end{lstlisting}
+\subsection{help-page}
+\label{sec-1-50}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path
+             (concat dotfiles-dir  "martyn/martyn/help-page"))
+(require 'help-page)
+  (defalias 'hp 'help-page)
+\end{lstlisting}
+\subsection{Setup IRC user info and channels}
+\label{sec-1-51}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq erc-header-line-format nil)
+(setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
+(setq erc-log-channels-directory t)
+(setq erc-log-file-name-function "~/erc")
+(setq erc-truncate-buffer-on-save t)
+(setq erc-nick "mjago")
+\end{lstlisting}
+\subsection{Boxquote}
+\label{sec-1-52}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(add-to-list 'load-path
+ (concat dotfiles-dir "martyn/boxquote"))
+(require 'boxquote)
+\end{lstlisting}
+\subsection{lorem-ipsum}
+\label{sec-1-53}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(add-to-list 'load-path
+ (concat dotfiles-dir "martyn/lorem-ipsum"))
+(require 'lorem-ipsum)
+\end{lstlisting}
+\subsection{magit-hide-diffs}
+\label{sec-1-54}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq magit-hide-diffs t)
+\end{lstlisting}
+\subsection{ispell}
+\label{sec-1-55}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq ispell-program-name "/opt/local/bin/ispell")
+(require 'ispell)
+\end{lstlisting}
+\subsection{ess}
+\label{sec-1-56}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list
+ 'load-path
+  (concat dotfiles-dir "martyn/ess-5.14/lisp/"))
+(require 'ess-site)
+\end{lstlisting}
+\subsection{\textbf{Message} buffer size}
+\label{sec-1-57}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq message-log-max 2000)
+\end{lstlisting}
+\section{Under Test}
+\label{sec-2}
+\subsection{\textbf{TODO} wdired (aliased to dired-edit)}
+\label{sec-2-1}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(defalias 'dired-edit 'wdired-change-to-wdired-mode)
+\end{lstlisting}
+\subsection{\textbf{TODO} plantuml}
+\label{sec-2-2}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-plantuml-jar-path "~/plantuml/plantuml.jar")
+\end{lstlisting}
+\subsection{\textbf{TODO} MPC}
+\label{sec-2-3}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq mpc-mode-map
+  (let ((map (make-keymap)))
+    (suppress-keymap map)
+    ;; (define-key map "\e" 'mpc-stop)
+    (define-key map "q" 'mpc-quit)
+    (define-key map "\r" 'mpc-select)
+    (define-key map [(shift return)] 'mpc-select-toggle)
+    (define-key map [mouse-2] 'mpc-select)
+    (define-key map [S-mouse-2] 'mpc-select-extend)
+    (define-key map [C-mouse-2] 'mpc-select-toggle)
+    (define-key map [drag-mouse-2] 'mpc-drag-n-drop)
+    ;; We use `always' because a binding to t is like a binding to nil.
+    (define-key map [follow-link] 'always)
+    ;; Doesn't work because the first click changes the buffer, so the second
+    ;; is applied elsewhere :-(
+    ;; (define-key map [(double mouse-2)] 'mpc-play-at-point)
+    (define-key map "x" 'mpc-play)
+    (define-key map "X" 'mpc-play-at-point)
+    (define-key map "s" 'mpc-pause)
+    (define-key map "S" 'mpc-stop)
+    (define-key map "n" 'mpc-next)
+    (define-key map "p" 'mpc-prev)
+    (define-key map "f" 'mpc-ffwd)
+    (define-key map "b" 'mpc-rewind)
+    map))
+  (defalias 'music 'mpc)
+\end{lstlisting}
+\subsection{\textbf{TODO} ansi-color}
+\label{sec-2-4}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(add-to-list 
+ 'load-path
+  (concat dotfiles-dir "martyn/ansi-color"))
+(require 'ansi-color)
+\end{lstlisting}
+\subsection{\textbf{TODO} grep-scroll-output}
+\label{sec-2-5}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq grep-scroll-output t)
+\end{lstlisting}
+\subsection{\textbf{TODO} mj-date-time}
+\label{sec-2-6}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-date-time()
+  (interactive)
+  (message "%S" (shell-command "date" t )))
+\end{lstlisting}
+\subsection{\textbf{TODO} Sha1 Generate}
+\label{sec-2-7}
+
+Generate sha1 of selected region
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(load-file (concat dotfiles-dir "martyn/martyn/sha1/sha1.el"))
+\end{lstlisting}
+\subsection{\textbf{TODO} debug python html export bug}
+\label{sec-2-8}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-babel-python-command "python2.6")
+\end{lstlisting}
+\subsection{\textbf{TODO} org-export investigation}
+\label{sec-2-9}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(require 'org-export)
+\end{lstlisting}
+\subsection{\textbf{TODO} lower-case keywords in orgmode}
+\label{sec-2-10}
+
+
+ref: Bernt Hansen (Re: Capitalisation and good taste ?)
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-babel-results-keyword "results")
+
+(setq org-structure-template-alist
+      (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
+              ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
+              ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
+              ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n/verse>")
+              ("c" "#+begin_center\n?\n#+end_center" "<center>\n?\n/center>")
+              ("l" "#+begin_latex\n?\n#+end_latex" "<literal style=\"latex\">\n?\n</literal>")
+              ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
+              ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
+              ("H" "#+html: " "<literal style=\"html\">?</literal>")
+              ("a" "#+begin_ascii\n?\n#+end_ascii")
+              ("A" "#+ascii: ")
+              ("i" "#+index: ?" "#+index: ?")
+              ("I" "#+include %file ?" "<include file=%file markup=\"?\">"))))
+\end{lstlisting}
+\subsection{\textbf{TODO} continuous-testing}
+\label{sec-2-11}
+
+\begin{itemize}
+\item State ``TODO''       from ``''           \textit{2011-12-17 Sat 15:24}
+\end{itemize}
+     
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(load-file (concat dotfiles-dir "martyn/martyn/continuous-testing/lib/continuous-testing.el"))
+\end{lstlisting}
+\subsection{\textbf{TODO} shen-mode}
+\label{sec-2-12}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 
+ 'load-path
+  (concat dotfiles-dir "martyn/shen-mode"))
+\end{lstlisting}
+\subsection{\textbf{TODO} disable org-use-speed-commands (default)}
+\label{sec-2-13}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-use-speed-commands nil)
+\end{lstlisting}
+\subsection{\textbf{TODO} Make windmove work in org-mode}
+\label{sec-2-14}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-hook 'org-shiftup-final-hook 'windmove-up)
+(add-hook 'org-shiftleft-final-hook 'windmove-left)
+(add-hook 'org-shiftdown-final-hook 'windmove-down)
+(add-hook 'org-shiftright-final-hook 'windmove-right)
+\end{lstlisting}
+
+; Targets complete in steps so we start with filename, TAB shows the next level of targets etc
+(setq org-outline-path-complete-in-steps t)
+
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+; Use IDO only for buffers
+; set ido-mode to buffer and ido-everywhere to t via the customize interface
+; `(ido-mode (quote both) nil (ido))
+; `(ido-everywhere t)
+\subsection{\textbf{TODO} Fix tab in org mode}
+\label{sec-2-15}
+
+
+Not sure this is of any benefit anymore!    
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+;; fix tab
+(local-set-key "\C-y" 'yank)
+\end{lstlisting}
+\subsection{\textbf{TODO} One-touch timestamps}
+\label{sec-2-16}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-agenda-skip-additional-timestamps nil)
+(defun mj-one-touch-timestamp ()
+  (interactive)
+  (when (eq major-mode 'org-mode)
+    (org-insert-time-stamp nil t t)))
+(define-key global-map (kbd "<f8>") 'mj-one-touch-timestamp)
+\end{lstlisting}
+\subsection{\textbf{TODO} Fast TODO key selection}
+\label{sec-2-17}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-treat-S-cursor-todo-selection-as-state-change nil)
+\end{lstlisting}
+\subsection{\textbf{TODO} Configure org-mobile}
+\label{sec-2-18}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-mobile-directory "~/.emacs-config/MobileOrg")
+(setq org-mobile-files org-agenda-files)
+(setq org-mobile-inbox-for-pull "~/.emacs-config/OrgData/inbox.org")
+\end{lstlisting}
+\subsection{\textbf{TODO} my-run-drills function (doesn't work yet)}
+\label{sec-2-19}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun my-run-drills ()
+"Function to run all drills that exist in agenda files"
+ (interactive)
+ (org-drill 'agenda))
+
+(provide 'my-run-drills)
+\end{lstlisting}
+\subsection{\textbf{TODO} Setup org-capture}
+\label{sec-2-20}
+\label{3f712c43-2db3-4001-93df-ffed1319e19a}
+\subsubsection{Setup capture location and key}
+\label{sec-2-20-1}
+
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-default-notes-file "~/.emacs-config/OrgData/capture.org")
+(define-key global-map "\C-cc" 'org-capture)
+
+(setq org-capture-templates
+      '(("t" "Agenda Todo" entry
+         (file+datetree+prompt "~/.emacs-config/OrgData/diary.org")
+;;       "\n\n** TODO %?\n%T\n\n%i\n%a\n\n\n"
+         "\n\n** TODO %?\n%t\n\n"
+         :empty-lines 1)))
+
+;;      ("n" "Agenda Notes" entry
+;;       (file+headline "~/.emacs-config/OrgData/diary.org" "Agenda")
+;;       "\n\n** %?\n%T\n%i\n%a\n\n\n"
+;;       :empty-lines 1))
+\end{lstlisting}
+\subsubsection{\textbf{TODO} Setup capture templates}
+\label{sec-2-20-2}
+\subsubsection{\textbf{TODO} Setup refile targets}
+\label{sec-2-20-3}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+; Use IDO for target completion
+(setq org-completion-use-ido t)
+
+; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))))
+
+; Targets start with the file name - allows creating level 1 tasks
+;; TESTING (setq org-refile-use-outline-path (quote file))
+\end{lstlisting}
+\subsection{\textbf{TODO} Org Agenda Custom Commands}
+\label{sec-2-21}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun run-todo-unscheduled ()
+"agenda of unscheduled todos"
+(interactive)
+(setq org-agenda-todo-ignore-scheduled t)
+(org-todo-list '("t"))
+(setq org-agenda-todo-ignore-scheduled nil))
+
+(provide 'run-todo-unscheduled)
+
+ (setq org-agenda-custom-commands
+           '(("e" todo "-SCHEDULED")
+             ("W" todo-tree "WAITING")
+             ("u" tags "+boss-urgent")
+             ("v" tags-todo "+boss-urgent")
+             ("U" tags-tree "+boss-urgent")
+             ("f" occur-tree "\\<FIXME\\>")
+             ("hl" tags "+home+Lisa")
+             ("hp" tags "+home+Peter")
+             ("hk" tags "+home+Kim")))
+\end{lstlisting}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+(setq org-agenda-custom-commands
+      (quote (("w" "Tasks waiting on something" tags "WAITING/!"
+               ((org-use-tag-inheritance nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-with-date nil)
+                (org-agenda-overriding-header "Waiting Tasks")))
+              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-overriding-header "Tasks to Refile")))
+              ("N" "Notes" tags "NOTE"
+               ((org-agenda-overriding-header "Notes")))
+              ("p" "Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-non-projects)
+                (org-agenda-overriding-header "Projects")))
+              ("o" "Other (Non-Project) tasks" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-projects)
+                (org-agenda-overriding-header "Other Non-Project Tasks")))
+              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELLED"
+               ((org-agenda-overriding-header "Tasks to Archive")))
+              ("h" "Habits" tags "STYLE=\"habit\""
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-overriding-header "Habits")))
+              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE|LEVEL=1+REFILE/!-DONE-CANCELLED"
+               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                (org-agenda-overriding-header "Stuck Projects")))
+              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+               ((org-agenda-skip-function
+                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+                (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+\end{lstlisting}
+\subsection{\textbf{TODO} Unity Mode}
+\label{sec-2-22}
+\subsubsection{load path and speed keys}
+\label{sec-2-22-1}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+ (add-to-list 
+  'load-path
+   (concat dotfiles-dir "martyn/martyn/unity-mode"))
+ (require 'unity-mode)
+ ;(add-hook 'c-mode-hook 'unity-mode)
+
+(global-set-key [f5] 'unity-find-and-open-a-primative-match-forward)
+(global-set-key [S-f5] 'unity-find-and-open-a-primative-match-reverse)
+(global-set-key [C-f5] 'unity-cycle-MCH-buffer)
+(global-set-key [f6] 'unity-cycle-alpha-ascending)
+(global-set-key [S-f6] 'unity-cycle-alpha-descending)
+\end{lstlisting}
+\subsection{\textbf{TODO} unity-project ()}
+\label{sec-2-23}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+  (defun unity-project ()
+    (interactive)
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-parse-project-file.el")
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-auto-config.el")
+    (delete-other-windows)
+    (split-window-horizontally)
+    (windmove-right)
+    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode.el")
+    (windmove-left)
+;;    (find-file "~/.emacs.d/martyn/martyn/unity-mode/unity-mode-tests.el")
+    (switch-to-buffer "#emacs")
+    (split-window-vertically)
+    (switch-to-buffer "*ert*")
+    (windmove-down)
+    (switch-to-buffer "#emacs"))
+\end{lstlisting}
+\subsection{\textbf{TODO} unity-eval-src-and-tests ()}
+\label{sec-2-24}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun unity-eval-src-and-tests ()
+  (interactive)
+  (let ((original-buffer buffer-file-name)
+        (original-window (selected-window)))
+
+    (if(string-match "^unity-" (file-name-nondirectory original-buffer)) 
+        (progn
+          (eval-buffer "unity-mode-tests.el")
+          (eval-buffer "unity-mode.el")
+          (ert t)))
+    (select-window original-window))) 
+;; (error "%s" (windmove-find-other-window 'right))
+;;     (if(equal original-buffer (windmove-find-other-window 'right))
+;;         (windmove-right)
+;;       (windmove-down))))
+\end{lstlisting}
+\subsection{\textbf{TODO} unity-project-org()}
+\label{sec-2-25}
+
+Moved to unity-mode.el
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+;   (global-set-key [f4] 'unity-eval-src-and-tests)
+;   (global-set-key [C-f4] 'unity-switch-src-control-file)
+;   (global-set-key [C-c C-v] 'eval-region)
+\end{lstlisting}
+\subsection{\textbf{TODO} Develop group agenda to show unscheduled TODO items}
+\label{sec-2-26}
+
+
+\href{http://osdir.com/ml/emacs-orgmode-gnu/2010-03/msg00736.html}{Suggestions}
+\subsection{\textbf{TODO} Setup for latex / pdf export of org-mode}
+\label{sec-2-27}
+
+
+\begin{enumerate}
+\item NOTE: remember ubuntu requires texlive-latex-extra for this
+\item NOTE: also required ttf-marvosym
+\item For missing packages try searching \href{http://packages.ubuntu.com/search?keywords%3Dmarvosym&searchon%3Dnames&suite%3Dmaverick&section%3Dall}{here} and apt-get install package
+\item Useful latex \href{http://had.fmf.uni-lj.si/~horvat/publishing/latex/general/latex2pdf.pdf}{prettifying link}
+\end{enumerate}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+;; remember ubuntu requires texlive-latex-extra for this
+
+(require 'org-latex)
+(setq org-export-latex-listings t)
+(add-to-list 'org-export-latex-packages-alist '("" "listings"))
+(add-to-list 'org-export-latex-packages-alist '("" "color"))
+\end{lstlisting}
+\subsection{\textbf{TODO} Setup for Auctex (ongoing)}
+\label{sec-2-28}
+
+
+  ;;  Setup gleaned from \href{http://salomie.ro/tudor/2010/09/02/console-based-system/}{here}
+  ;;  \#+begin$_{\mathrm{src}}$ emacs-lisp :results silent
+  ;;  
+  ;;  ;; AUCTeX
+  ;;  (setq \TeX{}-auto-save t)
+  ;;  (setq \TeX{}-parse-self t)
+  ;;  ;set up AUCTeX to deal with multiple file documents.
+  ;;  (setq-default \TeX{}-master nil)
+  ;;  ;turn on pdf-mode.  AUCTeX will call pdflatex to compile instead of latex.
+  ;;  (add-hook `LaTeX-mode-hook `TeX-PDF-mode)
+  ;;  ;turn on flyspell mode - this will automatically spell check the document in LaTex-mode
+  ;;  (add-hook `LaTeX-mode-hook `flyspell-mode)
+  ;;  
+  ;;      ; allow for export=>beamer by placing
+  ;;      ;; \#+\LaTeX{}_CLASS: beamer in org files
+  ;;      (unless (boundp `org-export-latex-classes)
+  ;;      (setq org-export-latex-classes nil))
+  ;;      (add-to-list `org-export-latex-classes
+  ;;      ;; beamer class, for presentations
+  ;;      `(``beamer''
+  ;;        ``\\documentclass[11pt]{beamer}\n
+  ;;        \\mode<\{{\{beamermode\}}\}>\n
+  ;;        \\usetheme\{{\{{beamertheme\}}\}}\n
+  ;;        \\usecolortheme\{{\{{beamercolortheme\}}\}}\n
+  ;;        \\beamertemplateballitem\n
+  ;;        \\setbeameroption{show notes}
+  ;;        \\usepackage[utf8]{inputenc}\n
+  ;;        \\usepackage[T1]{fontenc}\n
+  ;;        \\usepackage{hyperref}\n
+  ;;        \\usepackage{color}
+  ;;        \\usepackage{listings}
+  ;;        \\lstset{numbers=none,language=[ISO]C++,tabsize=4,
+  ;;        frame=single,
+  ;;        basicstyle=\\small,
+  ;;        showspaces=false,showstringspaces=false,
+  ;;        showtabs=false,
+  ;;        keywordstyle=\\color{blue}\\bfseries,
+  ;;        commentstyle=\\color{red},
+  ;;        }\n
+  ;;        \\usepackage{verbatim}\n
+  ;;        \\institute\{{\{{beamerinstitute\}}\}}\n
+  ;;        \\subject\{{\{{beamersubject\}}\}}\n''
+  ;;        org-beamer-sectioning
+  ;;        (``\\section{%s}'' . ``\\section*{%s}'')
+  ;;        (``\\begin{frame}[fragile]\\frametitle{%s}''
+  ;;        ``\\end{frame}''
+  ;;        ``\\begin{frame}[fragile]\\frametitle{%s}''
+  ;;        ``\\end{frame}'')
+  ;;      ))
+  ;;  
+  ;;      ;; Set up skeletons (see below) in a menu in ORG MODE mode
+  ;;      (defvar org-org-menu)
+  ;;      (add-hook `org-mode-hook
+  ;;      (lambda () (easy-menu-add-item org-org-menu nil [``Skeletons'' nil t])
+  ;;      (easy-menu-add-item org-org-menu `(``Skeletons'') [``Beamer Theme'' orgmode-beamer-my-skeleton t])))
+  ;;      (define-skeleton orgmode-beamer-my-skeleton
+  ;;        ``inserts a simple orgmode-beamer template skeleton - use C-c C-e d to build the pdf''
+  ;;        nil
+  ;;        ``\#+\LaTeX{}_CLASS: beamer\n''
+  ;;        ``\#+MACRO: BEAMERMODE presentation\n''
+  ;;        ``\#+MACRO: BEAMERCOLORTHEME dove\n''
+  ;;        ``\#+MACRO: BEAMERSUBJECT RMRF\n''
+  ;;        ``\#+BEAMER$_{\mathrm{FRAME}}$$_{\mathrm{LEVEL}}$: 2\n''
+  ;;        ``\#+COLUMNS: \%35ITEM \%10BEAMER$_{\mathrm{env}}$(Env) \%10BEAMER$_{\mathrm{envargs}}$(Env Args) \%4BEAMER$_{\mathrm{col}}$(Col) \%8BEAMER$_{\mathrm{extra}}$(Extra)\n''
+  ;;        ``\#+OPTIONS: tags:nil\n''
+  ;;        ``\#+MACRO: BEAMERINSTITUTE My Affiliation\n''
+  ;;        ``\#+AUTHOR: Tudor-Ioan Salomie\n''
+  ;;        ``\n''
+  ;;        ``\#+TITLE: Presentation title\n''
+  ;;        ``\n''
+  ;;        ``\n''
+  ;;        ``* My Section\n''
+  ;;        ``\n''
+  ;;        ``** Frame 1 \\\\ with a subtitle\n''
+  ;;        ``\n''
+  ;;        ``*** Idea\n''
+  ;;        ``\n''
+  ;;        ``\#+begin_\LaTeX{}\n''
+  ;;        ``\n''
+  ;;        ``\#+end_\LaTeX{}\n''
+  ;;        ``\n\n\n''
+  ;;      )
+  ;;  
+  ;;  
+  ;;  \#+end$_{\mathrm{src}}$
+  ;;  
+  ;;    ;;  : orgmode-beamer-my-skeleton
+  ;;  
+\subsection{\textbf{TODO} Setup Clocking work time}
+\label{sec-2-29}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-clock-persist 'history)
+     (org-clock-persistence-insinuate)
+\end{lstlisting}
+\subsection{\textbf{TODO} Function mj-diary-org opens diary.org}
+\label{sec-2-30}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-diary-org()
+  "Fast route to diary.org"
+  (interactive)
+  (find-file "~/.emacs-config/OrgData/diary.org"))
+\end{lstlisting}
+\subsection{\textbf{TODO} Function mj-ng-pod-dev opens ng-pod.dev}
+\label{sec-2-31}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-ng-pod-dev()
+  "Fast route to ng-pod.dev"
+  (interactive)
+  (find-file "~/ngpod/dev/ng-pod.dev"))
+\end{lstlisting}
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-init-org()
+  "Fast route to init.org"
+  (interactive)
+  (find-file "~/.emacs.d/martyn/init.org"))
+\end{lstlisting}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-org-agenda ()
+  (interactive)
+  (org-agenda nil "a"))
+\end{lstlisting}
+\subsection{\textbf{TODO} Function mj-cycle-helps opens mj-helps}
+\label{sec-2-32}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-cycle-helps()
+  (interactive)
+  (unless (boundp 'mj-current-help)
+    (setq mj-current-help nil))
+(cond 
+      ((equal (buffer-name) "diary.org")
+       (bury-buffer "diary.org")
+       (setq mj-current-help 'mj-ng-pod-dev))
+      ((equal (buffer-name) "ng-pod.dev")
+       (bury-buffer "ng-pod.dev")
+       (setq mj-current-help 'mj-org-agenda))
+      ((equal (buffer-name) "*Org Agenda*")
+       (org-agenda-quit)
+       (setq mj-current-help 'help-page))
+      ((equal (buffer-name) "help.org")
+       (bury-buffer "help.org")
+       (setq mj-current-help 'mj-init-org))
+      (t (setq mj-current-help 'mj-diary-org)))
+  (message "%S" mj-current-help)
+(funcall mj-current-help))
+\end{lstlisting}
+\subsection{\textbf{TODO} Flyspell mode error avoidance}
+\label{sec-2-33}
+\subsubsection{web discussion}
+\label{sec-2-33-1}
+
+
+\href{http://stackoverflow.com/questions/1781762/enabling-flyspell-mode-gives-an-error}{stackoverflow}
+\href{https://bugs.launchpad.net/ubuntu/%2Bsource/dictionaries-common/%2Bbug/619015}{launchpad}
+\subsubsection{configuration}
+\label{sec-2-33-2}
+
+
+;; (require `ispell)
+;; (setq-default ispell-program-name ``/usr/local/lib/aspell-0.60.6/aspell'')
+;; (setq ispell-really-aspell t)
+;; (setq ispell-dictionary ``/usr/local/lib/aspell6-en-7.1-0/english'')
+;; ;;\# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/debian-ispell.el
+;;\# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/flyspell.el
+;;\# sudo rm /usr/share/emacs/site-lisp/dictionaries-common/ispell.el
+;;\# cd /usr/share/emacs23/site-lisp/dictionaries-common
+;;\# sudo rm *.el *.elc
+;; the above didn't work for me so\ldots{}
+
+(unload-feature `flyspell-mode)
+;;neither did this! (not loaded)
+
+ \#\#+end$_{\mathrm{src}}$
+\subsection{\textbf{DEPRECATED} ERT setup}
+\label{sec-2-34}
+\subsection{\textbf{TODO} Graphviz-dot-mode}
+\label{sec-2-35}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(load-file  (concat dotfiles-dir  "martyn/graphviz-dot-mode/graphviz-dot-mode.el"))
+\end{lstlisting}
+\subsection{\textbf{TODO} Graphviz in babel doesn't appear to be implemented}
+\label{sec-2-36}
+\subsection{\textbf{TODO} org-contacts}
+\label{sec-2-37}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(require 'org-contacts)
+
+ (custom-set-variables
+ '(org-contacts-files '("~/.emacs-config/OrgData/contacts.org")))
+
+;; ("c" "Contacts" entry (file "~/Org/contacts.org")
+;;  "* %(org-contacts-template-name)
+;; :PROPERTIES:
+;; :EMAIL: %(org-contacts-template-email)
+;; :END:")
+\end{lstlisting}
+\subsubsection{\textbf{TODO} Yasnippet for rails}
+\label{sec-2-37-1}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+;; (add-to-list 'load-path
+;;    (concat dotfiles-dir "/martyn/yasnippets-rails"))
+
+;; (add-hook 'ruby-mode-hook ; or rails-minor-mode-hook ?
+;;           '(lambda ()
+;;              (make-variable-buffer-local 'yas/trigger-key)
+;;              (setq yas/trigger-key [tab])))
+
+;; (require 'yasnippet)
+;; ;;(add-to-list 'yas/extra-mode-hooks
+;; ;;             'ruby-mode-hook)
+
+;; (yas/initialize)
+;; (setq yas/window-system-popup-function 'yas/x-popup-menu-for-template)
+
+;; ;;(yas/load-directory
+;; ;;   (concat
+;; ;;      dotfiles-dir "/martyn/snippets/yasnippets-rails/rails-snippets/"))
+;; ;;(make-variable-buffer-local 'yas/trigger-key)
+
+;; ;; yasnippet-org-mode
+;; (yas/load-directory
+;;    (concat
+;;       dotfiles-dir "/martyn/snippets/yasnippet-org-mode/"))
+
+   ;; yasnippet (allow yasnippet to do it's thing in org files)
+;;   (make-variable-buffer-local 'yas/trigger-key)
+;;   (setq yas/trigger-key [tab])
+;;   (define-key yas/keymap [tab] 'yas/next-field-group)))
+\end{lstlisting}
+\subsection{\textbf{TODO} Highlight Parantheses}
+\label{sec-2-38}
+\subsubsection{Site}
+\label{sec-2-38-1}
+
+site
+\subsubsection{Setup}
+\label{sec-2-38-2}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path (concat dotfiles-dir 
+  "martyn/highlight-parentheses"))
+(require 'highlight-parentheses)
+\end{lstlisting}
+\subsection{\textbf{TODO} S-C-d to backward-delete-char() - doesn't work!!}
+\label{sec-2-39}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(global-set-key [C-S-d] 'backward-delete-char)
+\end{lstlisting}
+\subsection{\textbf{TODO} backward-kill-line (SHIFT CTRL K)}
+\label{sec-2-40}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-backward-kill-line ()
+  (interactive)
+  (if (bolp) 
+      (progn (previous-line)
+             (org-kill-line))
+    (let ((here (point)))
+      (beginning-of-line)
+      (kill-region (point) here))))
+
+(global-set-key (kbd "C-M-k") 'mj-backward-kill-line)
+\end{lstlisting}
+\subsection{\textbf{TODO} doremi-frm}
+\label{sec-2-41}
+\subsection{\textbf{TODO} Comment or uncomment region with M-k}
+\label{sec-2-42}
+\label{54fe0628-6b92-4e51-b03b-c1610506f021}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(global-set-key "\M-k" 'comment-or-uncomment-region)
+\end{lstlisting}
+\subsection{\textbf{TODO} column-number-mode}
+\label{sec-2-43}
+
+
+Re: emacs and gnome-terminal
+(Anonymous)
+2008-05-20 04:51 am UTC (link)
+Not a bug fix, but this seems to make the problem go away.
+
+Turn on column-number-mode.
+
+You can put the following into your \~{}/.emacs to have it on on loading
+ 
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq-default column-number-mode t)
+\end{lstlisting}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq cursor-type 'hbar)
+(set-cursor-color  "white")
+\end{lstlisting}
+\subsection{\textbf{TODO} Remap C-j to my custom goto-next-line function}
+\label{sec-2-44}
+\label{3f3b1218-c9dd-4dba-a2ee-f8aafa338992}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+;; function here
+\end{lstlisting}
+\subsection{\textbf{TODO} elpa}
+\label{sec-2-45}
+
+
+;;\#+begin$_{\mathrm{src}}$ emacs-lisp :results silent
+;;(setq package-user-dir (concat dotfiles-dir ``martyn/elpa''))
+;;\#+end$_{\mathrm{src}}$
+\subsection{\textbf{TODO} Mode-compile}
+\label{sec-2-46}
+
+
+Setup Mode-compile (emacs-wiki)
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+  ;;mode-compile
+  (autoload 'mode-compile "mode-compile"
+    "Command to compile current buffer file based on the major mode" t)
+;;  (global-set-key "\C-cc" 'mode-compile)
+  (autoload 'mode-compile-kill "mode-compile"
+    "Command to kill a compilation launched by `mode-compile'" t)
+;;  (global-set-key "\C-ck" 'mode-compile-kill)
+\end{lstlisting}
+\subsection{\textbf{TODO} Ruby}
+\label{sec-2-47}
+\subsubsection{\textbf{TODO} (needs sorting) need to run rvm-autodetect-ruby to get ruby to work in babel \textbf{:DISABLED:}}
+\label{sec-2-47-1}
+\label{86bebb8b-e52d-43da-9f7b-a49ef5db14ba}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path (concat dotfiles-dir "martyn/rvm/rvm.el/"))
+(require 'rvm)
+(rvm-activate-corresponding-ruby)
+(rvm-autodetect-ruby)
+(rvm-use "1.9.2" "default")
+\end{lstlisting}
+\subsubsection{Setup rspec-mode (development)}
+\label{sec-2-47-2}
+\label{ace283a7-2eb8-4c48-b667-8ebfb419606d}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(add-to-list 'load-path (concat dotfiles-dir "martyn/rspec-mode"))
+\end{lstlisting}
+\subsection{\textbf{TODO} Kill to start of line}
+\label{sec-2-48}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun mj-kill-to-start-of-line ()
+"kill from point to start of line"
+(interactive)
+(kill-line 0)
+)
+(global-set-key [C-j]  'mj-kill-to-start-of-line)
+\end{lstlisting}
+\subsection{\textbf{TODO} Environment Path additions}
+\label{sec-2-49}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+; sane path
+(setq path "/bin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/mysql/bin:/usr/texbin/")
+(setenv "PATH" path)
+\end{lstlisting}
+\section{Initial display}
+\label{sec-3}
+\subsection{Display diary org and agenda}
+\label{sec-3-1}
+\subsubsection{``martyn-laptop'' system specific\ldots{}}
+\label{sec-3-1-1}
+
+
+\begin{itemize}
+\item NOTE: Currently loads ALL org files - might consider just ``tracked'' 
+   org files
+\item Switch to diary.org
+\item Bring up schedule agenda in other window
+\end{itemize}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(defun me-startup-in-agenda ()
+  (if (string= system-name "martyn-laptop") 
+      (progn
+        (split-window-horizontally)
+        (my-load-org-files)
+        (switch-to-buffer "diary.org")
+        (org-agenda-list))))
+
+(add-hook 'window-setup-hook 'me-startup-in-agenda)
+\end{lstlisting}
+\section{Delete temp file martyn/init.el}
+\label{sec-4}
+\label{6a8cf784-ad8c-4b52-b549-bc2d3c662e85}
+
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(delete-file "~/.emacs.d/martyn/init.el")
+\end{lstlisting}
+
+
+\lstset{language=Lisp}
+\begin{lstlisting}
+
+(setq org-export-directory "~/.emacs-config/OrgData/html")
+\end{lstlisting}
+
+  
+
+\end{document}

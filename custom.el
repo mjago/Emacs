@@ -4,7 +4,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-contacts-files (quote ("~/Dropbox/OrgData/contacts.org")))
+ '(org-agenda-files (quote ("~/.emacs-config/OrgData/diary.org")))
+ '(org-contacts-files (quote ("~/.emacs-config/OrgData/contacts.org")))
  '(theme-faves-list (quote (4 13 14 3))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
